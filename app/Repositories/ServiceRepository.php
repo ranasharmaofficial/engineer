@@ -1,0 +1,269 @@
+<?php
+namespace App\Repositories;
+use App\Repositories\Interfaces\ServiceRepositoryInterface;
+use App\Models\ServiceCategory;
+use App\Models\ServiceSubcategory;
+use App\Models\Service;
+use App\Models\SubService;
+use App\Models\MasterService;
+use App\Models\ServiceSection;
+use App\Models\ServiceSectionData;
+
+
+class ServiceRepository implements ServiceRepositoryInterface
+{
+    public function getServiceList(){
+        return ServiceCategory::select('id', 'name')->where('status', 1)->get();
+    }
+
+    public function getMainServiceList(){
+        return Service::select('id', 'name')->where('status', 1)->get();
+    }
+
+    public function getServiceSectionList($page_id){
+        return ServiceSection::select('id', 'section_name', 'title')->where('page_id', $page_id)->where('status', 1)->get();
+    }
+
+    /** CMS Page Repo Function Start */
+        public function allServices($request){
+            $pages = ServiceCategory::select('*');
+            if($request['search']){
+                $pages = $pages->where('name','LIKE',"%{$request['search']}%");
+            }
+            $pages = $pages->latest()->paginate(10);
+            return $pages;
+        }
+
+        public function storeService($request, $data){
+            $service = new ServiceCategory();
+            $service->name = $data['name'];
+            $service->status = $data['status'];
+            // if($data['image']){
+            //     $master_product->image = $data['image'];
+            // }
+            $service->save();
+        }
+
+        public function findService($id){
+            return ServiceCategory::find($id);
+        }
+
+        public function updateService($data, $id){
+            $page = ServiceCategory::where('id', $id)->first();
+            $page->name = $data['name'];
+            $page->status = $data['status'];
+            $page->save();
+        }
+
+        public function deleteService($id){
+            $delete_service = MasterService::find($id);
+            $section_ids = ServiceSection::where('page_id', $id)->pluck('id');
+            if(sizeof($section_ids)>0){
+                $delete_section = ServiceSection::whereIn('id', $section_ids)->delete();
+            }
+            $section_data_ids = ServiceSectionData::where('page_id', $id)->pluck('id');
+            if(sizeof($section_data_ids)>0){
+                $delete_section_data = ServiceSectionData::whereIn('id', $section_data_ids)->delete();
+            }
+            $delete_service->delete();
+        }
+    /** CMS Page Repo Function End */
+
+
+    public function allServiceSubcategories($request){
+            $service_subcategories = ServiceSubcategory::select('service_subcategories.*', 'cp.name as categoryName')
+            ->leftJoin('service_categories as cp', 'cp.id', '=', 'service_subcategories.category_id');
+            if($request['category_id']){
+                $service_subcategories = $service_subcategories->where('service_subcategories.category_id',$request['category_id']);
+            }
+            if($request['section']){
+                $service_subcategories = $service_subcategories->where('service_subcategories.name','LIKE',"%{$request['name']}%");
+            }
+            $service_subcategories = $service_subcategories->latest()->paginate(10);
+            return $service_subcategories;
+    }
+
+    public function storeServiceSubcategory($request, $data){
+        $service = new ServiceSubcategory();
+        $service->category_id = $data['category_id'];
+        $service->name = $data['name'];
+        $service->status = $data['status'];
+        // if($data['image']){
+        //     $master_product->image = $data['image'];
+        // }
+        $service->save();
+    }
+
+    public function findServiceSubCategory($id){
+        return ServiceSubcategory::find($id);
+    }
+
+    public function updateServiceSubcategory($data){
+        $service = ServiceSubcategory::find($data['id']);
+        $service->category_id = $data['category_id'];
+        $service->name = $data['name'];
+        $service->status = $data['status'];
+        $service->save();
+    }
+
+
+    /** main service */
+
+    public function storeMainService($data){
+        $service = new Service();
+        $service->name = $data['name'];
+        $service->category_id = $data['category_id'];
+        $service->subcategory_id = $data['subcategory_id'];
+        $service->description = $data['description'];
+        $service->status = $data['status'];
+        $service->save();
+    }
+
+
+    public function allMainServices($request){
+        $service_subcategories = Service::select('services.*', 'cp.name as categoryName','csp.name as subcategoryName')
+        ->leftJoin('service_categories as cp', 'cp.id', '=', 'services.category_id')
+        ->leftJoin('service_subcategories as csp', 'csp.id', '=', 'services.subcategory_id');
+        if($request['category_id']){
+            $service_subcategories = $service_subcategories->where('services.category_id',$request['category_id']);
+        }
+
+        if($request['name']){
+            $service_subcategories = $service_subcategories->where('services.name','LIKE',"%{$request['name']}%");
+        }
+        $service_subcategories = $service_subcategories->latest()->paginate(10);
+        return $service_subcategories;
+    }
+
+
+
+
+    public function storeSubService($data){
+        $service = new SubService();
+        $service->name = $data['name'];
+        $service->service_id = $data['service_id'];
+        $service->onsite_price = $data['onsite_price'];
+        $service->offsite_price = $data['offsite_price'];
+        $service->description = $data['description'];
+        $service->status = $data['status'];
+        $service->save();
+    }
+
+    public function allMainSubServices($request){
+        $service_subcategories = SubService::select('sub_services.*', 'cp.name as serviceName')
+        ->leftJoin('services as cp', 'cp.id', '=', 'sub_services.service_id');
+        if($request['service_id']){
+            $service_subcategories = $service_subcategories->where('sub_services.service_id',$request['service_id']);
+        }
+
+        if($request['name']){
+            $service_subcategories = $service_subcategories->where('sub_services.name','LIKE',"%{$request['name']}%");
+        }
+        $service_subcategories = $service_subcategories->latest()->paginate(10);
+        return $service_subcategories;
+    }
+
+    /** Page Section Repo Function Start */
+        public function allServiceSectionList($request){
+            $master_pages = ServiceSection::select('service_sections.*', 'cp.title as page_title')
+                ->leftJoin('master_services as cp', 'cp.id', '=', 'service_sections.page_id');
+                if($request['page_id']){
+                    $master_pages = $master_pages->where('service_sections.page_id',$request['page_id']);
+                }
+                if($request['section']){
+                    $master_pages = $master_pages->where('service_sections.section_name','LIKE',"%{$request['section']}%");
+                }
+                if($request['search']){
+                    $master_pages = $master_pages->where('service_sections.title','LIKE',"%{$request['search']}%");
+                }
+                $master_pages = $master_pages->latest()->paginate(10);
+            return $master_pages;
+        }
+
+        public function findServiceSection($id){
+            return ServiceSection::find($id);
+        }
+
+        public function storeServiceSection($data, $type){
+            if($type == "store"){
+                $page = new ServiceSection();
+            }else{
+                $page = ServiceSection::find($data['id']);
+            }
+            $page->page_id = $data['page_id'];
+            $page->section_name = $data['section_name'];
+            $page->title = $data['title'];
+            $page->description = $data['description'];
+            if($data['image']){
+                $page->image = $data['image'];
+            }
+
+            $page->status = $data['status'];
+            $page->created_by = $data['created_by'];
+            $page->save();
+
+        }
+
+        public function deleteServiceSection($id){
+            $delete_section = ServiceSection::find($id);
+            $section_data_ids = ServiceSectionData::where('page_id', $delete_section->page_id)->where('section_id', $id)->pluck('id');
+            if(sizeof($section_data_ids)>0){
+                $delete_section_data = ServiceSectionData::whereIn('id', $section_data_ids)->delete();
+            }
+            $delete_section->delete();
+        }
+    /** Page Section Repo Function End */
+
+    /** Section Data Repo Function Start */
+        public function allServiceSectionDataList($request){
+            $data = ServiceSectionData::select('service_section_datas.*', 'cp.title as page_title', 'ps.section_name')
+                ->leftJoin('master_services as cp', 'cp.id', '=', 'service_section_datas.page_id')
+                ->leftJoin('service_sections as ps', 'ps.id', '=', 'service_section_datas.section_id');
+                if($request['page_id']){
+                    $data = $data->where('service_section_datas.page_id', $request['page_id']);
+                }
+                if($request['section']){
+                    $data = $data->where('service_section_datas.section_id',$request['section']);
+                }
+                if($request['search']){
+                    $data = $data->where('service_section_datas.title','LIKE',"%{$request['search']}%");
+                }
+                $data = $data->latest()->paginate(10);
+            return $data;
+        }
+
+        public function findServiceSectionData($id){
+            return ServiceSectionData::find($id);
+        }
+
+        public function storeServiceSectionData($data, $type){
+            if($type == "store"){
+                $page = new ServiceSectionData();
+                $page->created_by = $data['created_by'];
+            }else{
+                $page = ServiceSectionData::find($data['id']);
+                $page->updated_by = $data['updated_by'];
+            }
+            $page->page_id = $data['page_id'];
+            $page->section_id = $data['section_id'];
+            $page->title = $data['title'];
+            $page->description = $data['description'];
+            if($data['img']){
+                $page->img = $data['img'];
+            }
+            if($data['other']){
+                $page->other = $data['other'];
+            }
+            $page->order_number = $data['order_number'];
+            // $page->other = $data['other'];
+            $page->status = $data['status'];
+            $page->save();
+
+        }
+
+        public function deleteServiceSectionData($id){
+            $delete_section_data = ServiceSectionData::find($id);
+            $delete_section_data->delete();
+        }
+    /** Section Data Repo Function End */
+}
