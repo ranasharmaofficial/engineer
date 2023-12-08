@@ -1221,6 +1221,10 @@ class CommonController extends Controller
         return view('frontend.service_booking_completed');
     }
 
+    public function rana(){
+
+    }
+
 
 
 
