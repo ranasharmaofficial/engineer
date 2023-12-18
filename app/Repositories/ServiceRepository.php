@@ -2,7 +2,7 @@
 namespace App\Repositories;
 use App\Repositories\Interfaces\ServiceRepositoryInterface;
 use App\Models\ServiceCategory;
-use App\Models\ServiceSubcategory;
+use App\Models\ServiceSubCategory;
 use App\Models\Service;
 use App\Models\SubService;
 use App\Models\MasterService;
@@ -71,7 +71,7 @@ class ServiceRepository implements ServiceRepositoryInterface
 
 
     public function allServiceSubcategories($request){
-            $service_subcategories = ServiceSubcategory::select('service_subcategories.*', 'cp.name as categoryName')
+            $service_subcategories = ServiceSubCategory::select('service_subcategories.*', 'cp.name as categoryName')
             ->leftJoin('service_categories as cp', 'cp.id', '=', 'service_subcategories.category_id');
             if($request['category_id']){
                 $service_subcategories = $service_subcategories->where('service_subcategories.category_id',$request['category_id']);
@@ -83,8 +83,8 @@ class ServiceRepository implements ServiceRepositoryInterface
             return $service_subcategories;
     }
 
-    public function storeServiceSubcategory($request, $data){
-        $service = new ServiceSubcategory();
+    public function storeServiceSubCategory($request, $data){
+        $service = new ServiceSubCategory();
         $service->category_id = $data['category_id'];
         $service->name = $data['name'];
         $service->status = $data['status'];
@@ -95,11 +95,11 @@ class ServiceRepository implements ServiceRepositoryInterface
     }
 
     public function findServiceSubCategory($id){
-        return ServiceSubcategory::find($id);
+        return ServiceSubCategory::find($id);
     }
 
-    public function updateServiceSubcategory($data){
-        $service = ServiceSubcategory::find($data['id']);
+    public function updateServiceSubCategory($data){
+        $service = ServiceSubCategory::find($data['id']);
         $service->category_id = $data['category_id'];
         $service->name = $data['name'];
         $service->status = $data['status'];

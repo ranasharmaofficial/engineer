@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Repositories\Interfaces\ServiceRepositoryInterface;
-use App\Models\ServiceSubcategory;
+use App\Models\ServiceSubCategory;
 use App\Models\ServiceSection;
 
 class ServiceController extends Controller
@@ -109,19 +109,19 @@ class ServiceController extends Controller
 
     /** Service SubCategory */
 
-    public function serviceSubcategory(Request $request){
+    public function ServiceSubCategory(Request $request){
         $service_categories =  $this->serviceRepository->getServiceList();
         // $cms_pages =  $this->serviceRepository->getServiceList();
         $service_subcategories =  $this->serviceRepository->allServiceSubcategories($request);
         return view('admin.service.service_subcategory.index', compact('service_categories', 'service_subcategories', 'request'));
     }
 
-    public function serviceSubcategoryCreate(){
+    public function ServiceSubCategoryCreate(){
         $service_categories =  $this->serviceRepository->getServiceList();
         return view('admin.service.service_subcategory.create', compact('service_categories'));
     }
 
-    public function serviceSubcategoryStore(Request $request){
+    public function ServiceSubCategoryStore(Request $request){
         // dd($request->all());
         $data = $request->validate([
             'name' => 'required|string|max:300|unique:service_subcategories,name',
@@ -130,12 +130,12 @@ class ServiceController extends Controller
             'status' => 'required',
         ]);
         $data['created_by'] = session('LoggedUser')->id;
-        $this->serviceRepository->storeServiceSubcategory($request, $data);
+        $this->serviceRepository->storeServiceSubCategory($request, $data);
         return redirect()->back()->with(session()->flash('alert-success', 'Service SubCategory Created Successfully'));
         // return redirect()->route('admin.service.index')->with(session()->flash('alert-success', 'Service Category Created Successfully'));
     }
 
-    public function serviceSubcategoryEdit($id){
+    public function ServiceSubCategoryEdit($id){
         $service_subcategory_details = $this->serviceRepository->findServiceSubCategory($id);
         if($service_subcategory_details){
             $service_categories =  $this->serviceRepository->getServiceList();
@@ -145,7 +145,7 @@ class ServiceController extends Controller
         }
     }
 
-    public function serviceSubcategoryUpdate(Request $request, $id){
+    public function ServiceSubCategoryUpdate(Request $request, $id){
         $data = $request->validate([
             'name' => 'required|string|max:300',
             'category_id' => 'required',
@@ -153,14 +153,14 @@ class ServiceController extends Controller
         ]);
         $data['id'] = $request->id;
         $data['created_by'] = session('LoggedUser')->id;
-        $this->serviceRepository->updateServiceSubcategory($data);
-        return redirect()->route('admin.serviceSubcategory.index')->with(session()->flash('alert-success', 'Service Subcategory Updated Successfully'));
+        $this->serviceRepository->updateServiceSubCategory($data);
+        return redirect()->route('admin.ServiceSubCategory.index')->with(session()->flash('alert-success', 'Service Subcategory Updated Successfully'));
     }
 
     /** Service  */
 
     public function getSubcategoryList(Request $request){
-        $data['subcategories'] = ServiceSubcategory::where("category_id",$request->category_id)
+        $data['subcategories'] = ServiceSubCategory::where("category_id",$request->category_id)
         ->get(["name","id"]);
         return response()->json($data);
     }
@@ -210,8 +210,8 @@ class ServiceController extends Controller
         ]);
         $data['id'] = $request->id;
         $data['created_by'] = session('LoggedUser')->id;
-        $this->serviceRepository->updateServiceSubcategory($data);
-        return redirect()->route('admin.serviceSubcategory.index')->with(session()->flash('alert-success', 'Service Subcategory Updated Successfully'));
+        $this->serviceRepository->updateServiceSubCategory($data);
+        return redirect()->route('admin.ServiceSubCategory.index')->with(session()->flash('alert-success', 'Service Subcategory Updated Successfully'));
     }
 
     /** Sub Service  */
@@ -267,8 +267,8 @@ class ServiceController extends Controller
         ]);
         $data['id'] = $request->id;
         $data['created_by'] = session('LoggedUser')->id;
-        $this->serviceRepository->updateServiceSubcategory($data);
-        return redirect()->route('admin.serviceSubcategory.index')->with(session()->flash('alert-success', 'Service Subcategory Updated Successfully'));
+        $this->serviceRepository->updateServiceSubCategory($data);
+        return redirect()->route('admin.ServiceSubCategory.index')->with(session()->flash('alert-success', 'Service Subcategory Updated Successfully'));
     }
 
     /** Page Section CRUD Start */
