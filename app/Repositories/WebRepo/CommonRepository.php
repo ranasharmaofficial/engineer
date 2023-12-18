@@ -95,10 +95,10 @@ class CommonRepository implements CommonRepositoryInterface
             $to_name = 'Cloudware';
             $to_email = 'clsupport@cloudwareindia.com';
             // $data = array(‘name’=>”Ogbonna Vitalis(sender_name)”, “body” => “A test mail”);
-            Mail::send('mail.support_enq', $data, function($message) use ($to_name, $to_email) {
-                $message->to($to_email, $to_name)
-                ->subject('Customer Enquiry Message');
-            });
+            // Mail::send('mail.support_enq', $data, function($message) use ($to_name, $to_email) {
+            //     $message->to($to_email, $to_name)
+            //     ->subject('Customer Enquiry Message');
+            // });
         }
         return $store_data;
     }

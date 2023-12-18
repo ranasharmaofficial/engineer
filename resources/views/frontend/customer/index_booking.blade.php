@@ -18,7 +18,7 @@
             <div class="row">
                 <!-- Customer Menu -->
                 <div class="col-md-4 col-lg-3 theiaStickySidebar">
-                  @include('frontend.booking.partials.left-sidebar')
+                  @include('frontend.customer.partials.left-sidebar')
                 </div>
                 <!-- /Customer Menu -->
 
@@ -35,12 +35,12 @@
                                                 My Booking <span class="caret"></span>
                                             </a>
                                             <ul class="dropdown-menu mt-2">
-                                                <li><a href="javascript:void(0);">All Booking</a></li>
-                                                <li><a href="javascript:void(0);">Upcoming</a></li>
-                                                <li><a href="javascript:void(0);">Ongoing</a></li>
-                                                <li><a href="javascript:void(0);">Complete</a></li>
-                                                <!-- <li><a href="pending-booking.php">Pending</a></li> -->
-                                                <li><a href="javascript:void(0);">Cancelled</a></li>
+                                                <li><a href="{{ url('customer/all_booking') }}">All Booking</a></li>
+                                                <li><a href="{{ url('customer/upComing-booking') }}">Upcoming</a></li>
+                                                <li><a href="{{ url('customer/ongoing-booking') }}">Ongoing</a></li>
+                                                <li><a href="{{ url('customer/completed-booking') }}">Complete</a></li>
+                                                <li><a href="{{ url('customer/pending-booking') }}">Pending</a></li>
+                                                <li><a href="{{ url('customer/cancelled-booking') }}">Cancelled</a></li>
                                             </ul>
                                         </li>
                                     </ul>
@@ -54,15 +54,22 @@
                     </div>
 
 				@if(count($service_booking)>0)
-					@foreach($service_booking as $val)
+					@foreach($service_booking as $key => $val)
 
 						@php
 						
 							$total_service_order_amount = \App\Models\OrderDetail::where('user_id', $val->user_id)->where('order_id', $val->id)->sum('total_price');
 							$total_service_order_amount = \App\Models\OrderDetail::where('user_id', $val->user_id)->where('order_id', $val->id)->sum('total_price');
-							$service_order_details= \App\Models\OrderDetail::where('user_id', $val->user_id)->where('order_id', $val->id)->get();
-						@endphp
-
+							
+							$service_order = \App\Models\Order::where('user_id', $val->user_id)->where('id', $val->order_id)->first();
+						 
+						$category = $val->category_id;
+						$subcategory = $val->subcategory_id;
+						$service = $val->service_id;
+						$service_category = \App\Models\ServiceCategory::where('id', $category)->first();
+						$service_subcategory = \App\Models\ServiceSubCategory::where('id', $subcategory)->first();
+						$service_name = \App\Models\Service::where('id', $service)->first();
+					@endphp
 						<div class="row mt-4 border border-1 py-3 rounded">
 							<!-- Details Section Start -->
 							<div class="col-lg-3 position-relative">
@@ -75,16 +82,28 @@
 								<div class="d-flex">
 									<div>
 										<span class="book-item fw-bold me-5">Service Name</span>
-										: Hire Onsite L1 Engineer
+										: {{ $service_category->name }} 
 									</div>
-									<span class="badge bg-danger text-white fw-bold ms-2 px-3">Cancelled</span>
+									@if($val->status==0)
+										<span class="badge bg-danger text-white fw-bold ms-2 px-3">Pending</span>
+									@elseif($val->status==1)
+										<span class="badge bg-warning text-white fw-bold ms-2 px-3">Assigned to Engineer</span>
+									@elseif($val->status==2)
+										<span class="badge bg-primary text-white fw-bold ms-2 px-3">Ongoing</span>
+									@elseif($val->status==3)
+										<span class="badge bg-success text-white fw-bold ms-2 px-3">Completed</span>
+									@elseif($val->status==4)
+										<span class="badge bg-danger text-white fw-bold ms-2 px-3">Declined</span>
+									@elseif($val->status==5)
+										<span class="badge bg-danger text-white fw-bold ms-2 px-3">Cancelled</span>
+									@endif
 								</div>
 								<ul class="booking-details">
 									<li>
 										<span class="book-item fw-bold">Service ID</span> : {{ $val->service_order_id }}
 										<a href="javascript:void();"
 											class="bg-secondary bg-opacity-25 px-2 py-1 rounded text-primary2"
-											data-bs-toggle="modal" data-bs-target="#add-wallet">
+											data-bs-toggle="modal" data-bs-target="#add-wallet{{$key+1}}">
 											View Service
 										</a>
 									</li>
@@ -92,11 +111,19 @@
 										<span class="book-item fw-bold">Service Order Date</span> : {{ date("d-M-Y", strtotime($val->created_at)) }}
 									</li>
 									<li>
-										<span class="book-item fw-bold">Amount</span> : {{ number_format($total_service_order_amount) }}
-										<span class="float-end fw-bolder bg-primary2 p-1 rounded text-light">
+										<span class="book-item fw-bold">Quantity</span> : {{ $val->qty }}
+										<span class="float-end fw-bolder bg-primary2 p-1 rounded text-light d-none">
 											<a href="javascript:void()" class="text-white">Reschedule</a>
 										</span>
 									</li>
+									
+									<li>
+										<span class="book-item fw-bold">Amount</span> : {{ number_format($total_service_order_amount) }}
+										<span class="float-end fw-bolder bg-primary2 p-1 rounded text-light d-none">
+											<a href="javascript:void()" class="text-white">Reschedule</a>
+										</span>
+									</li>
+									
 									<li>
 										<span class="book-item fw-bold">Order Date</span> : {{ date("d-M-Y", strtotime($val->created_at)) }}
 									</li>
@@ -112,7 +139,31 @@
 						</div>
 
 
-						<div class="modal fade custom-modal" id="add-wallet">
+						
+
+
+					@endforeach
+				@endif
+				
+				@if(count($service_booking)>0)
+					@foreach($service_booking as $key => $val)
+
+						@php
+						
+							$total_service_order_amount = \App\Models\OrderDetail::where('user_id', $val->user_id)->where('order_id', $val->id)->sum('total_price');
+							$total_service_order_amount = \App\Models\OrderDetail::where('user_id', $val->user_id)->where('order_id', $val->id)->sum('total_price');
+							
+							$service_order = \App\Models\Order::where('user_id', $val->user_id)->where('id', $val->order_id)->first();
+						 
+						$category = $val->category_id;
+						$subcategory = $val->subcategory_id;
+						$service = $val->service_id;
+						$service_category = \App\Models\ServiceCategory::where('id', $category)->first();
+						$service_subcategory = \App\Models\ServiceSubCategory::where('id', $subcategory)->first();
+						$service_name = \App\Models\Service::where('id', $service)->first();
+					@endphp
+				
+				<div class="modal fade custom-modal" id="add-wallet{{$key+1}}">
 							<div class="modal-dialog modal-dialog-centered modal-lg">
 								<div class="modal-content">
 									<div class="modal-header border-bottom-0 justify-content-between pb-0">
@@ -128,23 +179,15 @@
 											<tbody>
 												<tr>
 													<td><strong>Service ID</strong></td>
-													<td>EGMNE-ORD-00175</td>
+													<td>{{ $service_order->service_order_id }}</td>
 												</tr>
 												<tr>
 													<td><strong>Service</strong></td>
 													<td>
-													@php
-														// dd($service_order_details);
-													@endphp
-                                                        @foreach ($service_order_details as $items)
-															@php
-															$subcategory_name = \App\Models\ServiceSubCategory::where('id', $items->subcategory_id)->first();
-															//dd($category_name);
-															@endphp
-															{{$subcategory_name->name}},
-                                                        @endforeach
+													 
+													 {{ $service_subcategory->name }} , {{ $service_name->name }}
 														
-														
+													 
 													</td>
 												</tr>
 												<tr>
@@ -157,11 +200,25 @@
 												</tr>
 												<tr>
 													<td><strong>Service location</strong></td>
-													<td>Delhi, India</td>
+													<td>{{ $service_order->location }}, {{ $service_order->landmark }}, {{ $service_order->city }}, {{ $service_order->state }}-{{ $service_order->pincode }}</td>
 												</tr>
 												<tr>
 													<td><strong>Action</strong></td>
-													<td>Ongoing</td>
+													<td>
+													@if($val->status==0)
+										<span class="badge bg-danger text-white fw-bold ms-2 px-3">Pending</span>
+									@elseif($val->status==1)
+										<span class="badge bg-warning text-white fw-bold ms-2 px-3">Assigned to Engineer</span>
+									@elseif($val->status==2)
+										<span class="badge bg-primary text-white fw-bold ms-2 px-3">Ongoing</span>
+									@elseif($val->status==3)
+										<span class="badge bg-success text-white fw-bold ms-2 px-3">Completed</span>
+									@elseif($val->status==4)
+										<span class="badge bg-danger text-white fw-bold ms-2 px-3">Declined</span>
+									@elseif($val->status==5)
+										<span class="badge bg-danger text-white fw-bold ms-2 px-3">Cancelled</span>
+									@endif
+													</td>
 												</tr>
 												<tr>
 													<td><strong>Assigned Engineer</strong></td>
@@ -173,11 +230,8 @@
 								</div>
 							</div>
 						</div>
-
-
-					@endforeach
+@endforeach
 				@endif
-
                 </div>
             </div>
         </div>

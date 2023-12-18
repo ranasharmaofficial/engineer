@@ -21,68 +21,68 @@
                         <h6 class="mb-0">Update Social Media</h6>
                     </div>
                     <div class="card-body booking_card">
-                        <form method="post" action="">
-                            <input type="hidden" name="_token" value="">
+                        <form method="post" action="{{ route('admin.website.update') }}">
+                            @csrf
                             <div class="row formtype">
-
-
-                                <input type="hidden" class="form-control" name="type" value="social_media"
-                                    required>
                                 <div class="col-md-12">
-                                    <div class="form-group row align-items-center">
-                                        <label class="col-md-12"><strong>Facebook ID </strong></label>
-                                        <div class="col-md-12">
-                                            <input type="hidden" class="form-control" name="field_names[]"
-                                                value="facebook" required>
-                                            <input type="text" class="form-control" name="values[]"
-                                                value="facebook.com">
+                                    @if ($errors->any())
+                                        <div class="alert alert-danger">
+                                            <ul>
+                                                @foreach ($errors->all() as $error)
+                                                    <li>{{ $error }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endif
+                                </div>
+
+                                <input type="hidden" class="form-control" name="type" value="social_media" required>
+                                <div class="col-md-12">
+                                    <div class="form-group d-flex align-items-center">
+                                        <label class="col-md-3"><strong>Facebook ID </strong></label>
+                                        <div class="col-md-9">
+                                            <input type="hidden" class="form-control" name="field_names[]" value="facebook" required>
+                                            <input type="text" class="form-control" name="values[]" value="{{ $social_meadia_values[0]->value }}">
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="col-md-12">
-                                    <div class="form-group row align-items-center">
-                                        <label class="col-md-12"><strong>Twitter ID </strong></label>
-                                        <div class="col-md-12">
-                                            <input type="hidden" class="form-control" name="field_names[]"
-                                                value="twitter" required>
-                                            <input type="text" class="form-control" name="values[]"
-                                                value="twitter.com1">
+                                    <div class="form-group d-flex align-items-center">
+                                        <label class="col-md-3"><strong>Twitter ID </strong></label>
+                                        <div class="col-md-9">
+                                            <input type="hidden" class="form-control" name="field_names[]" value="twitter" required>
+                                            <input type="text" class="form-control" name="values[]" value="{{ $social_meadia_values[1]->value }}">
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="col-md-12">
-                                    <div class="form-group row align-items-center">
-                                        <label class="col-md-12"><strong>Linkedin ID </strong></label>
-                                        <div class="col-md-12">
-                                            <input type="hidden" class="form-control" name="field_names[]"
-                                                value="linkedin" required>
-                                            <input type="text" class="form-control" name="values[]"
-                                                value="linkedin.com">
+                                    <div class="form-group d-flex align-items-center">
+                                        <label class="col-md-3"><strong>Linkedin ID </strong></label>
+                                        <div class="col-md-9">
+                                            <input type="hidden" class="form-control" name="field_names[]" value="linkedin" required>
+                                            <input type="text" class="form-control" name="values[]" value="{{ $social_meadia_values[2]->value }}">
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="col-md-12">
-                                    <div class="form-group row align-items-center">
-                                        <label class="col-md-12"><strong>Skype ID </strong></label>
-                                        <div class="col-md-12">
-                                            <input type="hidden" class="form-control" name="field_names[]"
-                                                value="skype" required>
-                                            <input type="text" class="form-control" name="values[]" value="">
+                                    <div class="form-group d-flex align-items-center">
+                                        <label class="col-md-3"><strong>Skype ID </strong></label>
+                                        <div class="col-md-9">
+                                            <input type="hidden" class="form-control" name="field_names[]" value="skype" required>
+                                            <input type="text" class="form-control" name="values[]" value="{{ $social_meadia_values[3]->value }}">
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="col-md-12">
-                                    <div class="form-group row align-items-center">
-                                        <label class="col-md-12"><strong>Instagram ID </strong></label>
-                                        <div class="col-md-12">
-                                            <input type="hidden" class="form-control" name="field_names[]"
-                                                value="instagram" required>
-                                            <input type="text" class="form-control" name="values[]"
-                                                value="instagram.com">
+                                    <div class="form-group d-flex align-items-center">
+                                        <label class="col-md-3"><strong>Instagram ID </strong></label>
+                                        <div class="col-md-9">
+                                            <input type="hidden" class="form-control" name="field_names[]" value="instagram" required>
+                                            <input type="text" class="form-control" name="values[]" value="{{ $social_meadia_values[4]->value }}">
                                         </div>
                                     </div>
                                 </div>

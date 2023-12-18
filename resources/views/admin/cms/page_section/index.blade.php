@@ -50,7 +50,7 @@
                             </div>
                         </form>
 
-                        <div class="table-responsive">
+                        <div class="table-responsive mt-3">
                             <table class="table table-stripped table table-hover table-center mb-0">
                                 <thead>
                                     <tr>

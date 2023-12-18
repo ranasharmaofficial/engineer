@@ -105,7 +105,7 @@
 
                 <li> <a href="deposits.php"><i class="fa fa-dharmachakra aiz-side-nav-icon"></i> <span>Deposits</span></a>
                 </li>
-                <li> <a href="#"><i class="fa fa-dharmachakra aiz-side-nav-icon"></i> <span>CMS Pages</span></a>
+                <li> <a href="#"><i class="fa fa-dharmachakra aiz-side-nav-icon"></i> <span>CMS Pages</span><span class="menu-arrow"></span></a>
                     <ul class="submenu_class" style="display: none;">
                         <li><a href="{{ url('admin/pages') }}"> All Master Pages </a></li>
 						<li><a href="{{ url('admin/page_sections') }}"> All Page Section </a></li>
@@ -126,7 +126,7 @@
                 <li class="submenu"> <a href="#"><i class="fa fa-desktop aiz-side-nav-icon"></i> <span>
                             Website Setup</span> <span class="menu-arrow"></span></a>
                     <ul class="submenu_class" style="display: none;">
-                        <li><a href="{{ url('admin/website/header') }}">header</a></li>
+                        <li><a href="{{ url('admin/website/header') }}">Header</a></li>
                         <li><a href="{{ url('admin/website/footer') }}">Footer</a></li>
                         <li><a href="{{ url('admin/website/social_media') }}">Social Media</a></li>
                         <li><a href="{{ route('admin.master-designation.index') }}">Master Designation</a></li>

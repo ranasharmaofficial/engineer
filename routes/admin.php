@@ -48,7 +48,7 @@ Route::get('/clear-cache', function () {
     Artisan::call('config:clear');
     Artisan::call('view:clear');
     Artisan::call('route:clear');
-    return "Cache is cleared by @AviSinghAdmin";
+    return "Cache is cleared by @RanaSharma";
 })->name('clear-cache');
 
 Route::get('admin/auth/login', [LoginController::class, 'login'])->name('admin.auth.login')->middleware('AlreadyLoggedIn');
@@ -299,6 +299,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['AdminAuthCheck'], 'as' => '
         /** Route For  Service Order */
     Route::resource('/service-order', ServiceOrderController::class);
     Route::get('/service-pending', [ServiceOrderController::class, 'pendingserviceIndex'])->name('service-pending.index');
+
+    Route::post('assignServicetoEngineer', [ServiceOrderController::class, 'assignServicetoEngineer'])->name('assignServicetoEngineer');
 
 
     Route::get('/service-complete', [ServiceOrderController::class, 'complteserviceIndex'])->name('service-complete.index');

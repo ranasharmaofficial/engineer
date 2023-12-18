@@ -63,7 +63,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Description </label>
-                                        <textarea class="form-control" name="description" id="description">{{$page_section->description}}</textarea>
+                                        <textarea class="form-control" name="description" id="editor" style="display: none;">{{$page_section->description}}</textarea>
                                     </div>
                                 </div>
 
@@ -98,6 +98,66 @@
 
     </div>
 </div>
+
+<script>
+  ClassicEditor.create(document.querySelector('#editor'))
+    .then(editor => {
+      console.log(editor);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  ClassicEditor.create(document.querySelector('#editor2'))
+    .then(editor => {
+      console.log(editor);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  ClassicEditor.create(document.querySelector('#editor3'))
+    .then(editor => {
+      console.log(editor);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  ClassicEditor.create(document.querySelector('#editor4'))
+    .then(editor => {
+      console.log(editor);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  ClassicEditor.create(document.querySelector('#editor5'))
+    .then(editor => {
+      console.log(editor);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  ClassicEditor.create(document.querySelector('#editor6'))
+    .then(editor => {
+      console.log(editor);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  ClassicEditor.create(document.querySelector('#editor7'))
+    .then(editor => {
+      console.log(editor);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  ClassicEditor.create(document.querySelector('#editor8'))
+    .then(editor => {
+      console.log(editor);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+
+</script>
 
 @endsection
 

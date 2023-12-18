@@ -6,7 +6,7 @@
 			<div class="page-header mb-0 pt-3">
                     <div class="row align-items-center">
                         <div class="col">
-                            <div class="breadcrumb "><a href="index.php"><i class="fa fa-home" aria-hidden="true"></i> Dashboard</a> </div>
+                            <div class="breadcrumb "><a href="{{ url('admin/dashboard') }}"><i class="fa fa-home" aria-hidden="true"></i> Dashboard</a> </div>
                         </div>
                         <div class="col"> </div>
                     </div>
@@ -18,10 +18,10 @@
 							<div class="small-box bg-info px-3 py-4 rounded">
 								<div class="inner border-bottom">
 								<div class="d-flex justify-content-between">
-									<div><h3 class="text-white">13</h3></div>
+									<div><h3 class="text-white">{{ $totalCustomer }}</h3></div>
 									<div><i class="bi-people text-white fx-4"></i></div>
 								</div>
-									<p class="text-white">Registered Client</p>
+									<p class="text-white">Registered Customer</p>
 								</div>
 							 
 
@@ -33,7 +33,7 @@
 						<div class="small-box bg-warning  px-3 py-4 rounded">
 								<div class="inner border-bottom">
 								<div class="d-flex justify-content-between">
-									<div><h3 class="text-white">150</h3></div>
+									<div><h3 class="text-white">{{ $totalEngineer }}</h3></div>
 									<div bg-light><i class="bi-box text-white fs-4"></i></div>
 
 									</div>
@@ -64,7 +64,7 @@
 						<div class="small-box bg-success  px-3 py-4 rounded">
 								<div class="inner border-bottom">
 								<div class="d-flex justify-content-between">
-									<h3 class="text-white">111</h3>
+									<h3 class="text-white">{{ $countUpcomingServiceOrder }}</h3>
 									<i class="bi-chevron-compact-right text-white fs-4"></i>
 								</div>
 									<p class="text-white">Upcoming Jobs</p>
@@ -80,7 +80,7 @@
 								<div class="small-box bg-danger  px-3 py-4 rounded">
 								<div class="inner border-bottom">
 								<div class="d-flex justify-content-between">
-									<h3 class="text-white">39</h3>
+									<h3 class="text-white">{{ $completedServiceOrder }}</h3>
 									<i class="bi-award-fill text-white fs-4"></i>
 								</div>
 									<p class="text-white">Completed Jobs</p>
@@ -95,9 +95,9 @@
 						<div class="small-box bg-primary  px-3 py-4 rounded">
 								<div class="inner border-bottom">
 								<div class="d-flex justify-content-between">
-									<h3 class="text-white">150</h3>
+									<h3 class="text-white">{{ $totalServiceOrder }}</h3>
 									<i class="bi-bag-fill text-white fs-4"></i>
-</div>
+								</div>
 									<p class="text-white">Total Orders</p>
 								</div>
 								 
@@ -110,7 +110,7 @@
 						<div class="small-box bg-info  px-3 py-4 rounded">
 								<div class="inner border-bottom">
 								<div class="d-flex justify-content-between">
-									<h3 class="text-white">77</h3>
+									<h3 class="text-white">{{ $pendingServiceOrder }}</h3>
 									<i class="bi-bag-x-fill text-white fs-4"></i>
 								</div>
 									<p class="text-white">Total Pending Order</p>
@@ -125,7 +125,7 @@
 						<div class="small-box bg-warning  px-3 py-4 rounded">
 								<div class="inner border-bottom">
 								<div class="d-flex justify-content-between">
-									<h3 class="text-white">150</h3>
+									<h3 class="text-white">{{ $completedServiceOrder }}</h3>
 									<i class="bi-bag-plus-fill text-white fs-4"></i>
 </div>
 									<p class="text-white">Total Complete Order</p>

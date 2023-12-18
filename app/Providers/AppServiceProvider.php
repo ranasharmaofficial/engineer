@@ -69,9 +69,11 @@ use App\Repositories\Interfaces\BookingInterface\BookingRepositoryInterface;
 use App\Repositories\BookingRepo\BookingRepository;
 
 
-/** Enginner */
-// use App\Repositories\Interfaces\EngineerInterface\EngineerRepositoryInterface;
-// use App\Repositories\EngineerRepo\EngineerRepository;
+/** Engineer Repository */
+use App\Repositories\Interfaces\FrontEngInterface\FrontEngRepositoryInterface;
+use App\Repositories\FrontEngineerRepo\FrontEngRepository;
+
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -120,7 +122,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(BookingRepositoryInterface::class, BookingRepository::class);
 
          /** Bind for Enginner Panel */
-         $this->app->bind(EngineerRepositoryInterface::class, EngineerRepository::class);
+         $this->app->bind(FrontEngRepositoryInterface::class, FrontEngRepository::class);
 
     }
 

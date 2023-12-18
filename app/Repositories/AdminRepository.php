@@ -4,6 +4,7 @@ use App\Repositories\Interfaces\AdminRepositoryInterface;
 use App\Models\Category;
 use App\Models\User;
 use App\Models\Blog;
+use App\Models\OrderDetail;
 
 class AdminRepository implements AdminRepositoryInterface
 {
@@ -16,6 +17,15 @@ class AdminRepository implements AdminRepositoryInterface
         $blog_comment_count = Blog::where('status', 1)->sum('total_comment');
         $blog_view_count = Blog::sum('total_view');
 
+        $countUpcomingServiceOrder = OrderDetail::where('status', 6)->count();
+        $inProgressServiceOrder = OrderDetail::where('status', 2)->count();
+        $completedServiceOrder = OrderDetail::where('status', 3)->count();
+        $pendingServiceOrder = OrderDetail::where('status', 0)->count();
+        $totalServiceOrder = OrderDetail::count();
+        $totalEngineer = User::where('user_type_id', 4)->count();
+        $totalCustomer = User::where('user_type_id', 3)->count();
+
+
         $data = [
             'user_count' => $user_count,
             'category_count' => $category_count,
@@ -24,9 +34,18 @@ class AdminRepository implements AdminRepositoryInterface
             'blog_like_count' => $blog_like_count,
             'blog_comment_count' => $blog_comment_count,
             'blog_view_count' => $blog_view_count,
+            'countUpcomingServiceOrder' => $countUpcomingServiceOrder,
+            'inProgressServiceOrder' => $inProgressServiceOrder,
+            'completedServiceOrder' => $completedServiceOrder,
+            'pendingServiceOrder' => $pendingServiceOrder,
+            'totalServiceOrder' => $totalServiceOrder,
+            'totalEngineer' => $totalEngineer,
+            'totalCustomer' => $totalCustomer,
+
+
         ];
         return $data;
     }
 
-    
+
 }

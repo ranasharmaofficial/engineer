@@ -3,15 +3,16 @@
 namespace App\Http\Controllers\Engineer;
 
 use Illuminate\Http\Request;
-use App\Repositories\Interfaces\EngineerInterface\EngineerRepositoryInterface;
+use App\Repositories\Interfaces\FrontEngInterface\FrontEngRepositoryInterface;
 use App\Models\UserLogin;
 
 class EngineerController extends Controller
 {
-    private $engineerRepository;
-    public function __construct(EngineerRepositoryInterface $engineerRepository)
+    private $frontEngineerRepository;
+
+    public function __construct(FrontEngRepositoryInterface $frontEngineerRepository)
     {
-        $this->engineerRepository = $engineerRepository;
+        $this->frontEngineerRepository = $frontEngineerRepository;
     }
 
     public function engineerDashboard()

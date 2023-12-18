@@ -17,8 +17,7 @@ class AdminController extends Controller
     public function adminDashboard()
     {
         $data = $this->adminRepository->dashboardDataCount();
-        // dd($data['user_count']);
-        return view('admin.dashboard.dashboard_view', compact('data'));
+        return view('admin.dashboard.dashboard_view', $data);
     }
 
     public function resetPassword()
