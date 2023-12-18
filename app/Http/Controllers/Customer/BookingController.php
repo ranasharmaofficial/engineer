@@ -36,14 +36,28 @@ class BookingController extends Controller
     }
 
     public function ongoingBooking(){
-        return view('frontend.customer.ongoing');
+        $user_id = Session('LoggedCustomer')->user_id;
+        $service_booking = OrderDetail::where('user_id', $user_id)->where('status', 2)->orderBy('id', 'DESC')->get();
+        return view('frontend.customer.ongoing', compact('service_booking'));
     }
 
     public function completeBooking(){
-        return view('frontend.customer.completed_booking');
+        $user_id = Session('LoggedCustomer')->user_id;
+        $service_booking = OrderDetail::where('user_id', $user_id)->where('status', 3)->orderBy('id', 'DESC')->get();
+        return view('frontend.customer.completed_booking', compact('service_booking'));
     }
 
     public function cancellBooking(){
-        return view('frontend.customer.cancelled_booking');
+        $user_id = Session('LoggedCustomer')->user_id;
+        $service_booking = OrderDetail::where('user_id', $user_id)->where('status', 5)->orderBy('id', 'DESC')->get();
+        return view('frontend.customer.cancelled_booking', compact('service_booking'));
     }
+
+    public function pendingBooking(){
+        $user_id = Session('LoggedCustomer')->user_id;
+        $service_booking = OrderDetail::where('user_id', $user_id)->where('status', 0)->orderBy('id', 'DESC')->get();
+        return view('frontend.customer.pending_booking', compact('service_booking'));
+    }
+
+
 }

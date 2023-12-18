@@ -16,7 +16,9 @@ class EngineerController extends Controller
     }
 
     public function index(){
-        return view('admin.engineer-list.index');
+        $engineerList = $this->engineerRepository->getEngineerList();
+        // dd($engineerList);
+        return view('admin.engineer-list.index', compact('engineerList'));
     }
 
     public function create(){

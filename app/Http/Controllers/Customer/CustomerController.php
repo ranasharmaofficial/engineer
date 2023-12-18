@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Repositories\Interfaces\CustomerInterface\CustomerRepositoryInterface;
 use App\Models\UserLogin;
 use App\Models\User;
+use App\Models\Order;
+use App\Models\ServiceFeedback;
+use App\Models\Complain;
+use App\Models\OrderDetail;
 
 class CustomerController extends Controller
 {
@@ -17,7 +21,20 @@ class CustomerController extends Controller
 
     public function customerDashboard()
     {
-        return view('frontend.customer.customer-dashboard');
+        $user_id = Session('LoggedCustomer')->user_id;
+        $countUpcomingService = OrderDetail::where('user_id', $user_id)->where('status', 6)->count();
+
+        $datas = [
+            'countUpcomingService' => OrderDetail::where('user_id', $user_id)->where('status', 6)->count(),
+            'inProgressService' => OrderDetail::where('user_id', $user_id)->where('status', 2)->count(),
+            'completedService' => OrderDetail::where('user_id', $user_id)->where('status', 3)->count(),
+            'totalService' => OrderDetail::where('user_id', $user_id)->count(),
+
+            'UpcomingServiceList' => OrderDetail::where('user_id', $user_id)->where('status', 6)->get(),
+            'ongoingServiceList' => OrderDetail::where('user_id', $user_id)->where('status', 2)->get(),
+
+        ];
+        return view('frontend.customer.customer-dashboard', $datas);
     }
 
     public function customerProfile(){
@@ -56,15 +73,105 @@ class CustomerController extends Controller
     }
 
     public function customerFeedback(){
-        return view('frontend.customer.feedback');
+        $user_id = Session('LoggedCustomer')->user_id;
+        $completed_service_booking = Order::where('user_id', $user_id)->orderBy('id', 'DESC')->get();
+        $service_feedback_list = ServiceFeedback::where('service_feedback.user_id', $user_id)
+        ->join('orders', 'orders.id', '=', 'service_feedback.order_id')
+        ->select(['service_feedback.*', 'orders.service_order_id as serviceOrderId'])
+        ->get();
+        return view('frontend.customer.feedback_list', compact('completed_service_booking', 'service_feedback_list'));
     }
 
+    public function addFeedback(){
+        $user_id = Session('LoggedCustomer')->user_id;
+        $completed_service_booking = Order::where('user_id', $user_id)->orderBy('id', 'DESC')->get();
+        return view('frontend.customer.feedback', compact('completed_service_booking'));
+    }
+
+    public function saveFeedBack(Request $request){
+        // dd($request->all());
+        $request->validate([
+            'order_id' => 'required',
+            'rating' => 'required',
+            'feedback' => 'required',
+        ]);
+
+        $user_id = Session('LoggedCustomer')->user_id;
+
+        $service_feedback  = new ServiceFeedback;
+        $service_feedback->order_id  = $request->order_id;
+        $service_feedback->rating  = $request->rating;
+        $service_feedback->feedback  = $request->feedback;
+        $service_feedback->user_id  = $user_id;
+        $service_feedback->save();
+
+        if (!$service_feedback) {
+            return response()->json([
+                "status" => false,
+
+            ]);
+        } else  {
+            return response()->json([
+                "status" => true,
+             ]);
+
+        }
+
+
+        // return redirect()->back()->with(session()->flash('alert-success', 'Thank you for your feedback.'));
+    }
+
+    public function saveComplain(Request $request){
+        // dd($request->all());
+        $request->validate([
+            'order_id' => 'required',
+            'subject' => 'required',
+            'complain_details' => 'required',
+        ]);
+
+        $user_id = Session('LoggedCustomer')->user_id;
+        $complain  = new Complain;
+        $complain->order_id  = $request->order_id;
+        $complain->subject  = $request->subject;
+        $complain->complain_details  = $request->complain_details;
+        $complain->user_id  = $user_id;
+        $complain->save();
+
+        if (!$complain) {
+            return response()->json([
+                "status" => false,
+
+            ]);
+        } else  {
+            return response()->json([
+                "status" => true,
+             ]);
+
+        }
+
+
+        // return redirect()->back()->with(session()->flash('alert-success', 'Thank you for your feedback.'));
+    }
+
+
+
     public function customerComplain(){
-        return view('frontend.customer.complain');
+        $user_id = Session('LoggedCustomer')->user_id;
+        $service_complain_list = Complain::where('complains.user_id', $user_id)
+        ->join('orders', 'orders.id', '=', 'complains.order_id')
+        ->select(['complains.*', 'orders.service_order_id as complainOrderId'])
+        ->get();
+        return view('frontend.customer.complain', compact('service_complain_list'));
+    }
+
+    public function getComplainDetails(Request $request){
+        dd($request->all());
     }
 
     public function customerAddComplain(){
-        return view('frontend.customer.add_complain');
+        $user_id = Session('LoggedCustomer')->user_id;
+        $completed_service_booking = Order::where('user_id', $user_id)->orderBy('id', 'DESC')->get();
+        return view('frontend.customer.add_complain', compact('completed_service_booking'));
     }
 
     // public function resetPassword()

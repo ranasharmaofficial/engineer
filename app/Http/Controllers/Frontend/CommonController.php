@@ -29,6 +29,8 @@ class CommonController extends Controller
     public function index()
     {
         $page = $this->webRepository->getPage(1);
+        $section_lists = $this->webRepository->getPageSectionData($page->id);
+        // dd($section_lists);
         $datas = [
             'page' => $page,
             'banners' => $this->webRepository->getHomePageBanner(),

@@ -34,7 +34,7 @@ Route::get('/clear-cache', function () {
     Artisan::call('config:clear');
     Artisan::call('view:clear');
     Artisan::call('route:clear');
-    return "Cache is cleared by @AviSingh";
+    return "Cache is cleared by @RanaSharma";
 });
 
 
@@ -45,10 +45,17 @@ Route::post('get-cities-by-state', [CountryStateCityController::class, 'getCity'
 Route::get('test_mail', [CommonController::class, 'testSimpleMail'])->name('test_mail');
 
 Route::post('get-mobile-otp', [AuthController::class, 'getMobileOtp'])->name('getMobileOtp');
+Route::post('get-engineer-mobile-otp', [AuthController::class, 'getEngineerMobileOtp'])->name('getEngineerMobileOtp');
 Route::post('check-mobile-otp', [AuthController::class, 'checkMobileOtp'])->name('checkMobileOtp');
+Route::post('check-engineer-mobile-otp', [AuthController::class, 'checkEngineerMobileOtp'])->name('checkEngineerMobileOtp');
 Route::post('get-email-otp', [AuthController::class, 'getEmailOtp'])->name('getEmailOtp');
 Route::post('resend-email-otp', [AuthController::class, 'resendEmailOtp'])->name('resendEmailOtp');
 Route::post('check-email-otp', [AuthController::class, 'checkEmailOtp'])->name('checkEmailOtp');
+Route::post('check-engineer-email-otp', [AuthController::class, 'checkEngineerEmailOtp'])->name('checkEngineerEmailOtp');
+
+
+Route::post('get-engineer-email-otp', [AuthController::class, 'getEngineerEmailOtp'])->name('getEngineerEmailOtp');
+
 
 Route::get('login', [AuthController::class, 'login'])->name('login');
 Route::get('customer-email-login', [AuthController::class, 'customerEmailLogin'])->name('customerEmailLogin');
@@ -61,6 +68,7 @@ Route::post('post-email-login', [AuthController::class, 'postEmailLogin'])->name
 Route::post('enginner-login-post', [AuthController::class, 'postEngineerLogin'])->name('enginner.login.post');
 Route::get('register', [AuthController::class, 'registration'])->name('register');
 Route::post('saveCustomerRegistration', [AuthController::class, 'saveCustomerRegistration'])->name('saveCustomerRegistration');
+Route::post('saveEngineerRegistration', [AuthController::class, 'saveEngineerRegistration'])->name('saveEngineerRegistration');
 // Route::post('post-registration', [AuthController::class, 'postRegistration'])->name('register.post');
 // Route::get('dashboard', [AuthController::class, 'dashboard']);
 
@@ -76,13 +84,18 @@ Route::group(['prefix' => 'customer', 'middleware' => ['CustomerAuthCheck'], 'as
     Route::get('all_booking', [BookingController::class, 'indexBooking'])->name('index_booking');
     Route::get('upComing-booking', [BookingController::class, 'upComingBooking'])->name('upComing_booking');
     Route::get('ongoing-booking', [BookingController::class, 'ongoingBooking'])->name('ongoing_booking');
-    Route::get('complete-booking', [BookingController::class, 'completeBooking'])->name('complete_booking');
-    Route::get('cancell-booking', [BookingController::class, 'cancellBooking'])->name('cancell_booking');
+    Route::get('completed-booking', [BookingController::class, 'completeBooking'])->name('complete_booking');
+    Route::get('cancelled-booking', [BookingController::class, 'cancellBooking'])->name('cancell_booking');
+    Route::get('pending-booking', [BookingController::class, 'pendingBooking'])->name('pendingBooking');
     Route::get('feedback', [CustomerController::class, 'customerFeedback'])->name('feedback');
+    Route::get('add-feedback', [CustomerController::class, 'addFeedback'])->name('addFeedback');
     Route::get('complain', [CustomerController::class, 'customerComplain'])->name('complain');
     Route::get('add_complain', [CustomerController::class, 'customerAddComplain'])->name('add_complain');
     Route::post('customer/update_profile', [CustomerController::class, 'updateProfileDetails'])->name('updateProfileDetails');
     Route::post('customer/update_profile_picture', [CustomerController::class, 'update_profile_picture'])->name('update_profile_picture');
+    Route::post('customer/saveFeedBack', [CustomerController::class, 'saveFeedBack'])->name('saveFeedBack');
+    Route::post('customer/saveComplain', [CustomerController::class, 'saveComplain'])->name('saveComplain');
+    Route::post('getComplainDetails', [CustomerController::class, 'getComplainDetails'])->name('getComplainDetails');
 
 });
 

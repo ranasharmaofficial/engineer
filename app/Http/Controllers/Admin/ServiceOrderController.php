@@ -68,4 +68,12 @@ class ServiceOrderController extends Controller
     public function declineserviceCreate(){
         return view('admin.service-decline.create');
     }
+
+    public function assignServicetoEngineer(Request $request){
+        // dd($request->all());
+        $assignEngineer = Order::where('service_order_id', $request->order_id)->first();
+        $assignEngineer->engineer_id = $request->engineer_id;
+        $assignEngineer->save();
+        return redirect()->back()->with(session()->flash('alert-success', 'Assigned Successfully'));
+    }
 }

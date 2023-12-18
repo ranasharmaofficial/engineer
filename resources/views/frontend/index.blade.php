@@ -187,7 +187,7 @@
                 <div class="col-md-6 aos aos-init aos-animate" data-aos="fade-up">
                     <div class="section-heading-two white-text">
                         <h2 class="text-white">Cost Estimator</h2>
-                        <p class="text-white">Sed ut perspiciatis unde omnis iste natus error</p>
+                        <p class="text-white d-none">Sed ut perspiciatis unde omnis iste natus error</p>
                     </div>
                 </div>
                 <div class="col-md-6 text-md-end aos aos-init aos-animate" data-aos="fade-up">
@@ -489,111 +489,109 @@
     </section>
     <!--/tab of engineering mind section end-->
     <div class="empty"></div>
+@if(isset($section_lists))
+	@foreach($section_lists as $section)
+		@if($section->section_name == "reason_to_choose_us")
+			@php
+				$reason_to_choose_section_datas = get_section_wise_data($page->id, $section->id);
+			@endphp
+			<!--choose-us Section Start-->
+			<section class="reason-choose-us">
+				<div class="container">
+					<div class="section-heading section-heading-six">
+						<div class="row align-items-center">
+							<div class="col-md-6 col-12 aos" data-aos="fade-up">
+								<div class="reason-six">
+									<img src="{{ static_asset('assets/assets_web/img/clock.png') }}" alt="clock"
+										style="height: 60px;">
+									<h5>{{ $section->title }}</h5>
+								</div>
+								{{--<h2 class="mb-4">Reasons to <span class="choose-us">Choose Us</span></h2>--}}
+								{!! $section->description !!}
+							</div>
+							<div class="col-md-6 col-12 aos" data-aos="fade-up">
+								<div class="row">
+									<div class="col-md-12">
+										<div class="total-client-all">
+											<ul class="total-client-half mb-0 align-items-end justifly-content-end">
+												<li class="total-client-mini">
+													<div class="total-experts-main">
+														<h3>540</h3>
+														<p>Total<span class="d-block">Experts</span></p>
+													</div>
+												</li>
+												<li class="total-client-mini">
+													<div class="total-experts-main">
+														<h3>540</h3>
+														<p>Total<span class="d-block">Experts</span></p>
+													</div>
+												</li>
+												<li>
+													<ul class="total-client-avatar">
+														<li>
+															<a href="#">
+																<img src="{{ static_asset('assets/assets_web/img/profiles/avatar-06.jpg') }}"
+																	alt="">
+															</a>
+														</li>
+														<li>
+															<a href="#">
+																<img src="{{ static_asset('assets/assets_web/img/profiles/avatar-07.jpg') }}"
+																	alt="">
+															</a>
+														</li>
+														<li>
+															<a href="#">
+																<img src="{{ static_asset('assets/assets_web/img/profiles/avatar-08.jpg') }}"
+																	alt="">
+															</a>
+														</li>
+														<li>
+															<a href="#">
+																<img src="{{ static_asset('assets/assets_web/img/profiles/avatar-09.jpg') }}"
+																	alt="">
+															</a>
+														</li>
+														<li class="more-set rounded-circle">
+															<a href="#">
+																<i class="fa fa-plus text-white " aria-hidden="true"></i>
+															</a>
+														</li>
+													</ul>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 
-    <!--choose-us Section Start-->
-    <section class="reason-choose-us">
-        <div class="container">
-            <div class="section-heading section-heading-six">
-                <div class="row align-items-center">
-                    <div class="col-md-6 col-12 aos" data-aos="fade-up">
-                        <div class="reason-six">
-                            <img src="{{ static_asset('assets/assets_web/img/clock.png') }}" alt="clock"
-                                style="height: 60px;">
-                            <h5>Why Engineer Mine</h5>
-                        </div>
-                        <h2 class="mb-4">Reasons to <span class="choose-us">Choose Us</span></h2>
-                    </div>
-                    <div class="col-md-6 col-12 aos" data-aos="fade-up">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="total-client-all">
-                                    <ul class="total-client-half mb-0 align-items-end justifly-content-end">
-                                        <li class="total-client-mini">
-                                            <div class="total-experts-main">
-                                                <h3>540</h3>
-                                                <p>Total<span class="d-block">Experts</span></p>
-                                            </div>
-                                        </li>
-                                        <li class="total-client-mini">
-                                            <div class="total-experts-main">
-                                                <h3>540</h3>
-                                                <p>Total<span class="d-block">Experts</span></p>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <ul class="total-client-avatar">
-                                                <li>
-                                                    <a href="#">
-                                                        <img src="{{ static_asset('assets/assets_web/img/profiles/avatar-06.jpg') }}"
-                                                            alt="">
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        <img src="{{ static_asset('assets/assets_web/img/profiles/avatar-07.jpg') }}"
-                                                            alt="">
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        <img src="{{ static_asset('assets/assets_web/img/profiles/avatar-08.jpg') }}"
-                                                            alt="">
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        <img src="{{ static_asset('assets/assets_web/img/profiles/avatar-09.jpg') }}"
-                                                            alt="">
-                                                    </a>
-                                                </li>
-                                                <li class="more-set rounded-circle">
-                                                    <a href="#">
-                                                        <i class="fa fa-plus text-white " aria-hidden="true"></i>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+					<div class="row justify-content-center align-items-end">
+						@if(count($reason_to_choose_section_datas)>0)
+							@foreach($reason_to_choose_section_datas as $item)
+								<div class="col-lg-4 col-sm-4 col-12">
+									<div class="professional-cleaning-main">
+										<img src="{{ static_asset($item->img) }}" alt="clock" class="me-2">
+										<h4 class="d-inline">{{ $item->title }} </h4>
+										<p class="text-secondary mt-4 fs-6">{!! $item->description !!}<br>&nbsp;</p>
+									</div>
+								</div>
+							@endforeach
+						@endif
+					</div>
+				</div>
+			</section>
+		<!-- /Choose Us Section End -->
+		@endif
 
-            <div class="row justify-content-center align-items-end">
-                <div class="col-lg-4 col-sm-4 col-12">
-                    <div class="professional-cleaning-main">
-                        <img src="{{ static_asset('assets/assets_web/img/clock.png') }}" alt="clock" class="me-2">
-                        <h4 class="d-inline">Professional Support 24/7 </h4>
-                        <p class="text-secondary mt-4 fs-6">Expert technical support available all day everyday by phone or
-                            live chat. <br>&nbsp;</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-sm-4 col-12">
-                    <div class="professional-cleaning-main">
-                        <img src="{{ static_asset('assets/assets_web/img/perform.png') }}" alt="clock"
-                            class="me-2">
-                        <h4 class="d-inline">Safe and Secured </h4>
-                        <p class="text-secondary mt-4 fs-6">Worried you won't get help when you most need it? You shouldn't
-                            be. Our professional and hands-on support <br>&nbsp;</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-sm-4 col-12">
-                    <div class="professional-cleaning-main">
-                        <img src="{{ static_asset('assets/assets_web/img/30-day.png') }}" alt="clock" class="me-2">
-                        <h4 class="d-inline">30 Day Money Back </h4>
-                        <p class="text-secondary mt-4 fs-6">Your money back if you change your mind. No quibble, just
-                            simple and fair.<br>&nbsp;</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- /Choose Us Section End -->
+@if($section->section_name == "section_4")
+	@php
+		$reason_to_choose_section_datas = get_section_wise_data($page->id, $section->id);
+	@endphp
 
     <!-- About Our Company Section Start -->
-    <section class="about-our-company about-company">
+    <section class="about-our-company about-company mt-3">
         <div class="container">
             <div class="section-heading section-heading-six">
                 <div class="row">
@@ -603,27 +601,18 @@
                                 style="height: 60px;">
                             <h5 class="pb-3">Best server mantinance service</h5>
                         </div>
-                        <h2>About <span>Our Company</span></h2>
+                        {{--<h2>About <span>Our Company</span></h2>--}}
+						<h2>{{ $section->title }}</h2>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6 col-lg-6 col-12">
                     <div class="our-company-six">
-                        <p>Launched in 2019, Engineers Mine is a B2B platform that offers field engineers and IT
-                            infrastructure professionals to customers in India, both off-site and on-site. Customers can
-                            book reliable, skilled, certified, competent field engineers and IT specialists and field
-                            engineers on an as-need basis..
-                        </p>
-                        <p>The mission of Engineers Mine is to enable millions of IT specialists and field engineers to
-                            provide customers with IT services like never before. The purpose of Engineers Mine is to offer
-                            our customers a centralized support system that is frictionless, affordable, results-oriented,
-                            and available around the clock. Customers are not required to fill their own roles with highly
-                            paid professionals. The customer can use our services whenever it suits their schedule,
-                            depending on the time and day they choose.</p>
+                        {!! $section->description !!}
 
                     </div>
-                    <a href="about-us.php" class="btn btn-pink btn-viewall mb-5">About Us<i
+                    <a href="{{ url('about-us') }}" class="btn btn-pink btn-viewall mb-5">About Us<i
                             class="bi bi-arrow-right-circle"></i></a>
                     <div class="aboutus-companyimg">
                         <a href="">
@@ -642,13 +631,12 @@
                 <div class="col-md-6 col-lg-6 col-12">
                     <div class="our-company-ryt">
                         <div class="our-company-img">
-                            <img src="{{ static_asset('assets/assets_web/img/about.png') }}" alt="image"
-                                class="img-fluid">
+                            <img src="{{ static_asset($section->image) }}" alt="image" class="img-fluid">
                         </div>
                         <div class="our-company-first-content">
                             <div class="company-top-content">
                                 <p>Call us Today!</p>
-                                <h3>+911244286901</h3>
+                                <h3>+91 9870407840</h3>
                             </div>
                             <a href="#">
                                 <i class="fa fa-arrow-right" aria-hidden="true"></i>
@@ -667,7 +655,12 @@
         </div>
     </section>
     <!-- /About Our Company Section End-->
-
+	@endif
+	
+	@if($section->section_name == "affordable_and_reliable")
+	@php
+		$affordable_and_reliable_datas = get_section_wise_data($page->id, $section->id);
+	@endphp
     <!-- Get Satisfied with the services Explore All -->
     <section class="satisfied-service-section">
         <div class="container">
@@ -675,142 +668,45 @@
                 <div class="row align-items-end">
                     <div class="col-md-6 aos" data-aos="fade-up">
                         <div class="reason-six server-photos">
-                            <img src="{{ static_asset('assets/assets_web/img/services.png') }}" alt="service-img"
-                                style="height: 50px;">
+                            <img src="{{ static_asset('assets/assets_web/img/services.png') }}" alt="service-img" style="height: 50px;">
                             <h5>Affordable & reliable</h5>
                         </div>
                         <h2>Get Satisfied with the <span>services</span></h2>
                     </div>
                     <div class="col-md-6 aos" data-aos="fade-up">
-                        <a href="service.php" class="afford-btn">Explore All</a>
+                        <a href="javascript:void(0)" class="afford-btn">Explore All</a>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                @foreach($affordable_and_reliable_datas as $item)
+				<div class="col-lg-3 col-md-4 col-sm-6 col-12">
                     <div class="get-service-main">
                         <span>
                             <img src="{{ static_asset('assets/assets_web/img/data.png') }}" alt="data">
                         </span>
                         <div class="get-service-content">
                             <a href="#">
-                                <h5 class="mt-4 mb-3">Data Base Services</h5>
+                                <h5 class="mt-4 mb-3">{{ $item->title }}</h5>
                             </a>
-                            <p class="fs-6">
-                                Enginnermine database services and products offer customers cost-optimized and
-                                high-performance versions of Enginnermine Database, the world's leading converged,
-                                multi-model database management system, as well as in-memory, NoSQL and MySQL databases.
-                            </p>
-                            <a href="#" class="fw-bold"> View More <i class="fa fa-angle-right p-1"
+							{{-- <p class="fs-6">
+                                
+                            </p>--}}
+							{!! $item->description !!}
+                            <a href="#" class="fw-bold d-none"> View More <i class="fa fa-angle-right p-1"
                                     aria-hidden="true"></i></a>
                         </div>
                     </div>
                 </div>
-                {{-- <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                  <div class="get-service-main">
-                     <span>
-                        <img src="{{ static_asset('assets/assets_web/img/icons/windows.png')}}" alt="data">
-                     </span>
-                     <div class="get-service-content">
-                        <a href="#"><h5 class="mt-4 mb-3">Linux Server Support</h5></a>
-                        <p class="fs-6">
-                           Facing a DDoS attack, server crash, or want to install an SSL certificate? We can help. On-demand server assistance by Nocinit means our experienced server pros will be at the ready for all upgrades, malware removal, optimization, and other server tasks.
-                        </p>
-                        <a href="#" class="fw-bold"> View More <i class="fa fa-angle-right p-1" aria-hidden="true"></i></a>
-                     </div>
-                  </div>
-               </div>
-               <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                  <div class="get-service-main">
-                     <span>
-                        <img src="{{ static_asset('assets/assets_web/img/icons/windows.png')}}" alt="data">
-                     </span>
-                     <div class="get-service-content">
-                        <a href="#"><h5 class="mt-4 mb-3">Windows Server Support</h5></a>
-                        <p class="fs-6">
-                           Windows Server 2023 introduces advanced multi-layer security, hybrid capabilities with Azure, and a flexible application platform. As part of this release, we are bringing secured-core capabilities to help protect hardware, firmware, and Windows Server OS capabilities against advanced security threats.
-                        </p>
-                        <a href="#" class="fw-bold"> View More <i class="fa fa-angle-right p-1" aria-hidden="true"></i></a>
-                     </div>
-                  </div>
-               </div>
-               <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                  <div class="get-service-main">
-                     <span>
-                        <img src="{{ static_asset('assets/assets_web/img/icons/security.png')}}" alt="data">
-                     </span>
-                     <div class="get-service-content">
-                        <a href="#"><h5 class="mt-4 mb-3">Network & Security</h5></a>
-                        <p class="fs-6">
-                           A computer network provides communication and enables the sharing of information to multiple users within a network. Network security technologies work within several layers to protect your network as a whole against any potential threats.
-                           Networking and security include three main areas: physical, technical, and administrative.
-                        </p>
-                        <a href="#" class="fw-bold"> View More <i class="fa fa-angle-right p-1" aria-hidden="true"></i></a>
-                     </div>
-                  </div>
-               </div>
-               <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                  <div class="get-service-main">
-                     <span>
-                        <img src="{{ static_asset('assets/assets_web/img/icons/server.png')}}" alt="data">
-                     </span>
-                     <div class="get-service-content">
-                        <a href="#"><h5 class="mt-4 mb-3">Backup Services</h5></a>
-                        <p class="fs-6">
-                           Some contacts on your phone or tablet may not be saved as Google contacts. For example, some apps save contacts in device storage, which means they can only be managed on that device. Changes you make to these contacts don’t sync across Google services or to other signed-in devices.
-                        </p>
-                        <a href="#" class="fw-bold"> View More <i class="fa fa-angle-right p-1" aria-hidden="true"></i></a>
-                     </div>
-                  </div>
-               </div>
-               <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                  <div class="get-service-main">
-                     <span>
-                        <img src="{{ static_asset('assets/assets_web/img/icons/storage.png')}}" alt="data">
-                     </span>
-                     <div class="get-service-content">
-                        <a href="#"><h5 class="mt-4 mb-3">Storage Services</h5></a>
-                        <p class="fs-6">
-                           Below is a list of all the best free online storage services I've used. Cloud storage services are great for sharing files with friends and families, keeping documents in sync between all of your devices, and so much more. Free cloud storage is even better!
-                        </p>
-                        <a href="#" class="fw-bold"> View More <i class="fa fa-angle-right p-1" aria-hidden="true"></i></a>
-                     </div>
-                  </div>
-               </div>
-               <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                  <div class="get-service-main">
-                     <span>
-                        <img src="{{ static_asset('assets/assets_web/img/icons/cloud.png')}}" alt="data" style="height: 60px;">
-                     </span>
-                     <div class="get-service-content">
-                        <a href="#"><h5 class="mt-4 mb-3">Cloud Services</h5></a>
-                        <p class="fs-6">
-                           The term "cloud services" refers to a wide range of services delivered on demand to companies and customers over the internet. These services are designed to provide easy, affordable access to applications and resources, without the need for internal infrastructure or hardware.
-                        </p>
-                        <a href="#" class="fw-bold"> View More <i class="fa fa-angle-right p-1" aria-hidden="true"></i></a>
-                     </div>
-                  </div>
-               </div>
-               <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                  <div class="get-service-main">
-                     <span>
-                        <img src="{{ static_asset('assets/assets_web/img/data.png')}}" alt="data">
-                     </span>
-                     <div class="get-service-content">
-                        <a href="#"><h5 class="mt-4 mb-3">Middleware Services</h5></a>
-                        <p class="fs-6">
-                           Middleware is defined as a layer of software that enables interaction and transmission of information between assorted applications and services that make up a complex system, providing a uniform user experience for clients. This article introduces you to middleware, its benefits, architecture, and the best practices for implementing and managing middleware.
-                        </p>
-                        <a href="#" class="fw-bold"> View More <i class="fa fa-angle-right p-1" aria-hidden="true"></i></a>
-                     </div>
-                  </div>
-               </div> --}}
+				@endforeach
+                
             </div>
         </div>
     </section>
     <!-- /Get Satisfied with the services Explore All -->
-
-
+	@endif
+@endforeach
+@endif
 
     <!-- Our Certified Engineer Sectin Start -->
     <section class="certified-engineer py-5" style="background:#0c112a;">
@@ -822,36 +718,9 @@
                     <img src="{{ static_asset('assets/assets_web/img/certified/ccnalogo.png') }}" alt=""
                         class="img-fluid rounded d-block mx-auto">
                 </div>
-                {{-- <div class="col-12 col-sm-6 col-md-4 col-lg-2 my-2">
-                  <img src="{{ static_asset('assets/assets_web/img/certified/ccnplogo.png')}}" alt="" class="img-fluid rounded d-block mx-auto">
-               </div>
-               <div class="col-12 col-sm-6 col-md-4 col-lg-2 my-2">
-                  <img src="{{ static_asset('assets/assets_web/img/certified/redhat-logo.png')}}" alt="" class="img-fluid rounded d-block mx-auto">
-               </div>
-               <div class="col-12 col-sm-6 col-md-4 col-lg-2 my-2">
-                  <img src="{{ static_asset('assets/assets_web/img/certified/microsfot-certified.png')}}" alt="" class="img-fluid rounded d-block mx-auto">
-               </div>
-               <div class="col-12 col-sm-6 col-md-4 col-lg-2 my-2">
-                  <img src="{{ static_asset('assets/assets_web/img/certified/compt.png')}}" alt="" class="img-fluid rounded d-block mx-auto">
-               </div>
-               <div class="col-12 col-sm-6 col-md-4 col-lg-2 my-2">
-                  <img src="{{ static_asset('assets/assets_web/img/certified/compt-security.png')}}" alt="" class="img-fluid rounded d-block mx-auto">
-               </div> --}}
+                
             </div>
-            {{-- <div class="row justify-content-evenly justify-content-lg-center">
-               <div class="col-12 col-sm-6 col-md-4 col-lg-2 my-2">
-                  <img src="{{ static_asset('assets/assets_web/img/certified/compta.png')}}" alt="" class="img-fluid rounded d-block mx-auto">
-               </div>
-               <div class="col-12 col-sm-6 col-md-4 col-lg-2 my-2">
-                  <img src="{{ static_asset('assets/assets_web/img/certified/aws-logo.png')}}" alt="" class="img-fluid rounded d-block mx-auto">
-               </div>
-               <div class="col-12 col-sm-6 col-md-4 col-lg-2 my-2">
-                  <img src="{{ static_asset('assets/assets_web/img/certified/Google-Cloud.png')}}" alt="" class="img-fluid rounded d-block mx-auto">
-               </div>
-               <div class="col-12 col-sm-6 col-md-4 col-lg-2 my-2">
-                  <img src="{{ static_asset('assets/assets_web/img/certified/microsoft-logo.png')}}" alt="" class="img-fluid rounded d-block mx-auto">
-               </div>
-            </div> --}}
+            
         </div>
     </section>
     <!-- /Our Certified Engineer Sectin End -->

@@ -100,7 +100,8 @@ return [
     |
     */
 
-    'store' => env('SESSION_STORE'),
+    'store' => env('SESSION_STORE', null),
+    // 'store' => env('SESSION_STORE'),null
 
     /*
     |--------------------------------------------------------------------------
@@ -155,7 +156,8 @@ return [
     |
     */
 
-    'domain' => env('SESSION_DOMAIN'),
+    // 'domain' => env('SESSION_DOMAIN'),
+    'domain' => env('SESSION_DOMAIN', null),
 
     /*
     |--------------------------------------------------------------------------
@@ -168,7 +170,8 @@ return [
     |
     */
 
-    'secure' => env('SESSION_SECURE_COOKIE', null),
+    'secure' => env('SESSION_SECURE_COOKIE', false),
+    // 'secure' => env('SESSION_SECURE_COOKIE', null),
 
     /*
     |--------------------------------------------------------------------------
@@ -196,6 +199,7 @@ return [
     |
     */
 
-    'same_site' => 'lax',
+    'same_site' => null,
+    // 'same_site' => 'lax',
 
 ];

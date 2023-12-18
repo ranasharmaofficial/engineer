@@ -9,7 +9,7 @@
 	<div class="settings-menu">
 		<ul>
 			<li>
-				<a href="customer-dashboard.php" class="active">
+				<a href="{{ url('customer/customer-dashboard') }}" class="active">
 					<i class="fa fa-th-large" aria-hidden="true"></i>
 					<span>Dashboard</span>
 				</a>
@@ -57,25 +57,25 @@
 									</a>
 								</li>
 								<li>
-									<a href="ongoing-booking.php">
+									<a href="{{ url('customer/ongoing-booking') }}">
 										<i class="fa fa-th-large" aria-hidden="true"></i>
 										<span>Ongoing Services</span>
 									</a>
 								</li>
 								<li>
-									<a href="complete-booking.php">
+									<a href="{{ url('customer/completed-booking') }}">
 										<i class="fa fa-th-large" aria-hidden="true"></i>
 										<span>Completed Services</span>
 									</a>
 								</li>
-								<!-- <li>
-									<a href="pending-booking.php">
+								<li>
+									<a href="{{ url('customer/pending-booking') }}">
 										<i class="fa fa-th-large" aria-hidden="true"></i>
 										<span>Pending Services</span>
 									</a>
-								</li> -->
+								</li>
 								<li>
-									<a href="cancelled-booking.php">
+									<a href="{{ url('customer/cancelled-booking') }}">
 										<i class="fa fa-th-large" aria-hidden="true"></i>
 										<span>Cancelled Services</span>
 									</a>

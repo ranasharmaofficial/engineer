@@ -40,7 +40,7 @@ class CmsPageController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request){
-        $data = $request->validate([
+         $request->validate([
             'parent_id' => 'required',
             'title' => 'required|string|max:255',
             'page_url' => 'nullable',
@@ -249,7 +249,7 @@ class CmsPageController extends Controller
         $enquiries =  $this->cmsPageRepository->allPriceEnquiryList();
         return view('admin.cms.price_enq', compact('enquiries'));
     }
-    
+
     public function customerLeadList(){
         $leads =  $this->cmsPageRepository->allCustomerLeadList();
         return view('admin.cms.customer_lead', compact('leads'));
@@ -259,7 +259,7 @@ class CmsPageController extends Controller
         $enquiries =  $this->cmsPageRepository->allCareerEnquiryList();
         return view('admin.cms.career_enquiry', compact('enquiries'));
     }
-    
+
     public function hireTeamEnquiryList(){
         $enquiries =  $this->cmsPageRepository->allHireTeamEnquiryList();
         return view('admin.cms.hire_team_enquiry', compact('enquiries'));
