@@ -57,12 +57,12 @@
 					@foreach($service_booking as $key => $val)
 
 						@php
-						
+
 							$total_service_order_amount = \App\Models\OrderDetail::where('user_id', $val->user_id)->where('order_id', $val->id)->sum('total_price');
 							$total_service_order_amount = \App\Models\OrderDetail::where('user_id', $val->user_id)->where('order_id', $val->id)->sum('total_price');
-							
+
 							$service_order = \App\Models\Order::where('user_id', $val->user_id)->where('id', $val->order_id)->first();
-						 
+
 						$category = $val->category_id;
 						$subcategory = $val->subcategory_id;
 						$service = $val->service_id;
@@ -78,11 +78,11 @@
 									class="img-fluid rounded position-absolute top-0 end-0 pe-3 pt-2 rounded-circle">
 							</div>
 							<div class="col-lg-9 mt-3 mt-lg-0">
-								
+
 								<div class="d-flex">
 									<div>
 										<span class="book-item fw-bold me-5">Service Name -  {{ $category }}, {{ $subcategory }}</span>
-										: {{ $service_category->name }} 
+										: {{ $service_category->name }}
 									</div>
 									@if($val->status==0)
 										<span class="badge bg-danger text-white fw-bold ms-2 px-3">Pending</span>
@@ -116,14 +116,14 @@
 											<a href="javascript:void()" class="text-white">Reschedule</a>
 										</span>
 									</li>
-									
+
 									<li>
 										<span class="book-item fw-bold">Amount</span> : {{ number_format($total_service_order_amount) }}
 										<span class="float-end fw-bolder bg-primary2 p-1 rounded text-light d-none">
 											<a href="javascript:void()" class="text-white">Reschedule</a>
 										</span>
 									</li>
-									
+
 									<li>
 										<span class="book-item fw-bold">Order Date</span> : {{ date("d-M-Y", strtotime($val->created_at)) }}
 									</li>
@@ -139,22 +139,22 @@
 						</div>
 
 
-						
+
 
 
 					@endforeach
 				@endif
-				
+
 				@if(count($service_booking)>0)
 					@foreach($service_booking as $key => $val)
 
 						@php
-						
+
 							$total_service_order_amount = \App\Models\OrderDetail::where('user_id', $val->user_id)->where('order_id', $val->id)->sum('total_price');
 							$total_service_order_amount = \App\Models\OrderDetail::where('user_id', $val->user_id)->where('order_id', $val->id)->sum('total_price');
-							
+
 							$service_order = \App\Models\Order::where('user_id', $val->user_id)->where('id', $val->order_id)->first();
-						 
+
 						$category = $val->category_id;
 						$subcategory = $val->subcategory_id;
 						$service = $val->service_id;
@@ -162,7 +162,7 @@
 						$service_subcategory = \App\Models\ServiceSubCategory::where('id', $subcategory)->first();
 						$service_name = \App\Models\Service::where('id', $service)->first();
 					@endphp
-				
+
 				<div class="modal fade custom-modal" id="add-wallet{{$key+1}}">
 							<div class="modal-dialog modal-dialog-centered modal-lg">
 								<div class="modal-content">
@@ -184,10 +184,10 @@
 												<tr>
 													<td><strong>Service</strong></td>
 													<td>
-													 
+
 													 {{ $service_subcategory->name }} , {{ $service_name->name }}
-														
-													 
+
+
 													</td>
 												</tr>
 												<tr>

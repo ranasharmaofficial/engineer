@@ -130,11 +130,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['AdminAuthCheck'], 'as' => '
     Route::resource('/service_category', ServiceController::class);
     Route::get('/service_category/delete/{id}', [ServiceController::class, 'delete'])->name('service_category.delete');
 
-    Route::get('/service-sub-category', [ServiceController::class, 'serviceSubcategory'])->name('serviceSubcategory.index');
-    Route::get('/service-sub-category/create', [ServiceController::class, 'serviceSubcategoryCreate'])->name('serviceSubcategory.index');
-    Route::post('/service_sub_category/store', [ServiceController::class, 'serviceSubcategoryStore'])->name('service_sub_category.store');
-    Route::get('/service_sub_category/{id}/edit', [ServiceController::class, 'serviceSubcategoryEdit'])->name('service_sub_category.edit');
-    Route::put('/service_sub_category/update/{id}', [ServiceController::class, 'serviceSubcategoryUpdate'])->name('service_sub_category.update');
+    Route::get('/service-sub-category', [ServiceController::class, 'ServiceSubCategory'])->name('ServiceSubCategory.index');
+    Route::get('/service-sub-category/create', [ServiceController::class, 'ServiceSubCategoryCreate'])->name('ServiceSubCategory.index');
+    Route::post('/service_sub_category/store', [ServiceController::class, 'ServiceSubCategoryStore'])->name('service_sub_category.store');
+    Route::get('/service_sub_category/{id}/edit', [ServiceController::class, 'ServiceSubCategoryEdit'])->name('service_sub_category.edit');
+    Route::put('/service_sub_category/update/{id}', [ServiceController::class, 'ServiceSubCategoryUpdate'])->name('service_sub_category.update');
 
     Route::get('/service', [ServiceController::class, 'serviceList'])->name('service.index');
     Route::get('/service/create', [ServiceController::class, 'serviceCreate'])->name('service.index');

@@ -4,10 +4,10 @@
 
 
 @section('content')
-    
-	 
+
+
 		@include('frontend.includes.header')
-	
+
 	<section class="breadcrumbs-custom bg-image context-dark"
 				style="background-image: url({{ static_asset('assets/assets_web/img/server-sevice.png')}}); height:369px; background-repeat: no-repeat; background-size: cover; padding-top:239px">
 				<div class="container">
@@ -155,9 +155,9 @@
 					@php
 						$temp_order_details = DB::table('temp_order_details')->select('*')->where('temp_order_id', $temp_order_id)->get();
 					@endphp
-					
+
 												@foreach($temp_order_details as $key => $item)
-															
+
 															@php
 																$category = $item->category_id;
 																$subcategory = $item->subcategory_id;
@@ -229,9 +229,9 @@
 														</div>
 														<div class="booking-pay">
 															<button type="button" id="book-service-order" class="btn btn-primary btn-pay w-100 book-service-order">Proceed to Pay ${{ $temp_order_total_price }}</button>
-															
+
 															<a href="javascript:void(0);" class="btn btn-secondary btn-skip">Skip</a>
-															
+
 														</div>
 													</div>
 												</div>
@@ -249,20 +249,20 @@
 
 				</div>
 			</section>
-	
-	
-	
-	
-	
-	
-	   
+
+
+
+
+
+
+
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-	
+
 	<script>
-	
-	
-	
+
+
+
 $(document).on('click','.book-service-order',function(e) {
 	e.preventDefault();
 
@@ -345,6 +345,6 @@ $(document).on('click','.book-service-order',function(e) {
 			});
 		}
 	</script>-->
-	 
+
 @endsection
 

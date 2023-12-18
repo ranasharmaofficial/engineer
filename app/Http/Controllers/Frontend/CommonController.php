@@ -9,7 +9,7 @@ use Session;
 use App\Repositories\Interfaces\WebInterface\CommonRepositoryInterface;
 use App\Models\Service;
 use App\Models\SubService;
-use App\Models\ServiceSubcategory;
+use App\Models\ServiceSubCategory;
 use App\Models\Cart;
 use App\Models\TempOrder;
 use App\Models\TempOrderDetail;
@@ -717,7 +717,7 @@ class CommonController extends Controller
     public function showServiceCategoryDetails(Request $request){
         $output = '';
         $data = $request->all();
-        $domainList = $this->webRepository->getServiceSubcategory($data);
+        $domainList = $this->webRepository->getServiceSubCategory($data);
 
         // dd(count($domainList));
 
@@ -878,7 +878,7 @@ class CommonController extends Controller
         $qty = $request->qty;
 
         $subservice_details = SubService::where('id', $subservice_id)->first();
-        $get_category_id = ServiceSubcategory::where('id', $subcategory_id)->first();
+        $get_category_id = ServiceSubCategory::where('id', $subcategory_id)->first();
 
         if($activity_type=='on_site'){
             $product_price = $subservice_details->onsite_price;
@@ -902,7 +902,7 @@ class CommonController extends Controller
             }
         }
 
-        $prod_check = ServiceSubcategory::where('id', $subcategory_id)->exists();
+        $prod_check = ServiceSubCategory::where('id', $subcategory_id)->exists();
         if($prod_check)
         {
             if(Session('LoggedCustomer') != null) {
@@ -969,7 +969,7 @@ class CommonController extends Controller
                 );
             }
 
-            $get_category_id = ServiceSubcategory::where('id', $subcategory_id)->first();
+            $get_category_id = ServiceSubCategory::where('id', $subcategory_id)->first();
 		    $cartItem = new Cart();
             $cartItem->user_id = $user_id;
             $cartItem->temp_user_id = $temp_user_id;

@@ -1,10 +1,17 @@
 <div class="settings-widget">
 	<div class="settings-header">
 		<div class="settings-img">
-			<img src="{{ static_asset('assets/assets_web/img/profiles/avatar-02.jpg')}}" alt="user">
+            @php
+                $profile_details = \App\Models\User::findOrFail(Session('LoggedCustomer')->user_id);
+            @endphp
+            @if($profile_details->profile_pic!=null)
+			    <img src="{{ static_asset('uploads/customer/'.$profile_details->profile_pic)}}" alt="user">
+            @else
+                <img src="{{ static_asset('assets/assets_web/img/profiles/avatar-02.jpg')}}" alt="user">
+            @endif
 		</div>
 		<h6>{{ Session('LoggedCustomer')->first_name.' '.Session('LoggedCustomer')->last_name }}</h6>
-		<p>Member Since Sep 2021</p>
+		<p>Member Since {{ date('M'), strtotime($profile_details->created_at) }},&nbsp;{{ date('Y'), strtotime($profile_details->created_at) }}</p>
 	</div>
 	<div class="settings-menu">
 		<ul>

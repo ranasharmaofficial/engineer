@@ -50,7 +50,7 @@
 			 </li>
 			@endforeach
 		 @endif
-         
+
       </ul>
 
     <!-- Banner Image section start -->
@@ -64,7 +64,7 @@
 			 </li>
 			@endforeach
 		 @endif
-		
+
         <li>
             <a target="_blank" href="javascript:void(0)" class="  d-block">
                 <i class="fa fa-whatsapp text-white bg-icon bg-whatsapp my-3" aria-hidden="true"></i>
@@ -221,7 +221,7 @@
                         <div class="tab-content field py-5">
 							@foreach($service_categories as $key => $item)
 								@php
-									$domainList = App\Models\ServiceSubcategory::where('category_id', $item->id)->where('status', 1)->get();
+									$domainList = App\Models\ServiceSubCategory::where('category_id', $item->id)->where('status', 1)->get();
 								@endphp
 								<div class="tab-pane container @if($key+1==1) active @endif justifly-content-round" id="menu{{$key+1}}">
 									<table name="{{$key+1}}" id="myTable{{$key+1}}"
@@ -656,7 +656,7 @@
     </section>
     <!-- /About Our Company Section End-->
 	@endif
-	
+
 	@if($section->section_name == "affordable_and_reliable")
 	@php
 		$affordable_and_reliable_datas = get_section_wise_data($page->id, $section->id);
@@ -690,7 +690,7 @@
                                 <h5 class="mt-4 mb-3">{{ $item->title }}</h5>
                             </a>
 							{{-- <p class="fs-6">
-                                
+
                             </p>--}}
 							{!! $item->description !!}
                             <a href="#" class="fw-bold d-none"> View More <i class="fa fa-angle-right p-1"
@@ -699,7 +699,7 @@
                     </div>
                 </div>
 				@endforeach
-                
+
             </div>
         </div>
     </section>
@@ -718,9 +718,9 @@
                     <img src="{{ static_asset('assets/assets_web/img/certified/ccnalogo.png') }}" alt=""
                         class="img-fluid rounded d-block mx-auto">
                 </div>
-                
+
             </div>
-            
+
         </div>
     </section>
     <!-- /Our Certified Engineer Sectin End -->
@@ -1056,7 +1056,7 @@ function addRow2() {
 										<label for="">Domain</label>
 								</div>
 								@php
-								  $secondCategory = \App\Models\serviceSubcategory::where('category_id', 2)->where('status', 1)->get();
+								  $secondCategory = \App\Models\ServiceSubCategory::where('category_id', 2)->where('status', 1)->get();
 								@endphp
 								<select name="subcategory_id[]" class="form-control service_subcategory subcategory_choose ms-1 me-2 w-90 outline-0 h-40px border shadow-none fs-13 rounded-pill px-2 fs-13 lsp-5" id="validationCustom04">
 									<option value="" selected="">Select Domain</option>
@@ -1141,7 +1141,7 @@ function addRow3() {
 									<label for="">Domain</label>
 								</div>
 								@php
-								  $thirdCategory = \App\Models\serviceSubcategory::where('category_id', 2)->where('status', 1)->get();
+								  $thirdCategory = \App\Models\ServiceSubCategory::where('category_id', 2)->where('status', 1)->get();
 								@endphp
 								<select name="subcategory_id[]" class="form-control service_subcategory subcategory_choose ms-1 me-2 w-90 outline-0 h-40px border shadow-none fs-13 rounded-pill px-2 fs-13 lsp-5" id="validationCustom04">
 									<option value="" selected="">Select Domain</option>
@@ -1283,7 +1283,7 @@ function addRow1() {
     var table = document.getElementById("myTable1");
 	  addClassToTr(table, "name");
     @php
-      $firstCategory = \App\Models\serviceSubcategory::where('category_id', 1)->where('status', 1)->get();
+      $firstCategory = \App\Models\ServiceSubCategory::where('category_id', 1)->where('status', 1)->get();
     @endphp
     var row = table.insertRow(-1);
     var cell1 = row.insertCell(0);

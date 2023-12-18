@@ -48,7 +48,7 @@ class CommonRepository implements CommonRepositoryInterface
         return ServiceCategory::select('id', 'name')->where('status', 1)->get();
     }
 
-    public function getServiceSubcategory($data){
+    public function getServiceSubCategory($data){
         return ServiceSubCategory::select('id', 'name')->where('category_id', $data['category_id'])->where('status', 1)->get();
     }
 

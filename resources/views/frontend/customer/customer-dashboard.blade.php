@@ -102,10 +102,8 @@
 										@foreach($ongoingServiceList as $key => $val)
 
 												@php
-												
 													$total_service_order_amount = \App\Models\OrderDetail::where('user_id', $val->user_id)->where('order_id', $val->id)->sum('total_price');
 													$total_service_order_amount = \App\Models\OrderDetail::where('user_id', $val->user_id)->where('order_id', $val->id)->sum('total_price');
-													
 													$service_order = \App\Models\Order::where('user_id', $val->user_id)->where('id', $val->order_id)->first();
 												 
 												$category = $val->category_id;

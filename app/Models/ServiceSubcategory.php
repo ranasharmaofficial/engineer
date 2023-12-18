@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ServiceSubcategory extends Model
+class ServiceSubCategory extends Model
 {
     use HasFactory;
     use SoftDeletes;
