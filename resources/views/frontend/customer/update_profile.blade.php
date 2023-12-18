@@ -62,7 +62,7 @@
                                     <form method="POST" id="update-profile-picture" action="#" enctype="multipart/form-data">
                                         @csrf
                                         <input type="file" name="profile" id="updateImage">
-
+										<input type="hidden" name="user_id" value="{{ session('LoggedCustomer')->user_id }}">
                                         {{-- <button class="btn btn-primary mt-3"><label for="updateImage">Update Image</label></button> --}}
                                         <button type="submit" class="btn btn-primary mt-3 update-profile-pic">Update Image</button>
                                     </form>
@@ -75,6 +75,7 @@
                                         <i class="fa fa-cloud-upload me-1"></i>Upload
 
                                         <input type="file" hidden id="updateImage" name="profile_pic">
+                                       
 
                                     </div>
 
@@ -330,7 +331,7 @@ $(document).on('click','.update-profile-pic',function(e) {
 
   $.ajax({
     type: "POST",
-    url: "{{ route('enginner.login.post') }}",
+    url: "{{ route('customer.update_profile_picture') }}",
     data: formData,
     processData: false,
     contentType: false,
@@ -338,9 +339,9 @@ $(document).on('click','.update-profile-pic',function(e) {
     success: function(data) {
 			console.log('status '+data.status);
 			if(data.status==true){
-				toastr.success('Login Successfull.');
+				toastr.success('Updated Successfully.');
 				setTimeout(function(){
-				window.location = "{{ url('engineer/engineer-dashboard') }}" },1000);
+				window.location = "{{ url('customer/customer-dashboard') }}" },1000);
 			}else{
 				toastr.error('Login Failed.');
 			}

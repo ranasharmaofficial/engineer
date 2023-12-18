@@ -72,6 +72,31 @@ class CustomerController extends Controller
         return view('frontend.customer.change-password');
     }
 
+    // UserLogin
+    public function update_customer_password(Request $request){
+        $request->validate([
+            'old_password' => 'required',
+            'new_password' => 'required|confirmed',
+        ]);
+        $user_id = Session('LoggedCustomer')->user_id;
+        $user_details = UserLogin::where('user_id', $user_id)->first();
+        // dd($user_details);
+         #Match The Old Password
+        if($request->old_password==$user_details->password){
+            UserLogin::where('user_id', $user_id)->update([
+                'password' => $request->new_password,
+            ]);
+            $response['status'] = true;
+            $response['message'] = 'Success! Record Updated Successfully.';
+        }else{
+            $response['status'] = false;
+            $response['message'] = 'Error! Record Not Updated.';
+        }
+        return $response;
+
+
+    }
+
     public function customerFeedback(){
         $user_id = Session('LoggedCustomer')->user_id;
         $completed_service_booking = Order::where('user_id', $user_id)->orderBy('id', 'DESC')->get();
@@ -201,18 +226,22 @@ class CustomerController extends Controller
 
     /** Update Profile Picture */
     public function update_profile_picture (Request $request){
+        // dd($request->all());
         $img_name = 'img_'.time().'.'.$request->profile->getClientOriginalExtension();
         $request->profile->move(public_path('uploads/customer/'), $img_name);
-        $imagePath = 'img/'.$img_name;
+        $imagePath = $img_name;
+        // dd($imagePath);
         $data = [
             'profile_pic'=>$imagePath,
         ];
-        $update = User::find($request->user_id)->update($data);
+        $update = User::where('id', $request->user_id)->first();
+        $update->profile_pic = $imagePath;
+        $update->save();
         if($update){
-            $response['success'] = true;
+            $response['status'] = true;
             $response['message'] = 'Success! Record Updated Successfully.';
         }else{
-            $response['success'] = false;
+            $response['status'] = false;
             $response['message'] = 'Error! Record Not Updated.';
         }
         return $response;

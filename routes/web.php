@@ -93,6 +93,7 @@ Route::group(['prefix' => 'customer', 'middleware' => ['CustomerAuthCheck'], 'as
     Route::get('add_complain', [CustomerController::class, 'customerAddComplain'])->name('add_complain');
     Route::post('customer/update_profile', [CustomerController::class, 'updateProfileDetails'])->name('updateProfileDetails');
     Route::post('customer/update_profile_picture', [CustomerController::class, 'update_profile_picture'])->name('update_profile_picture');
+    Route::post('customer/update_customer_password', [CustomerController::class, 'update_customer_password'])->name('update_customer_password');
     Route::post('customer/saveFeedBack', [CustomerController::class, 'saveFeedBack'])->name('saveFeedBack');
     Route::post('customer/saveComplain', [CustomerController::class, 'saveComplain'])->name('saveComplain');
     Route::post('getComplainDetails', [CustomerController::class, 'getComplainDetails'])->name('getComplainDetails');
