@@ -16,8 +16,7 @@
                         <li><a href="{{ url('admin/sub-service') }}">Sub Service List</a></li>
                     </ul>
                 </li>
-                <li class="submenu"> <a href="#"><i class="fa fa-user-tie aiz-side-nav-icon"></i> <span>
-                            Staff </span> <span class="menu-arrow"></span></a>
+                <li class="submenu"> <a href="#"><i class="fa fa-user-tie aiz-side-nav-icon"></i> <span> Staff </span> <span class="menu-arrow"></span></a>
                     <ul class="submenu_class" style="display: none;">
                         <li><a href="{{ route('admin.engineer-list.index') }}">Engineer List</a></li>
                         <li><a href="engineer_working_hr.php">Engineer Working HR List</a></li>
@@ -87,11 +86,12 @@
                 <li class="submenu"> <a href="#"><i class="fa fa-user-friends aiz-side-nav-icon"></i> <span>
                             Manage Blog</span> <span class="menu-arrow"></span></a>
                     <ul class="submenu_class" style="display: none;">
-                        <li><a href="manage-blog-category.php">Category</a></li>
-                        <li><a href="manage-blog-post.php">Post</a></li>
+                        <li><a href="{{ url('admin/categories') }}"> Categories </a></li>
+						<li><a href="{{ url('admin/blogs') }}"> All Blogs </a></li>
+						<li><a href="{{ url('admin/blogs/create') }}"> Add New Blog </a></li>
                     </ul>
                 </li>
-                <li class="submenu"> <a href="#"><i class="fa fa-user-friends aiz-side-nav-icon"></i> <span>
+                {{--<li class="submenu"> <a href="#"><i class="fa fa-user-friends aiz-side-nav-icon"></i> <span>
                             Home Pages Manage </span> <span class="menu-arrow"></span></a>
                     <ul class="submenu_class" style="display: none;">
                         <li><a href="hero-section.php">Slider Section</a></li>
@@ -101,7 +101,7 @@
                         <li><a href="how_it_works.php">How It Works</a></li>
                         <li><a href="choose_us_section.php"> Why Choose Us</a></li>
                     </ul>
-                </li>
+                </li>--}}
 
                 <li> <a href="deposits.php"><i class="fa fa-dharmachakra aiz-side-nav-icon"></i> <span>Deposits</span></a>
                 </li>
@@ -118,8 +118,9 @@
                 <li class="submenu"> <a href="#"><i class="fa fa-question aiz-side-nav-icon"></i> <span>
                             Enquiry </span> <span class="menu-arrow"></span></a>
                     <ul class="submenu_class" style="display: none;">
-                        <li><a href="hire_requested.php">Hire Now Requestes</a></li>
-                        <li><a href="enquiry_normal.php">Enquiry Normal</a></li>
+					<li><a href="{{ url('admin/customer/leads') }}"> All Customer Leads </a></li>
+						{{-- <li><a href="hire_requested.php">Hire Now Requestes</a></li>
+                        <li><a href="enquiry_normal.php">Enquiry Normal</a></li>--}}
                     </ul>
                 </li>
 

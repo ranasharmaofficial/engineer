@@ -15,7 +15,7 @@
                         <div class=" col">
 							<a href="{{ url('admin/service-sub-category/create') }}" class="btn btn-info float-right veiwbutton"><i class="fa fa-plus" aria-hidden="true"></i> Add New Service SubCategory</a>
                         </div>
-                     
+
                   </div>
                </div>
 			   <hr>
@@ -29,7 +29,19 @@
                         <span>Export in Excel</span>
                         </a>
                      </div>
-                      
+						<div class="col-md-3">
+							<div class="form-group row mb-0 align-items-center">
+								<div class="col-sm-12">
+									<select class="form-control" name="category_id">
+										<option value="">Select Category</option>
+										@foreach($service_categories as $item)
+											<option @if($request->category_id==$item->id) selected @endif value="{{ $item->id }}">{{ $item->name }}</option>
+										@endforeach
+									</select>
+
+								</div>
+							</div>
+						</div>
 						 <div class="col-md-3">
 							<div class="form-group mb-0">
 							   <input type="text" class="form-control form-control-sm h-35" id="search" name="search" placeholder="Search...">
@@ -46,7 +58,7 @@
 							 Refresh
 							</a>
 						 </div>
-					 
+
                   </form>
                   <hr>
                   <div class="card shadow-0">
@@ -55,26 +67,13 @@
                            <table class="table table-striped">
                                         <thead>
                                             <tr>
-                                                <th>
-                                                    Sl. No.
-                                                </th>
-												<th>
-                                                    Service Category
-                                                </th>
-												<th>
-                                                    Sub Category
-                                                </th>
-                                                <th>
-                                                    Status
-                                                </th>
-                                                <th>
-                                                    Created Date
-                                                </th>
-                                                <th>
-                                                    Action
-                                                </th>
-
-                                            </tr>
+                                                <th>Sl. No.</th>
+												<th>Service Category</th>
+												<th>Sub Category</th>
+                                                <th>Status</th>
+                                                <th>Created Date</th>
+                                                <th>Action</th>
+											</tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($service_subcategories as $key => $value)
@@ -88,22 +87,22 @@
 													<td>{{ convert_datetime_to_date_format($value->created_at, 'd M Y') }}</td>
 													<td class="text-right">
 													<a class="btn btn-primary" href="{{ route('admin.service_sub_category.edit',$value->id) }}">Edit</a>
-														{{--<a onclick="return confirm('Are you sure, you want to delete this?')" href="{{route('admin.service.delete',$value->id)}}" class="btn btn-danger">Delete</a>--}}
-														
+												   {{-- <a onclick="return confirm('Are you sure, you want to delete this?')" href="{{route('admin.service.delete',$value->id)}}" class="btn btn-danger">Delete</a> --}}
+
 													</td>
 												</tr>
 											@endforeach
-									
+
                                         </tbody>
                                     </table>
                         </div>
-						
+
 						<div class="aiz-pagination mt-3 w-100">
 							<div class="pagination">
 									{{ $service_subcategories->appends(request()->input())->links() }}
 							</div>
 						</div>
-							
+
 						<!-- <div class="aiz-pagination mt-3 w-100">
 							<div class="row justify-content-between">
 								<div class="col-sm-12 col-md-5">
@@ -124,8 +123,8 @@
 							</div>
                         </div>-->
                      </div>
-					  
-					 
+
+
                   </div>
                   <div>
                   </div>
@@ -133,7 +132,7 @@
                @include('admin.include.topfoot')
             </div>
          </div>
-		 
- 
+
+
 @endsection
 

@@ -157,6 +157,11 @@ class ServiceController extends Controller
         return redirect()->route('admin.ServiceSubCategory.index')->with(session()->flash('alert-success', 'Service Subcategory Updated Successfully'));
     }
 
+    // public function deleteServiceSubCategory(){
+    //     $this->serviceRepository->deleteCmsSectionData($id);
+    //     return redirect()->route('admin.section_data.index')->with(session()->flash('alert-danger', 'Data Deleted Successfully'));
+    // }
+
     /** Service  */
 
     public function getSubcategoryList(Request $request){

@@ -71,13 +71,13 @@ class ServiceRepository implements ServiceRepositoryInterface
 
 
     public function allServiceSubcategories($request){
-            $service_subcategories = ServiceSubCategory::select('service_subcategories.*', 'cp.name as categoryName')
-            ->leftJoin('service_categories as cp', 'cp.id', '=', 'service_subcategories.category_id');
+            $service_subcategories = ServiceSubCategory::select('service_sub_categories.*', 'cp.name as categoryName')
+            ->leftJoin('service_categories as cp', 'cp.id', '=', 'service_sub_categories.category_id');
             if($request['category_id']){
-                $service_subcategories = $service_subcategories->where('service_subcategories.category_id',$request['category_id']);
+                $service_subcategories = $service_subcategories->where('service_sub_categories.category_id',$request['category_id']);
             }
             if($request['section']){
-                $service_subcategories = $service_subcategories->where('service_subcategories.name','LIKE',"%{$request['name']}%");
+                $service_subcategories = $service_subcategories->where('service_sub_categories.name','LIKE',"%{$request['name']}%");
             }
             $service_subcategories = $service_subcategories->latest()->paginate(10);
             return $service_subcategories;
@@ -106,6 +106,19 @@ class ServiceRepository implements ServiceRepositoryInterface
         $service->save();
     }
 
+    // public function del($id){
+    //     $delete_product = ServiceSubCategory::find($id);
+    //     $section_ids = ProductSection::where('page_id', $id)->pluck('id');
+    //     if(sizeof($section_ids)>0){
+    //         $delete_section = ProductSection::whereIn('id', $section_ids)->delete();
+    //     }
+    //     $section_data_ids = ProductSectionData::where('page_id', $id)->pluck('id');
+    //     if(sizeof($section_data_ids)>0){
+    //         $delete_section_data = ProductSectionData::whereIn('id', $section_data_ids)->delete();
+    //     }
+    //     $delete_product->delete();
+    // }
+
 
     /** main service */
 
@@ -123,7 +136,7 @@ class ServiceRepository implements ServiceRepositoryInterface
     public function allMainServices($request){
         $service_subcategories = Service::select('services.*', 'cp.name as categoryName','csp.name as subcategoryName')
         ->leftJoin('service_categories as cp', 'cp.id', '=', 'services.category_id')
-        ->leftJoin('service_subcategories as csp', 'csp.id', '=', 'services.subcategory_id');
+        ->leftJoin('service_sub_categories as csp', 'csp.id', '=', 'services.subcategory_id');
         if($request['category_id']){
             $service_subcategories = $service_subcategories->where('services.category_id',$request['category_id']);
         }

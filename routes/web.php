@@ -103,6 +103,20 @@ Route::group(['prefix' => 'customer', 'middleware' => ['CustomerAuthCheck'], 'as
 
 Route::group(['prefix' => 'engineer', 'middleware' => ['EngineerAuthCheck'], 'as' => 'engineer.'], function () {
     Route::get('engineer-dashboard', [EngineerController::class, 'engineerDashboard'])->name('dashboard');
+    Route::get('ongoing-booking', [EngineerController::class, 'ongoingBooking'])->name('ongoing_booking');
+    Route::get('profile', [EngineerController::class, 'engineerProfile'])->name('profile');
+    Route::get('edit-profile', [EngineerController::class, 'engineerEditProfile'])->name('engineerEditProfile');
+    Route::get('change-password', [EngineerController::class, 'engineerChangepassword'])->name('change-password');
+    Route::post('engineer/update_engineer_password', [EngineerController::class, 'update_engineer_password'])->name('update_engineer_password');
+    Route::post('engineer/update_profile_picture', [EngineerController::class, 'update_profile_picture'])->name('update_profile_picture');
+    Route::post('engineer/update_enginner_profile_details', [EngineerController::class, 'update_enginner_profile_details'])->name('update_enginner_profile_details');
+
+    Route::get('upcoming-job', [EngineerController::class, 'upComingBooking'])->name('upComing_booking');
+    Route::get('ongoing-job', [EngineerController::class, 'ongoingBooking'])->name('ongoing_booking');
+    Route::get('completed-job', [EngineerController::class, 'completeBooking'])->name('complete_booking');
+    Route::get('cancelled-job', [EngineerController::class, 'cancellBooking'])->name('cancell_booking');
+
+
 });
 
 

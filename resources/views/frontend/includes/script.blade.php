@@ -188,16 +188,18 @@ $(".SubscribeBtn").click(function(e){
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 <script>
 //   AOS.init();
+
   $(document).ready(function() {
-      toastr.options.timeOut = 5000;
-      @if (Session::has('alert-danger'))
-          toastr.error('{{ Session::get('alert-danger') }}');
-      @elseif(Session::has('alert-success'))
-          toastr.success('{{ Session::get('alert-success') }}');
-      @elseif(Session::has('alert-warning'))
-          toastr.success('{{ Session::get('alert-warning') }}');
-      @endif
-  });
+            toastr.options.timeOut = 5000;
+            @if (Session::has('alert-danger'))
+                toastr.error('{{ Session::get('alert-danger') }}');
+            @elseif(Session::has('alert-success'))
+                toastr.success('{{ Session::get('alert-success') }}');
+            @elseif(Session::has('alert-warning'))
+                toastr.success('{{ Session::get('alert-warning') }}');
+            @endif
+        });
+
 </script>
 
 @yield('script')

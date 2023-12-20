@@ -475,15 +475,21 @@ class CommonController extends Controller
 
     public function postContactEnquiry(Request $request)
     {
-        $data = $request->validate([
-            'name' => 'required',
-            'email' => 'required|email',
-            'contact' => 'required',
-            // 'company_name' => 'nullable',
-            'message' => 'required',
-        ]);
-        $this->webRepository->storeContactEnquiry($data);
+        // $data = $request->validate([
+        //     'name' => 'required',
+        //     'email' => 'required|email',
+        //     'contact' => 'required',
+        //     'message' => 'required',
+        // ]);
 
+        // // $this->validate($request, [
+        // //     'name' => 'required|string|min:2|max:255',
+        // // ]);
+
+
+        // // dd($request);
+
+        // $this->webRepository->storeContactEnquiry($data);
         return redirect()->back()->with(session()->flash('alert-success', 'Thankyou contacting with us. Our Team will help you soon...'));
     }
 

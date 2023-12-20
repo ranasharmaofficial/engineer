@@ -109,20 +109,11 @@
                                         class="img-fluid ms-1" alt="img">
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                @if ($errors->any())
-                                <div class="alert alert-danger">
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-								@endif
+                            <div class="col-md-6">																
                                 <div class="contact-queries">
                                     <h2>Send Us A Massage</h2>
-                                    <form method="post" action="{{ route('contact.enquiry') }}" class="contact-form">
-                                        @csrf
+                                    <form method="post" action="{{ route('contact.enquiry') }}" enctype="multipart/form-data" class="contact-form">
+                                        @csrf								@if ($errors->any())								@php									dd($errors->all());								@endphp                                <div class="alert alert-danger">                                    <ul>                                        @foreach ($errors->all() as $error)                                            <li>{{ $error }}</li>                                        @endforeach                                    </ul>                                </div>								@endif								
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">

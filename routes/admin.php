@@ -135,6 +135,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['AdminAuthCheck'], 'as' => '
     Route::post('/service_sub_category/store', [ServiceController::class, 'ServiceSubCategoryStore'])->name('service_sub_category.store');
     Route::get('/service_sub_category/{id}/edit', [ServiceController::class, 'ServiceSubCategoryEdit'])->name('service_sub_category.edit');
     Route::put('/service_sub_category/update/{id}', [ServiceController::class, 'ServiceSubCategoryUpdate'])->name('service_sub_category.update');
+    Route::get('/service_sub_category/delete/{id}', [ServiceController::class, 'deleteServiceSubCategory'])->name('service_sub_category.deleteServiceSubCategory');
 
     Route::get('/service', [ServiceController::class, 'serviceList'])->name('service.index');
     Route::get('/service/create', [ServiceController::class, 'serviceCreate'])->name('service.index');
@@ -310,7 +311,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['AdminAuthCheck'], 'as' => '
 
     // Route For Staff
     Route::resource('/engineer-list', EngineerController::class);
-
+    Route::get('/engineer/change_status', [EngineerController::class, 'changeStatus'])->name('users.change_status');
+    Route::get('/engineer/engineer_details', [EngineerController::class, 'engineer_details'])->name('users.engineer_details');
+    Route::get('/engineer/edit-engineer/{id}', [EngineerController::class, 'editEngineer'])->name('editEngineer');
+    Route::post('/admin/updateEmploymentStatus', [EngineerController::class, 'updateEmploymentStatus'])->name('updateEmploymentStatus');
+    Route::post('/admin/updateEmployeeDetails', [EngineerController::class, 'updateEmployeeDetails'])->name('updateEmployeeDetails');
+    Route::post('/admin/addEmployeeDetails', [EngineerController::class, 'addEmployeeDetails'])->name('addEmployeeDetails');
 
 
     Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');
