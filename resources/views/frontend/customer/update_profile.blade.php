@@ -1,3 +1,69 @@
+
+<style>
+
+.avatar-upload {
+    position: relative;
+    max-width: 205px;
+    /* margin: 50px auto; */
+    margin-left: -87px;
+    margin-top: -41px;
+}
+.avatar-upload .avatar-edit {
+  position: absolute;
+  right: 78px;
+  z-index: 1;
+  opacity: 0;
+  top: 10px;
+}
+.avatar-upload .avatar-edit input {
+  display: none;
+}
+.avatar-upload .avatar-edit input + label {
+  display: inline-block;
+  width: 70px;
+  height: 70px;
+  margin-bottom: 0;
+  border-radius: 100%;
+  background: #FFFFFF;
+  border: 1px solid transparent;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  font-weight: normal;
+  transition: all 0.2s ease-in-out;
+}
+.avatar-upload .avatar-edit input + label:hover {
+  background: #f1f1f1;
+  border-color: #d6d6d6;
+}
+.avatar-upload .avatar-edit input + label:after {
+  content: "\f040";
+  font-family: 'FontAwesome';
+  color: #757575;
+  position: absolute;
+  top: 10px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  margin: auto;
+}
+.avatar-upload .avatar-preview {
+  width: 70px;
+  height: 70px;
+  position: relative;
+  border-radius: 100%;
+  border: 6px solid #F8F8F8;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+}
+.avatar-upload .avatar-preview > div {
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+</style>
 @extends('frontend.layouts.master')
 
 @section('title') Profile  @endsection
@@ -51,12 +117,22 @@
                         <div class="pro-picture">
 
                             <div class="pro-img">
-
                                 <img src="{{ static_asset('assets/assets_web/img/profiles/avatar-02.jpg')}}" alt="user">
-
+                                                  
+    <div>
+    <div class="avatar-upload">
+        <div class="avatar-edit">
+            <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" />
+            <label for="imageUpload"></label>
+        </div>
+        <div class="avatar-preview">
+            <div id="imagePreview" style="background-image: url('http://i.pravatar.cc/500?img=7');">
+            </div>
+        </div>
+    </div>
+    </div>
                             </div>
-
-                            <div class="pro-info">
+                  <div class="pro-info">
 
                                 <div class="d-flex align-items-center justify-content-start">
                                     <form method="POST" id="update-profile-picture" action="#" enctype="multipart/form-data">
@@ -366,3 +442,40 @@ $(document).on('click','.update-profile-pic',function(e) {
 
 </script>
 
+<script>
+    function previewFile() {
+    var preview = document.querySelector('img');
+    var file    = document.querySelector('input[type=file]').files[0];
+    var reader  = new FileReader();
+  
+    reader.addEventListener("load", function () {
+      preview.src = reader.result;
+    }, false);
+  
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  }
+                        $(function() {
+              $('#profile-image1').on('click', function() {
+                  $('#profile-image-upload').click();
+              });
+          });
+          
+</script>
+<script>
+    function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            $('#imagePreview').css('background-image', 'url('+e.target.result +')');
+            $('#imagePreview').hide();
+            $('#imagePreview').fadeIn(650);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+$("#imageUpload").change(function() {
+    readURL(this);
+});
+</script>

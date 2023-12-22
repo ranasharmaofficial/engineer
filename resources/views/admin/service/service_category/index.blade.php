@@ -15,7 +15,7 @@
                         <div class=" col">
 							<a href="{{ url('admin/service_category/create') }}" class="btn btn-info float-right veiwbutton"><i class="fa fa-plus" aria-hidden="true"></i> Add Service Category</a>
                         </div>
-                     
+
                   </div>
                </div>
 			   <hr>
@@ -29,7 +29,7 @@
                         <span>Export in Excel</span>
                         </a>
                      </div>
-                      
+
 						 <div class="col-md-3">
 							<div class="form-group mb-0">
 							   <input type="text" class="form-control form-control-sm h-35" id="search" name="search" placeholder="Search...">
@@ -46,7 +46,7 @@
 							 Refresh
 							</a>
 						 </div>
-					 
+
                   </form>
                   <hr>
                   <div class="card shadow-0">
@@ -84,22 +84,22 @@
 													<td>{{ convert_datetime_to_date_format($value->created_at, 'd M Y') }}</td>
 													<td class="text-right">
 													<a class="btn btn-primary" href="{{ route('admin.service_category.edit',$value->id) }}">Edit</a>
-													 <a onclick="return confirm('Are you sure, you want to delete this?')" href="{{route('admin.service_category.delete',$value->id)}}" class="btn btn-danger">Delete</a>
-														
+													 {{-- <a onclick="return confirm('Are you sure, you want to delete this?')" href="{{route('admin.service_category.delete',$value->id)}}" class="btn btn-danger">Delete</a> --}}
+
 													</td>
 												</tr>
 											@endforeach
-									
+
                                         </tbody>
                                     </table>
                         </div>
-						
+
 						<div class="aiz-pagination mt-3 w-100">
 							<div class="pagination">
 									{{ $pages->appends(request()->input())->links() }}
 							</div>
 						</div>
-							
+
 						<!-- <div class="aiz-pagination mt-3 w-100">
 							<div class="row justify-content-between">
 								<div class="col-sm-12 col-md-5">
@@ -120,8 +120,8 @@
 							</div>
                         </div>-->
                      </div>
-					  
-					 
+
+
                   </div>
                   <div>
                   </div>
@@ -129,7 +129,7 @@
                @include('admin.include.topfoot')
             </div>
          </div>
-		 
- 
+
+
 @endsection
 

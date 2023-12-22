@@ -13,13 +13,15 @@ class FrontEngRepository implements FrontEngRepositoryInterface
         return User::find($user_id);
     }
 
-    public function getProfile( $user_id){
-        return User::where('users.status' ,1)->where('users.id', $user_id)
-        ->join('countries', 'countries.id', '=', 'users.country')
-        ->join('states', 'states.id', '=', 'users.state')
-        ->join('cities', 'cities.id', '=', 'users.city')
-        ->select(['users.*', 'countries.name as countryName', 'states.name as stateName', 'cities.name as cityName'])
-        ->first();
+    public function getProfile( $engineer_id){
+        // return User::where('users.status' ,1)->where('users.id', $engineer_id)
+        // ->join('countries', 'countries.id', '=', 'users.country')
+        // ->join('states', 'states.id', '=', 'users.state')
+        // ->join('cities', 'cities.id', '=', 'users.city')
+        // ->select(['users.*', 'countries.name as countryName', 'states.name as stateName', 'cities.name as cityName'])
+        // ->first();
+
+        return User::where('status' ,1)->where('id', $engineer_id)->first();
     }
 
     public function updateProfileDetails($data, $user_id){

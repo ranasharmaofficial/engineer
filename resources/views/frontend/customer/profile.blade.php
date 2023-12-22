@@ -59,7 +59,7 @@
                                 </tr>
                                 <tr>
                                     <td class="fw-bold ps-3">Email / User Name</td>
-                                    <td>{{ $profile->email }}</td>
+                                    <td>	</td>
                                 </tr>
 
                                 <tr>

@@ -23,16 +23,13 @@ class CustomerController extends Controller
     {
         $user_id = Session('LoggedCustomer')->user_id;
         $countUpcomingService = OrderDetail::where('user_id', $user_id)->where('status', 6)->count();
-
         $datas = [
             'countUpcomingService' => OrderDetail::where('user_id', $user_id)->where('status', 6)->count(),
             'inProgressService' => OrderDetail::where('user_id', $user_id)->where('status', 2)->count(),
             'completedService' => OrderDetail::where('user_id', $user_id)->where('status', 3)->count(),
             'totalService' => OrderDetail::where('user_id', $user_id)->count(),
-
             'UpcomingServiceList' => OrderDetail::where('user_id', $user_id)->where('status', 6)->get(),
             'ongoingServiceList' => OrderDetail::where('user_id', $user_id)->where('status', 2)->get(),
-
         ];
         return view('frontend.customer.customer-dashboard', $datas);
     }

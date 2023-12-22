@@ -1,11 +1,7 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary logins bg-dark2 py-4" style="background: #0c112a !important;">
-  <div class="container">
-    <a class="navbar-brand" href="index.php">
-      <img src="{{ static_asset('assets/assets_web/img/header-logo.png')}}" class="" alt="" height="35px" width="100%">
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+  <div class="container">	
+    <a class="navbar-brand" href="{{ url('') }}">		<img src="{{ static_asset('assets/assets_web/img/header-logo.png')}}" class="" alt="" height="35px" width="100%">	</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">		<span class="navbar-toggler-icon"></span>	</button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         <li class="nav-item dropdown">
@@ -23,17 +19,17 @@
           </a>
           <ul class="dropdown-menu">
             <li>
-              <a class="dropdown-item" href="engineer-dashboard.php">
+              <a class="dropdown-item" href="{{ url('engineer/engineer-dashboard') }}">
                 <i class="fa fa-home pe-2" aria-hidden="true"></i> My Dashboard
               </a>
             </li>
             <li>
-              <a class="dropdown-item" href="engineer-profile-edit.php">
+              <a class="dropdown-item" href="{{ url('engineer/edit-profile') }}">
                 <i class="fa fa-pencil-square-o pe-2" aria-hidden="true"></i> Edit Profile
               </a>
             </li>
             <li>
-              <a class="dropdown-item" href="engineer-change-password.php">
+              <a class="dropdown-item" href="{{ url('engineer/change-password') }}">
                 <i class="fa fa-key pe-2" aria-hidden="true"></i> Change Password
               </a>
             </li>
