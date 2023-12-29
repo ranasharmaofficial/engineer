@@ -29,6 +29,10 @@ use App\Http\Controllers\Admin\PartnerController;
 use App\Http\Controllers\Admin\ServiceOrderController;
 use App\Http\Controllers\Admin\EngineerController;
 use App\Http\Controllers\Admin\MasterDesignationController;
+use App\Http\Controllers\Admin\UserTypeController;
+use App\Http\Controllers\Admin\ClientController;
+use App\Http\Controllers\Admin\FeedbackController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -59,6 +63,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['AdminAuthCheck'], 'as' => '
     Route::get('/dashboard', [AdminController::class, 'adminDashboard'])->name('dashboard');
     Route::get('/reset-password', [AdminController::class, 'resetPassword'])->name('resetPassword');
     Route::post('/updateAdminPassword', [AdminController::class, 'updateAdminPassword'])->name('updateAdminPassword');
+
+
+    Route::resource('/usertypes', UserTypeController::class);
+    Route::post('/get_usertypes_details', [UserTypeController::class, 'get_usertypes_details'])->name('get_usertypes_details');
+    Route::post('/update_usertypes', [UserTypeController::class, 'update_usertypes'])->name('update_usertypes');
+
 
     Route::resource('/designation', DesignationController::class);
 
@@ -136,6 +146,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['AdminAuthCheck'], 'as' => '
     Route::get('/service_sub_category/{id}/edit', [ServiceController::class, 'ServiceSubCategoryEdit'])->name('service_sub_category.edit');
     Route::put('/service_sub_category/update/{id}', [ServiceController::class, 'ServiceSubCategoryUpdate'])->name('service_sub_category.update');
     Route::get('/service_sub_category/delete/{id}', [ServiceController::class, 'deleteServiceSubCategory'])->name('service_sub_category.deleteServiceSubCategory');
+    Route::post('/admin/get-service-list', [ServiceController::class, 'getServiceList'])->name('getServiceList');
+    Route::post('/admin/get-engineer-list', [ServiceController::class, 'getEngineerList'])->name('getEngineerList');
+
+
 
     Route::get('/service', [ServiceController::class, 'serviceList'])->name('service.index');
     Route::get('/service/create', [ServiceController::class, 'serviceCreate'])->name('service.index');
@@ -232,8 +246,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['AdminAuthCheck'], 'as' => '
     Route::get('/faqs/delete/{id}', [FaqController::class, 'delete'])->name('faqs.delete');
 
     Route::resource('/staffs', StaffController::class);
+    Route::post('/staffs/addStaffRegister', [StaffController::class, 'addStaffRegister'])->name('addStaffRegister');
 
-    Route::resource('/master-designation', MasterDesignationController::class);
+    Route::get('/staffs/customer/customer-list', [StaffController::class, 'customerList'])->name('customerList');
+    Route::get('/user/change_status', [StaffController::class, 'changeStatus'])->name('customer.change_status');
+
+
+    Route::resource('/masterdesignation', MasterDesignationController::class);
 
     /** Route For solutions Page */
     Route::resource('/solutions', SolutionController::class);
@@ -299,7 +318,16 @@ Route::group(['prefix' => 'admin', 'middleware' => ['AdminAuthCheck'], 'as' => '
 
         /** Route For  Service Order */
     Route::resource('/service-order', ServiceOrderController::class);
-    Route::get('/service-pending', [ServiceOrderController::class, 'pendingserviceIndex'])->name('service-pending.index');
+    Route::get('/order/order_details', [ServiceOrderController::class, 'order_details'])->name('order.order_details');
+    Route::get('/order/pending-order', [ServiceOrderController::class, 'pendingOrder'])->name('order.pendingOrder');
+    Route::get('/order/ongoing-order', [ServiceOrderController::class, 'ongoingOrder'])->name('order.ongoingOrder');
+    Route::get('/order/completed-order', [ServiceOrderController::class, 'completedOrder'])->name('order.completedOrder');
+    Route::get('/order/declined-order', [ServiceOrderController::class, 'declinedOrder'])->name('order.declinedOrder');
+    Route::get('/order/cancelled-order', [ServiceOrderController::class, 'cancelledOrder'])->name('order.cancelledOrder');
+
+    Route::get('/order/order_status', [ServiceOrderController::class, 'updateOrderStatus'])->name('updateOrderStatus');
+    Route::get('/order/payment_status', [ServiceOrderController::class, 'updatePaymentStatus'])->name('updatePaymentStatus');
+    Route::get('/order/order-view/{id}', [ServiceOrderController::class, 'viewOrderDetails'])->name('viewOrderDetails');
 
     Route::post('assignServicetoEngineer', [ServiceOrderController::class, 'assignServicetoEngineer'])->name('assignServicetoEngineer');
 
@@ -314,9 +342,27 @@ Route::group(['prefix' => 'admin', 'middleware' => ['AdminAuthCheck'], 'as' => '
     Route::get('/engineer/change_status', [EngineerController::class, 'changeStatus'])->name('users.change_status');
     Route::get('/engineer/engineer_details', [EngineerController::class, 'engineer_details'])->name('users.engineer_details');
     Route::get('/engineer/edit-engineer/{id}', [EngineerController::class, 'editEngineer'])->name('editEngineer');
+    Route::get('/engineer/add-working-hour/{id}', [EngineerController::class, 'addWorkingHour'])->name('addWorkingHour');
     Route::post('/admin/updateEmploymentStatus', [EngineerController::class, 'updateEmploymentStatus'])->name('updateEmploymentStatus');
     Route::post('/admin/updateEmployeeDetails', [EngineerController::class, 'updateEmployeeDetails'])->name('updateEmployeeDetails');
     Route::post('/admin/addEmployeeDetails', [EngineerController::class, 'addEmployeeDetails'])->name('addEmployeeDetails');
+    Route::post('/admin/addEngineerWorkingHour', [EngineerController::class, 'addEngineerWorkingHour'])->name('addEngineerWorkingHour');
+    Route::post('/admin/saveCerifiedEngineer', [EngineerController::class, 'saveCerifiedEngineer'])->name('saveCerifiedEngineer');
+    Route::post('/admin/updateCerifiedEngineer', [EngineerController::class, 'updateCerifiedEngineer'])->name('updateCerifiedEngineer');
+
+    Route::get('/engineer/working-hour-list', [EngineerController::class, 'workingHourList'])->name('workingHourList');
+    Route::get('/engineer/certified-engineer', [EngineerController::class, 'certifiedEngineer'])->name('certifiedEngineer');
+    Route::get('/engineer/certified-engineer/add', [EngineerController::class, 'addCertifiedEngineer'])->name('addCertifiedEngineer');
+    Route::get('/engineer/edit-certified-engineer/{id}', [EngineerController::class, 'editCertifiedEngineer'])->name('editCertifiedEngineer');
+    Route::get('/engineer/delete-certified-engineer/{id}', [EngineerController::class, 'deleteCertifiedEngineer'])->name('deleteCertifiedEngineer');
+
+    Route::resource('/client', ClientController::class);
+    Route::post('/admin/saveClient', [ClientController::class, 'saveClient'])->name('saveClient');
+    Route::post('/admin/updateClient', [ClientController::class, 'updateClient'])->name('updateClient');
+    Route::get('/client/delete-client/{id}', [ClientController::class, 'deleteClient'])->name('deleteClient');
+
+    Route::get('/feedback/customer-feedback', [FeedbackController::class, 'customerFeedback'])->name('customerFeedback');
+    Route::get('/feedback/approve_status', [FeedbackController::class, 'approveStatus'])->name('users.approve_status');
 
 
     Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');

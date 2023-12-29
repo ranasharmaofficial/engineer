@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Repositories\Interfaces\ServiceRepositoryInterface;
 use App\Models\ServiceSubCategory;
 use App\Models\ServiceSection;
+use App\Models\Service;
+use App\Models\EngineerSkill;
 
 class ServiceController extends Controller
 {
@@ -124,7 +126,7 @@ class ServiceController extends Controller
     public function ServiceSubCategoryStore(Request $request){
         // dd($request->all());
         $data = $request->validate([
-            'name' => 'required|string|max:300|unique:service_subcategories,name',
+            'name' => 'required|string|max:300|unique:service_sub_categories,name',
             'category_id' => 'required',
             'page_url' => 'nullable',
             'status' => 'required',
@@ -442,4 +444,25 @@ class ServiceController extends Controller
             return redirect()->route('admin.servicesection_data.index')->with(session()->flash('alert-danger', 'Data Deleted Successfully'));
         }
     /** Section Data CRUD End */
+
+    public function getServiceList(Request $request){
+        $data['serviceList'] = Service::where("subcategory_id",$request->subcategory_id)
+                    ->get(["name","id"]);
+        return response()->json($data);
+    }
+
+    public function getEngineerList(Request $request){
+        // dd($request->all());
+        $data['engineerList'] = EngineerSkill::where("primary_skills1",$request->subcategory_id)
+                ->where("primary_subskills1",$request->service_id)
+                ->leftJoin('users as u', 'u.id', '=', 'engineer_skills.user_id')
+                ->select('engineer_skills.*', 'u.first_name', 'u.last_name', 'u.id',)
+                ->get();
+
+        return response()->json($data);
+    }
+
+
+
+
 }

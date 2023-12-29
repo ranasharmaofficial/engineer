@@ -126,45 +126,51 @@
                            <div class="row">
                               <div class="col-md-6">
                                  <label for="first_name">First Name</label>
-                                 <input name="first_name" id="first_name" type="text"  placeholder="Please enter your first name" class="form-control ng-untouched ng-pristine ng-valid">
+                                 <input name="first_name" id="first_name" value="{{ $profile->first_name }}" type="text"  placeholder="Please enter your first name" class="form-control ng-untouched ng-pristine ng-valid">
                               </div>
                               <div class="col-md-6">
                                  <label for="last_name">Last Name</label>
-                                 <input name="last_name" id="last_name" type="text" placeholder="Please enter your last name" class="form-control ng-untouched ng-pristine ng-valid">
+                                 <input name="last_name" id="last_name" value="{{ $profile->last_name }}" type="text" placeholder="Please enter your last name" class="form-control ng-untouched ng-pristine ng-valid">
                               </div>
                               <div class="col-md-6">
                                  <label for="eng_phone_number">Mobile</label>
-                                 <input name="eng_phone_number" id="eng_phone_number" type="number" placeholder="Please enter your phone number" class="form-control">
+                                 <input name="eng_phone_number" id="eng_phone_number" readonly value="{{ $profile->mobile }}" type="number" placeholder="Please enter your phone number" class="form-control">
                               </div>
                               <div class="col-md-6">
-                                 <label for="eng_email">Email/Username</label>
-                                 <input name="eng_email" id="eng_email" type="email" placeholder="Please enter your email." class="form-control ng-untouched ng-pristine ng-valid">
+                                 <label for="eng_email">Email</label>
+                                 <input name="eng_email" id="eng_email" value="{{ $profile->email }}" type="email" placeholder="Please enter your email." class="form-control ng-untouched ng-pristine ng-valid">
                               </div>
+							  
+							  <div class="col-md-6">
+                                 <label for="eng_email">Username</label>
+                                 <input id="eng_email" value="{{ $profile->username }}" readonly type="email" placeholder="Please enter your email." class="form-control ng-untouched ng-pristine ng-valid">
+                              </div>
+							  
+							  
                               <div class="col-md-6">
                                  <label for="dob">Date of Birth</label>
-                                 <input name="dob" id="dob" type="date" placeholder="Please enter your DOB" class="form-control ng-untouched ng-pristine ng-valid"> 
+                                 <input name="dob" id="dob" value="{{ $profile->dob }}" type="date" placeholder="Please enter your DOB" class="form-control ng-untouched ng-pristine ng-valid"> 
                               </div>
 
                               <div class="col-md-6">
                                  <label for="eng_aadhar_number">Aadhar Number</label>
-                                 <input name="eng_aadhar_number" id="eng_aadhar_number" type="number" placeholder="Please enter your Aadhar number" class="form-control">
+                                 <input name="eng_aadhar_number" value="{{ $profile->aadhar }}" id="eng_aadhar_number" type="number" placeholder="Please enter your Aadhar number" class="form-control">
                               </div>
-                              <div class="col-md-6">
+                                <div class="col-md-6">
                                  <label for="eng_phone_number">Gender</label>
                                  <select name="gender" class="select form-control ">
                                     <option value="">Select Gender</option>
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
+                                    <option @if($profile->gender=='Male') selected @endif value="Male">Male</option>
+                                    <option @if($profile->gender=='Female') selected @endif value="Female">Female</option>
                                  </select>
-
-								</div>
+							    </div>
 								
 								<div class="col-md-6">
 									<label for="eng_city_id">Country:</label>
 									<select name="country" id="country_id" class="form-control">
 										<option value="">Select Country</option>
 										@foreach(getCountryList() as $item)
-											<option value="{{ $item->id }}"> {{ $item->name }} </option>
+											<option  @if($profile->country==$item->id) selected @endif value="{{ $item->id }}"> {{ $item->name }} </option>
 										@endforeach
 									</select>
 								</div>
@@ -174,16 +180,23 @@
 									<label for="eng_city_id">State:</label>
 									<select name="state" id="state_id" class="form-control">
 										<option value="">Select State</option>
-										@foreach(getCountryList() as $item)
-											<option value="{{ $item->id }}"> {{ $item->name }} </option>
+										@foreach(getStateList() as $item)
+											<option @if($profile->state==$item->id) selected @endif value="{{ $item->id }}"> {{ $item->name }} </option>
 										@endforeach
 									</select>
 								</div>
+								
+								@php
+									$city_list = \App\Models\City::where('state_id', $profile->state)->get();
+								@endphp
 								 
 								  <div class="col-md-6">
 									<label for="eng_state_id">City:</label>
                                  <select name="city" id="city-dropdown" class="form-control">
                                     <option value="">Select City</option>
+										@foreach($city_list as $item)
+											<option @if($profile->city==$item->id) selected @endif value="{{ $item->id }}"> {{ $item->name }} </option>
+										@endforeach
                                  </select>
 								 </div>
 							  
@@ -195,14 +208,14 @@
 							  
                               <div class="col-md-6">
                                  <label for="eng_address">Address:</label>
-                                 <textarea rows="5" placeholder="Please enter your Address" name="address" class="form-control" id="eng_address"></textarea>
+                                 <textarea rows="5" placeholder="Please enter your Address" name="address" class="form-control" id="eng_address">{{ $profile->address }}</textarea>
                               </div>
 
                               
 
                               <div class="col-md-6">
                                  <label for="eng_zipno">Zipcode:</label>
-                                 <input name="pincode" id="eng_zipno" type="text" placeholder="Please enter zipcode" class="form-control">
+                                 <input name="pincode" value="{{ $profile->pincode }}" id="eng_zipno" type="text" placeholder="Please enter zipcode" class="form-control">
                               </div>
 
                               <!-- <div class="col-md-6">
@@ -214,12 +227,11 @@
                               <div class="col-md-6">
                                  <label for="add_proof">Address Proof</label>
                                  <select class="select form-control" name="address_proof" id="add_proof">
-                                    <option>Select Address Proof</option>
-                                    <option value="adhar">Aadhar Card</option>
-                                    <option value="votor">Votor ID</option>
-                                    <option value="pan_card">Pan Card</option>
-                                    <option value="dl">Driving License</option>
-                                    <option value="passport">Passport</option>
+                                    <option @if($profile->address_proof=='aadhar') selected @endif value="aadhar">Aadhar Card</option>
+                                    <option @if($profile->address_proof=='voter') selected @endif value="voter">Voter ID</option>
+                                    <option @if($profile->address_proof=='pan_card') selected @endif value="pan_card">Pan Card</option>
+                                    <option @if($profile->address_proof=='dl') selected @endif value="dl">Driving License</option>
+                                    <option @if($profile->address_proof=='passport') selected @endif value="passport">Passport</option>
                                  </select>
                               </div>
 
@@ -244,43 +256,42 @@
                            <div class="row m-2 p-3 border border-1 border-info rounded-3">
                               <div class="col-sm-12">
                                  <label for="eng_graduation">Graduation</label>
-                                 <input name="eng_graduation" id="eng_graduation" type="text" placeholder="Please enter Honor's subject name" class="form-control ng-untouched ng-pristine ng-valid">
+                                 <input name="eng_graduation" value="{{ $profile->eng_graduation }}" id="eng_graduation" type="text" placeholder="Please enter Honor's subject name" class="form-control ng-untouched ng-pristine ng-valid">
                               </div>
                               <div class="col-sm-12">
                                  <label for="eng_study">Field of Study</label>
-                                 <input name="graduation_field_of_study" id="eng_study" type="text" placeholder="Please enter Study Field name" class="form-control ng-untouched ng-pristine ng-valid">
+                                 <input name="graduation_field_of_study" value="{{ $profile->eng_graduation }}" id="eng_study" type="text" placeholder="Please enter Study Field name" class="form-control ng-untouched ng-pristine ng-valid">
                               </div>
                               <div class="col-md-6">
                                  <label for="eng_start_date">Start Date</label>
-                                 <input name="graduation_start_date" id="eng_start_date" type="date" placeholder="Please Enter Your Start Date" class="form-control ng-untouched ng-pristine ng-valid">
+                                 <input name="graduation_start_date" value="{{ $profile->graduation_start_date }}" id="eng_start_date" type="date" placeholder="Please Enter Your Start Date" class="form-control ng-untouched ng-pristine ng-valid">
                               </div>
                               <div class="col-md-6">
                                  <label for="eng_end_date">End Date</label>
-                                 <input name="engraduation_end_date" id="eng_end_date" type="date" placeholder="Please Enter Your End Date"                                     class="form-control ng-untouched ng-pristine ng-valid">
+                                 <input name="engraduation_end_date" value="{{ $profile->engraduation_end_date }}" id="eng_end_date" type="date" placeholder="Please Enter Your End Date"                                     class="form-control ng-untouched ng-pristine ng-valid">
                               </div>
                               <div class="col-sm-12">
                                  <label for="upload_support_doc">Upload Supporting Document</label>
-                                 <input type="file" name="graduation_support_doc" id="upload_support_doc"
-                                    class="form-control">
+                                 <input type="file" name="graduation_support_doc" id="upload_support_doc" class="form-control">
                               </div>
                            </div>
 
                            <div class="row m-2 p-3 border border-1 border-info rounded-3">
                               <div class="col-sm-12">
                                  <label for="eng_pgraduation">Post Graduation</label>
-                                 <input name="pos_pgraduation" id="eng_pgraduation" type="text" placeholder="Please enter Honor's subject name" class="form-control ng-untouched ng-pristine ng-valid">
+                                 <input name="pos_pgraduation" value="{{ $profile->pos_pgraduation }}" id="eng_pgraduation" type="text" placeholder="Please enter Honor's subject name" class="form-control ng-untouched ng-pristine ng-valid">
                               </div>
                               <div class="col-sm-12">
                                  <label for="eng_pstudy">Field of Study</label>
-                                 <input name="pos_field_of_study" id="eng_pstudy" type="text" placeholder="Please enter Study Field name" class="form-control ng-untouched ng-pristine ng-valid">
+                                 <input name="pos_field_of_study" value="{{ $profile->pos_field_of_study }}" id="eng_pstudy" type="text" placeholder="Please enter Study Field name" class="form-control ng-untouched ng-pristine ng-valid">
                               </div>
                               <div class="col-md-6">
                                  <label for="eng_start_date">Start Date</label>
-                                 <input name="pos_start_date" id="eng_start_date" type="date" placeholder="Please Enter Your Start Date" class="form-control ng-untouched ng-pristine ng-valid">
+                                 <input name="pos_start_date" value="{{ $profile->pos_start_date }}" id="eng_start_date" type="date" placeholder="Please Enter Your Start Date" class="form-control ng-untouched ng-pristine ng-valid">
                               </div>
                               <div class="col-md-6">
                                  <label for="eng_end_date">End Date</label>
-                                 <input name="pos_end_date" id="eng_end_date" type="date" placeholder="Please Enter Your End Date" class="form-control ng-untouched ng-pristine ng-valid">
+                                 <input name="pos_end_date" value="{{ $profile->pos_end_date }}" id="eng_end_date" type="date" placeholder="Please Enter Your End Date" class="form-control ng-untouched ng-pristine ng-valid">
                               </div>
                               <div class="col-sm-12">
                                  <label for="upload_support_doc">Upload Supporting Document</label>
@@ -302,31 +313,30 @@
                            <div class="row m-2 p-3 border border-1 border-info rounded-3">
                               <h4 class="text-info">Primary Skills</h4>
                               <div class="col-md-5">
-                                 <label for="eng_skill">Skills</label>
-                                 <select name="primary_skills1" class="select form-control" id="eng_skill">
+                                 <label for="subcategory_id">Skills</label>
+                                 <select name="primary_skills1" class="select form-control" id="primary_skills1">
                                     <option>Select Skills</option>
-                                    <option value="remote_device">Device Remote Access Support</option>
-                                    <option value="">Preventive Maintenance</option>
-                                    <option value="">Site Survey</option>
-                                    <option value="">Rack Mounting</option>
-                                    <option value="OS">Operating System</option>
-                                    <option value="DB">Data Base</option>
-                                    <option value="">Virtualization</option>
-                                    <option value="">Cabling & Connectivity</option>
-                                    <option value="">Others</option>
+                                    @if(count($service_subcategory_list)>0)
+										@foreach ($service_subcategory_list as $key => $item)
+											<option @if($profile->primary_skills1==$item->id) selected @endif value="{{ $item->id }}"> {{ $item->name }}</option>
+										@endforeach
+									@endif
                                  </select>
                               </div>
                               <div class="col-md-5">
                                  <label for="eng_sub_skill">Sub Skills</label>
-                                 <select name="primary_subskills1" class="select form-control" id="eng_sub_skill">
-                                    <option>Select Sub Skills</option>
-                                    <option value="server">Server</option>
-                                    <option value="storage">Storage</option>
+                                 <select name="primary_subskills1" class="select form-control" id="primary_subskills1">
+                                   @if(count(getServiceList())>0)
+										@foreach (getServiceList() as $key => $item)
+											<option @if($profile->primary_subskills1==$item->id) selected @endif value="{{ $item->id }}"> {{ $item->name }}</option>
+										@endforeach
+									@endif
+                                     
                                  </select>
                               </div>
                               <div class="col-md-2">
                                  <label for="eng_exp">Yrs of Exps</label>
-                                 <input name="primary_skill_exp1" id="eng_exp" type="text" placeholder="Exp"
+                                 <input value="{{ $profile->primary_skill_exp1 }}" name="primary_skill_exp1" id="eng_exp" type="text" placeholder="Exp"
                                     class="form-control ng-untouched ng-pristine ng-valid">
                               </div>
                               <div class="col-sm-12">
@@ -337,30 +347,29 @@
                            <div class="row m-2 p-3 border border-1 border-info rounded-3">
                               <div class="col-md-5">
                                  <label for="eng_skill">Skills</label>
-                                 <select name="primary_skills2" class="select form-control" id="eng_skill">
+                                 <select name="primary_skills2" class="select form-control" id="primary_skills2">
                                     <option>Select Skills</option>
-                                    <option value="remote_device">Device Remote Access Support</option>
-                                    <option value="">Preventive Maintenance</option>
-                                    <option value="">Site Survey</option>
-                                    <option value="">Rack Mounting</option>
-                                    <option value="OS">Operating System</option>
-                                    <option value="DB">Data Base</option>
-                                    <option value="">Virtualization</option>
-                                    <option value="">Cabling & Connectivity</option>
-                                    <option value="">Others</option>
+                                    @if(count($service_subcategory_list)>0)
+										@foreach ($service_subcategory_list as $key => $item)
+											<option @if($profile->primary_skills2==$item->id) selected @endif value="{{ $item->id }}"> {{ $item->name }}</option>
+										@endforeach
+									@endif
                                  </select>
                               </div>
                               <div class="col-md-5">
                                  <label for="eng_sub_skill">Sub Skills</label>
-                                 <select name="primary_subskills2" class="select form-control" id="eng_sub_skill">
+                                 <select name="primary_subskills2" class="select form-control" id="primary_subskills2">
                                     <option>Select Sub Skills</option>
-                                    <option value="server">Server</option>
-                                    <option value="storage">Storage</option>
+                                     @if(count(getServiceList())>0)
+										@foreach (getServiceList() as $key => $item)
+											<option @if($profile->primary_subskills2==$item->id) selected @endif value="{{ $item->id }}"> {{ $item->name }}</option>
+										@endforeach
+									@endif
                                  </select>
                               </div>
                               <div class="col-md-2">
                                  <label for="eng_exp">Yrs of Exps</label>
-                                 <input name="primary_skill_exp2" id="eng_exp" type="text" placeholder="Exp" class="form-control ng-untouched ng-pristine ng-valid">
+                                 <input name="primary_skill_exp2" value="{{ $profile->primary_skill_exp2 }}" id="eng_exp" type="text" placeholder="Exp" class="form-control ng-untouched ng-pristine ng-valid">
                               </div>
                               <div class="col-sm-12">
                                  <label for="upload_certification">Upload Certification</label>
@@ -372,11 +381,11 @@
                               <h4 class="text-info">Secondary Skills</h4>
                               <div class="col-md-6">
                                  <label for="eng_sec_skill">Please Enter Secondary Skills</label>
-                                 <input name="secondary_skill" id="eng_sec_skill" type="text" placeholder="Please Enter Secondary Skills" class="form-control ng-untouched ng-pristine ng-valid">
+                                 <input name="secondary_skill" value="{{ $profile->secondary_skill }}" id="eng_sec_skill" type="text" placeholder="Please Enter Secondary Skills" class="form-control ng-untouched ng-pristine ng-valid">
                               </div>
                               <div class="col-md-6">
                                  <label for="eng_exp">Years of Experience</label>
-                                 <input name="secondary_skill_exp" id="eng_exp" type="text" placeholder="Please Enter Experience" class="form-control ng-untouched ng-pristine ng-valid">
+                                 <input name="secondary_skill_exp" value="{{ $profile->secondary_skill_exp }}" id="eng_exp" type="text" placeholder="Please Enter Experience" class="form-control ng-untouched ng-pristine ng-valid">
                               </div>
                               <div class="col-sm-12">
                                  <label for="upload_certification">Upload Certification</label>
@@ -388,23 +397,23 @@
                               <h4 class="text-info">Organization</h4>
                               <div class="col-sm-12">
                                  <label for="eng_org_exp">Organization Experience</label>
-                                 <input name="organization_exp" id="eng_org_exp" type="text" placeholder="Please Enter Your Organization Experience" class="form-control ng-untouched ng-pristine ng-valid">
+                                 <input name="organization_exp" value="{{ $profile->organization_exp }}" id="eng_org_exp" type="text" placeholder="Please Enter Your Organization Experience" class="form-control ng-untouched ng-pristine ng-valid">
                               </div>
                               <div class="col-sm-12">
                                  <label for="eng_prev_org_name">Organization Name</label>
-                                 <input name="organization_name" id="eng_prev_org_name" type="text" placeholder="Please Enter Your Previous Organization Name" class="form-control ng-untouched ng-pristine ng-valid">
+                                 <input name="organization_name" value="{{ $profile->organization_name }}" id="eng_prev_org_name" type="text" placeholder="Please Enter Your Previous Organization Name" class="form-control ng-untouched ng-pristine ng-valid">
                               </div>
                               <div class="col-sm-12">
                                  <label for="eng_prev_org_desgn">Designation</label>
-                                 <input name="organization_designation" id="eng_prev_org_desgn" type="text"  placeholder="Please Enter Your Previous Organization Designation" class="form-control ng-untouched ng-pristine ng-valid">
+                                 <input name="organization_designation" value="{{ $profile->organization_designation }}" id="eng_prev_org_desgn" type="text"  placeholder="Please Enter Your Previous Organization Designation" class="form-control ng-untouched ng-pristine ng-valid">
                               </div>
                               <div class="col-md-6">
                                  <label for="eng_wstart_date">Start Date</label>
-                                 <input name="organization_start_date" id="eng_wstart_date" type="date" placeholder="Please Enter Secondary Skills" class="form-control ng-untouched ng-pristine ng-valid">
+                                 <input name="organization_start_date" value="{{ $profile->organization_start_date }}" id="eng_wstart_date" type="date" placeholder="Please Enter Secondary Skills" class="form-control ng-untouched ng-pristine ng-valid">
                               </div>
                               <div class="col-md-6">
                                  <label for="eng_exp">End Date</label>
-                                 <input name="organization_end_date" id="eng_exp" type="date" placeholder="Please Enter Experience" class="form-control ng-untouched ng-pristine ng-valid">
+                                 <input name="organization_end_date" value="{{ $profile->organization_end_date }}"  id="eng_exp" type="date" placeholder="Please Enter Experience" class="form-control ng-untouched ng-pristine ng-valid">
                               </div>
                               <div class="col-sm-12">
                                  <label for="upload_certification">Upload Certification</label>
@@ -577,5 +586,49 @@ $(document).on('click','.update-profile-pic',function(e) {
             $(".skills").removeClass("active");
          })
       })
+	  
+	  	$('#primary_skills1').on('change', function() {
+            var primary_skills1 = this.value;
+           $("#primary_subskills1").html('');
+            $.ajax({
+                url: "{{ route('engineer.getServiceList') }}",
+                type: "POST",
+                data: {
+                    subcategory_id: primary_skills1,
+                    _token: '{{ csrf_token() }}'
+                },
+                dataType: 'json',
+                success: function(result) {
+                    $('#primary_subskills1').html('<option value="">Select Sub Skill</option>');
+                    $.each(result.serviceList, function(key, value) {
+                        $("#primary_subskills1").append('<option value="' + value.id + '">' + value.name + '</option>');
+                    });
+                    // $('#city-dropdown').html('<option value="">Select Subcategory</option>');
+                }
+            });
+        });
+		
+		$('#primary_skills2').on('change', function() {
+            var primary_skills2 = this.value;
+           $("#primary_subskills2").html('');
+            $.ajax({
+                url: "{{ route('engineer.getServiceList') }}",
+                type: "POST",
+                data: {
+                    subcategory_id: primary_skills2,
+                    _token: '{{ csrf_token() }}'
+                },
+                dataType: 'json',
+                success: function(result) {
+                    $('#primary_subskills2').html('<option value="">Select Sub Skill</option>');
+                    $.each(result.serviceList, function(key, value) {
+                        $("#primary_subskills2").append('<option value="' + value.id + '">' + value.name + '</option>');
+                    });
+                    //$('#city-dropdown').html('<option value="">Select Subcategory</option>');
+                }
+            });
+        });
+		
+		
    </script> 
 @endsection

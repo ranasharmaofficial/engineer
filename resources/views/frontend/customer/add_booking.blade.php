@@ -56,7 +56,7 @@
 
                                         <div class="col-md-6 text-md-start aos aos-init aos-animate" data-aos="fade-up">
 
-                                  ServiceSubCategory"{{ route('customer.index_booking') }}" class="btn btn-pink btn-viewall">
+                                  <a href="{{ route('customer.index_booking') }}" class="btn btn-pink btn-viewall">
 
                                                 <i class="bi bi-arrow-left-circle"></i> Back
 
@@ -415,7 +415,7 @@
 
 
 					@endif
-ServiceSubCategory
+
                     </div>
 
 

@@ -51,6 +51,14 @@ use App\Repositories\Interfaces\EngineerRepositoryInterface;
 use App\Repositories\EngineerRepository;
 use App\Repositories\Interfaces\MasterDesignationRepositoryInterface;
 use App\Repositories\MasterDesignationRepository;
+use App\Repositories\Interfaces\UserTypeRepositoryInterface;
+use App\Repositories\UserTypeRepository;
+use App\Repositories\Interfaces\ClientRepositoryInterface;
+use App\Repositories\ClientRepository;
+use App\Repositories\Interfaces\FeedbackRepositoryInterface;
+use App\Repositories\FeedbackRepository;
+
+
 
 use App\Repositories\Interfaces\WebInterface\CommonRepositoryInterface;
 use App\Repositories\WebRepo\CommonRepository;
@@ -109,6 +117,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ServiceOrderRepositoryInterface::class, ServiceOrderRepository::class);
         $this->app->bind(EngineerRepositoryInterface::class, EngineerRepository::class);
         $this->app->bind(MasterDesignationRepositoryInterface::class, MasterDesignationRepository::class);
+        $this->app->bind(UserTypeRepositoryInterface::class, UserTypeRepository::class);
+        $this->app->bind(ClientRepositoryInterface::class, ClientRepository::class);
+        $this->app->bind(FeedbackRepositoryInterface::class, FeedbackRepository::class);
 
         /** Bind for Frontend */
         $this->app->bind(CommonRepositoryInterface::class, CommonRepository::class);

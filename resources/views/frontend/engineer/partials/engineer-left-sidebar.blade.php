@@ -48,7 +48,7 @@
 
 			<li>
 
-				<a href="working-hour.php">
+				<a href="{{ url('engineer/add-working-hour') }}">
 
 					<i class="fa fa-th-large" aria-hidden="true"></i> <span>Working Hour</span>
 

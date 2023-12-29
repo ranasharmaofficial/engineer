@@ -106,6 +106,7 @@
                 </td>
                 <td>
 				<a class="btn btn-primary p-1 mx-1" href="{{ url('admin/engineer/edit-engineer/'.$item->id) }}">Edit</a>
+				<a class="btn btn-danger p-1 mt-1" target="_blank" href="{{ url('admin/engineer/add-working-hour/'.$item->id) }}">Add Working Hour</a>
 				{{-- <form id="frm_2" class="d-flex" method="POST">
                     
                     <input type="hidden" name="_token" value="1">
@@ -116,24 +117,19 @@
               </tr> @endforeach </tbody>
           </table>
         </div>
+		
         <div class="aiz-pagination mt-3 w-100">
 			<div class="row justify-content-between">
 				<div class="col-sm-6">
-					<div class="dataTables_info fs-13 fw-bold" id="geniustable_info" role="status"
-
-						aria-live="polite">Showing {{ $engineerList->currentPage() }} to {{ $engineerList->perPage() }} of {{ $engineerList->total() }} entries</div>
-
+					<div class="dataTables_info fs-13 fw-bold" id="geniustable_info" role="status" aria-live="polite">Showing {{ $engineerList->currentPage() }} to {{ $engineerList->perPage() }} of {{ $engineerList->total() }} entries</div>
 				</div>
 
 				<div class="col-sm-6">
-
 					{{ $engineerList->appends(request()->input())->links() }}
-
 				</div>
-
 			</div>
-
 		</div>
+		
       </div>
     </div>
   </div>

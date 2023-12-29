@@ -95,20 +95,20 @@
 									</ul>
 								</div>
 								
-                              <div class="log-form pt-3">
-                                 <div class="form-group">
+                              <div class="log-form pt-3 row">
+                                 <div class="form-group col-6">
                                     <label class="col-form-label text-start d-block fs-14 fw-bold">First Name</label>
                                     <input type="text" class="form-control " id="engineer_first_name" name="engineer_first_name" placeholder="Enter First Name" autocomplete="off" data-intl-tel-input-id="0">
                                  </div>
-                                 <div class="form-group">
+                                 <div class="form-group col-6">
                                     <label class="col-form-label text-start d-block fs-14 fw-bold">Last Name</label>
                                     <input type="text" class="form-control " id="engineer_last_name" name="engineer_last_name" placeholder="Enter Last Name" autocomplete="off" data-intl-tel-input-id="0">
                                  </div>
-                                 <div class="form-group">
+                                 <div class="form-group col-6">
                                     <label class="col-form-label text-start d-block fs-14 fw-bold">Email Id</label>
                                     <div class="input-group">
                                        <input type="email" class="form-control" id="engineer_email" name="engineer_email" placeholder="Your Email" autocomplete="off" data-intl-tel-input-id="0">
-                                       <button onclick="getEngineerEmailOTP()" class="btn btn-primary rounded-pill position-absolute end-0 me-1" type="button" id="send-engineer-email-otp" style="width:100px; margin-top:0.5%;" >Send OTP</button>
+                                       {{--<button onclick="getEngineerEmailOTP()" class="btn btn-primary rounded-pill position-absolute end-0 me-1" type="button" id="send-engineer-email-otp" style="width:100px; margin-top:0.5%;" >Send OTP</button>--}}
 									    @if ($errors->has('engineer_email'))
                                       <span class="text-danger">{{ $errors->first('engineer_email') }}</span>
                                   @endif
@@ -120,7 +120,7 @@
 								</div>
 
 
-                                <div class="form-group" id="engineer_show-email-otp-input" style="display:none;">
+                                <div class="form-group col-6" id="engineer_show-email-otp-input" style="display:none;">
                                     <label class="col-form-label text-start d-block fs-14 fw-bold">Email OTP</label>
                                     <div class="input-group">
                                        <input type="text" class="form-control" name="engineer_email_otp" id="engineer_email_otp" placeholder="Type Your Email OTP Here">
@@ -135,20 +135,30 @@
 								</div>
 
 
-                                 <div class="form-group">
+                                 <div class="form-group col-6">
                                     <label class="col-form-label text-start d-block fs-14 fw-bold">Phone Number</label>
                                     <div class="input-group position-relative">
                                        <input type="number" class="form-control " id="engineer_mobile" name="engineer_mobile" placeholder="Your Phone Number" autocomplete="off" data-intl-tel-input-id="0">
-                                       <button class="btn btn-primary rounded-pill position-absolute end-0 me-1" type="button" onclick="getEngineerMobileOTP()" id="send-mobile-otp" style="width:100px; margin-top:0.5%;">Send OTP</button>
+                                       
                                     </div>
                                  </div>
+								 
+								 <div class="form-group col-12">
+                                    <button style="float:right;" class="btn btn-primary rounded-pill" type="button" onclick="getEngineerMobileOTP()" id="send-mobile-otp" style="width:100px; margin-top:0.5%;">Send OTP</button>
+                                 </div>
+								 
+								 
 
-								 <div class="form-group"  style="display: none;" id="show-engineer-mobile-otp-input">
+								 <div class="form-group col-6"  style="display: none;" id="show-engineer-mobile-otp-input">
                                     <label class="col-form-label text-start d-block fs-14 fw-bold">Enter Mobile OTP</label>
                                     <div class="input-group">
                                        <input type="text" class="form-control" id="engineer_mobile_otp" name="engineer_mobile_otp"placeholder="Type Your Mobile OTP Here">
-                                       <button class="btn btn-primary border-0 rounded-pill position-absolute end-0 me-1" onclick="checkEngineerMobileOtp()" type="button" id="mobile-otp-check-button" style="width:100px; margin-top:0.5%;">Submit OTP</button>
+                                       
                                     </div>
+                                 </div>
+								 
+								 <div class="form-group col-6"  style="display: none;" id="show-engineer-mobile-otp-submit-button">
+                                    <button class="btn btn-primary border-0 rounded-pill end-0 me-1" onclick="checkEngineerMobileOtp()" type="button" id="mobile-otp-check-button" style="width:100px; margin-top:11.5%;">Submit OTP</button>
                                  </div>
 
 								  <div class="form-group col-md-12" id="engineer_mobile-otp-verify" style="display: none;">
@@ -161,12 +171,12 @@
 								</div>
 								
 
-                                 <div class="form-group">
+                                 <div class="form-group col-6">
                                     <div class="row">
                                        <div class="col-md-6">
                                           <label class="col-form-label text-start d-block fs-14 fw-bold">Password</label>
                                        </div>
-                                       <div class="col-md-6">
+                                       <div class="col-md-12">
                                           <div class="char-length text-start">
                                              <p class="fs-13">Must be 6 Characters at Least</p>
                                           </div>
@@ -226,8 +236,8 @@
 							
 							 
 							
-                                <div class="log-form pt-3">
-                                 <div class="form-group">
+                                <div class="log-form pt-3 row">
+                                 <div class="form-group col-6">
                                     <label class="col-form-label text-start d-block fs-14 fw-bold">Company Name</label>
                                     <input type="text" class="form-control " id="compName" name="company_name"
                                        placeholder="Enter Your Company Name" autocomplete="off" data-intl-tel-input-id="0">
@@ -235,7 +245,7 @@
 										<span class="text-danger">{{ $errors->first('company_name') }}</span>
 									   @endif
                                  </div>
-                                 <div class="form-group">
+                                 <div class="form-group col-6">
                                     <label class="col-form-label text-start d-block fs-14 fw-bold">First Name</label>
                                     <input type="text" class="form-control " id="name" name="first_name"
                                        placeholder="Enter First Name" autocomplete="off" data-intl-tel-input-id="0">
@@ -243,7 +253,7 @@
                                       <span class="text-danger">{{ $errors->first('first_name') }}</span>
                                   @endif
                                  </div>
-                                 <div class="form-group">
+                                 <div class="form-group col-6">
                                     <label class="col-form-label text-start d-block fs-14 fw-bold">Last Name</label>
                                     <input type="text" class="form-control " id="name" name="last_name"
                                        placeholder="Enter Last Name" autocomplete="off" data-intl-tel-input-id="0">
@@ -251,19 +261,19 @@
                                       <span class="text-danger">{{ $errors->first('last_name') }}</span>
                                   @endif
                                  </div>
-                                 <div class="form-group">
+                                 <div class="form-group col-6">
                                     <label class="col-form-label text-start d-block fs-14 fw-bold">GST Number</label>
                                     <input type="text" class="form-control" id="gstNumber" name="gst_number"
                                        placeholder="Enter Your GST Number" autocomplete="off" data-intl-tel-input-id="0" onkeyup="var start = this.selectionStart;var end = this.selectionEnd;this.value = this.value.toUpperCase();this.setSelectionRange(start, end);">
 									   <span class="form-text text-danger" id="gst_number_error"></span>
                                  </div>
 
-								<div class="form-group">
+								<div class="form-group col-6">
                                     <label class="col-form-label text-start d-block fs-14 fw-bold">Email Id</label>
                                     <div class="input-group">
                                        <input type="email" class="form-control" id="email" name="email"
                                           placeholder="Your Email" autocomplete="off" data-intl-tel-input-id="0">
-                                       <button onclick="getEmailOTP()" class="btn btn-primary rounded-pill position-absolute end-0 me-1" type="button" id="send-email-otp" style="width:100px; margin-top:0.5%;" >Send OTP</button>
+										  {{--<button onclick="getEmailOTP()" class="btn btn-primary rounded-pill position-absolute end-0 me-1" type="button" id="send-email-otp" style="width:100px; margin-top:0.5%;" >Send OTP</button>--}}
 									    @if ($errors->has('email'))
                                       <span class="text-danger">{{ $errors->first('email') }}</span>
                                   @endif
@@ -282,6 +292,12 @@
                                        <button onclick="checkEmailOtp()" class="btn btn-primary rounded-pill position-absolute end-0 me-1" type="button" id="email-otp-check-button" style="width:100px; margin-top:0.5%;">Submit OTP</button>
                                     </div>
                                 </div>
+								
+								<div class="form-group col-md-12" id="emailtakent" style="display: none;">
+									<span class="form-text text-danger" id="emailtaken"></span>
+								</div>
+								
+								
                                 {{--
                                  <div class="row" id="email-otp-time" style="display: none;">
                                     <div class="col-6">
@@ -300,37 +316,41 @@
 								</div>
 
 
-                                 <div class="form-group">
+                                <div class="form-group col-6">
                                     <label class="col-form-label text-start d-block fs-14 fw-bold">Phone Number</label>
                                     <div class="input-group position-relative">
                                        <input type="number" class="form-control " id="mobile" name="mobile" placeholder="(+91) 9876543210" autocomplete="off" data-intl-tel-input-id="0">
-                                       <button class="btn btn-primary rounded-pill position-absolute end-0 me-1" type="button" onclick="getMobileOTP()" id="send-mobile-otp" style="width:100px; margin-top:0.5%;">Send OTP</button>
+                                       {{--<button class="btn btn-primary rounded-pill position-absolute end-0 me-1" type="button" onclick="getMobileOTP()" id="send-mobile-otp" style="width:100px; margin-top:0.5%;">Send OTP</button>--}}
                                     </div>
-                                 </div>
+                                </div>
+								
+								<div class="form-group col-12">
+									<button style="float:right;" class="btn btn-primary rounded-pill end-0 me-1" type="button" onclick="getMobileOTP()" id="send-mobile-otp" style="width:100px; margin-top:0.5%;">Send OTP</button>
+                                </div>
 
-								 <div class="form-group"  style="display: none;" id="show-mobile-otp-input">
-                                    <label class="col-form-label text-start d-block fs-14 fw-bold">Enter Mobile OTP</label>
+								 <div class="form-group col-12"  style="display: none;" id="show-mobile-otp-input">
+                                    <label class="col-form-label text-start d-block fs-14 fw-bold">Enter OTP</label>
                                     <div class="input-group">
-                                       <input type="text" class="form-control" id="mobile_otp" name="mobile_otp"placeholder="Type Your Mobile OTP Here">
+                                       <input type="text" class="form-control" id="mobile_otp" name="mobile_otp" placeholder="Type Your OTP Here">
                                        <button class="btn btn-primary border-0 rounded-pill position-absolute end-0 me-1" onclick="checkMobileOtp()" type="button" id="mobile-otp-check-button" style="width:100px; margin-top:0.5%;">Submit OTP</button>
                                     </div>
                                  </div>
 
-								  <div class="form-group col-md-12" id="mobile-otp-verify" style="display: none;">
+								<div class="form-group col-md-12" id="mobile-otp-verify" style="display: none;">
 									<span class="form-text text-success" id="mobile_otp_verify"></span>
 									<span class="form-text text-danger" id="mobile_otp_verify_error"></span>
-									</div>
+								</div>
 
 								<div class="form-group col-md-12" id="mobiletakent" style="display: none;">
 									<span class="form-text text-danger" id="mobtaken"></span>
 								</div>
 
-                                 <div class="form-group">
+                                 <div class="form-group col-6">
                                     <div class="row">
                                        <div class="col-md-6">
                                           <label class="col-form-label text-start d-block fs-14 fw-bold">Password</label>
                                        </div>
-                                       <div class="col-md-6">
+                                       <div class="col-md-12">
                                           <div class="char-length text-start">
                                              <p class="fs-13">Must be 6 Characters at Least</p>
                                           </div>
@@ -419,51 +439,6 @@ $(document).on('click','.engineer-save',function(e) {
 });
 
 
- $('#gstNumber').on('change', function () {
-            var statecode = $(this).val().substring(0, 2);
-            var pancarno = $(this).val().substring(2, 12);
-            var entityNumber = $(this).val().substring(12, 13);
-            var defaultZvalue = $(this).val().substring(13, 14);
-            var checksumdigit = $(this).val().substring(14, 15);
-            if ($(this).val().length != 15) {
-                // alert('GST Number is invalid');
-				document.getElementById('gst_number_error').innerHTML='GST Number is invalid';
-                $(this).focus();
-                return false;
-            }
-            if (pancarno.length != 10) {
-                // alert('GST number is invalid ');
-				document.getElementById('gst_number_error').innerHTML='GST number is invalid';
-                $(this).focus();
-                return false;
-            }
-            if (defaultZvalue !== 'Z') {
-                // alert('GST Number is invalid Z not in Entered Gst Number');
-				document.getElementById('gst_number_error').innerHTML='GST Number is invalid Z not Entered in Gst Number';
-                $(this).focus();
-            }
-
-            if ($.isNumeric(statecode)) {
-                $('#gst_state_code').val(statecode).trigger('change');
-            } else {
-                // alert('Please Enter Valid State Code');
-				document.getElementById('gst_number_error').innerHTML='Please Enter Valid State Code';
-                $(this).focus();
-            }
-
-            if ($.isNumeric(checksumdigit)) {
-                return true;
-				document.getElementById('gst_number_error').style="display: none";
-            } else {
-                // alert('GST number is invalid last character must be digit');
-				document.getElementById('gst_number_error').innerHTML='GST number is invalid last character must be digit';
-                $(this).focus();
-
-            }
-
-        });
-		
-		
 	
 function getEngineerEmailOTP(){
         let engineer_email = document.getElementById('engineer_email').value;
@@ -525,13 +500,15 @@ function getEngineerEmailOTP(){
                 // console.log(response);
                 document.getElementById('engineer_mobiletakent').style="display: none";
 				document.getElementById('show-engineer-mobile-otp-input').style="display: block";
+				document.getElementById('show-engineer-mobile-otp-submit-button').style="display: block";
             },
             error:function(errlog){
                 let mss = JSON.parse(errlog.responseText);
-                // console.log(mss.errors.mobile[0]);
+                 console.log(mss.errors.mobile[0]);
                 document.getElementById('show-engineer-mobile-otp-input').style="display: none";
                 document.getElementById('engineer_mobiletakent').style="display: block";
                 document.getElementById('engineer_mobtaken').innerHTML = mss.errors.mobile[0];
+				toastr.error('mss.errors.mobile[0]');
             }
         });
     }
@@ -544,6 +521,7 @@ function getEngineerEmailOTP(){
             method: 'POST',
             data: 'engineer_mobile_number='+engineer_mobile_number+'&engineer_mobile_otp='+engineer_mobile_otp+'&_token={{csrf_token()}}',
             success:function(response){
+                console.log(response);
                 console.log('message '+response.message);
                 if(response.status=='success')
 				{

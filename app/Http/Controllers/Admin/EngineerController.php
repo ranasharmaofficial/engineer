@@ -8,6 +8,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\UserLogin;
+use App\Models\EngineerWorkingHour;
+use App\Models\CertifiedEngineer;
+
 class EngineerController extends Controller
 {
     private $engineerRepository;
@@ -67,6 +70,13 @@ class EngineerController extends Controller
         }
     }
 
+    public function addWorkingHour($id){
+        $engineer_details = $this->engineerRepository->getEngineerFullDetails($id);
+        if($engineer_details){
+            return view('admin.engineer-list.add_working_hour', compact('engineer_details'));
+        }
+    }
+
     public function updateEmployeeDetails(Request $request){
         $request->validate([
             'first_name' => 'required',
@@ -104,9 +114,17 @@ class EngineerController extends Controller
 
         $us__id = User::where('user_type_id',  4)->orderBy('id', 'desc')->first();
 
-            $center_code = substr($us__id->username, 3);
-            $inc_id = $center_code+1;
-            $username ='SPE'.$inc_id.'';
+            // $center_code = substr($us__id->username, 3);
+            // $inc_id = $center_code+1;
+            // $username ='SPE'.$inc_id.'';
+
+            if($us__id){
+                $center_code = substr($us__id->username, 3);
+                $inc_id = $center_code+1;
+                $username ='SPE'.$inc_id.'';
+            }else{
+                $username = 'EST101';
+            }
 
 
 
@@ -144,6 +162,171 @@ class EngineerController extends Controller
 
         }
     }
+
+    public function addEngineerWorkingHour(Request $request){
+
+        $request->validate([
+            'working_type' => 'required',
+        ]);
+
+        $checkWorkingTypeInserted = EngineerWorkingHour::where('user_id',  $request->engineer_id)->count();
+
+        // dd($checkWorkingTypeInserted);
+
+        if($checkWorkingTypeInserted==0){
+            $add_working_hour = new EngineerWorkingHour;
+            $add_working_hour->user_id = $request->engineer_id;
+            $add_working_hour->working_type = $request->working_type;
+            $add_working_hour->start_date = $request->start_date;
+            $add_working_hour->start_time = $request->start_time;
+            $add_working_hour->end_date = $request->end_date;
+            $add_working_hour->end_time = $request->end_time;
+            $add_working_hour->save();
+
+            if ($add_working_hour) {
+                return response()->json([
+                    "status" => true,
+                ]);
+            } else  {
+                return response()->json([
+                    "status" => false,
+
+                ]);
+
+            }
+
+        }else{
+            $update_working_hour = EngineerWorkingHour::where('user_id', $request->engineer_id)->first();
+            $update_working_hour->user_id = $request->engineer_id;
+            $update_working_hour->working_type = $request->working_type;
+            $update_working_hour->start_date = $request->start_date;
+            $update_working_hour->start_time = $request->start_time;
+            $update_working_hour->end_date = $request->end_date;
+            $update_working_hour->end_time = $request->end_time;
+            $update_working_hour->save();
+
+            if ($update_working_hour ) {
+                return response()->json([
+                    "status" => true,
+                ]);
+            } else  {
+                return response()->json([
+                    "status" => false,
+
+                ]);
+
+            }
+        }
+
+
+    }
+
+    public function workingHourList(Request $request){
+        $engineerList = $this->engineerRepository->getEngineerWorkingHourList($request);
+        // dd($engineerList);
+        return view('admin.engineer-list.working_hour_list', compact('engineerList', 'request'));
+    }
+
+    public function certifiedEngineer(Request $request){
+        $certifiedEngineerList = $this->engineerRepository->getCertifiedEngineer($request);
+        return view('admin.engineer-list.certified_engineer', compact('certifiedEngineerList', 'request'));
+    }
+
+    public function addCertifiedEngineer(Request $request){
+        $engineerList = $this->engineerRepository->getEngineerWorkingHourList($request);
+        return view('admin.engineer-list.add_certified_engineer', compact('engineerList', 'request'));
+    }
+
+    public function saveCerifiedEngineer(Request $request){
+
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'cr_status' => 'required',
+            'logo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
+        ]);
+
+        $img_name5 = 'img_'.time().'.'.$request->logo->getClientOriginalExtension();
+        $request->logo->move(public_path('uploads/'), $img_name5);
+        $logos = $img_name5;
+
+
+
+            $add_certifiedEngineer = new CertifiedEngineer;
+            $add_certifiedEngineer->title = $request->title;
+            $add_certifiedEngineer->description = $request->description;
+            $add_certifiedEngineer->logo = $logos;
+            $add_certifiedEngineer->status = $request->cr_status;
+            $add_certifiedEngineer->save();
+
+            if ($add_certifiedEngineer) {
+                return response()->json([
+                    "status" => true,
+                ]);
+            } else  {
+                return response()->json([
+                    "status" => false,
+
+                ]);
+
+            }
+    }
+
+    public function deleteCertifiedEngineer($id){
+        $this->engineerRepository->deleteCertifiedEngineer($id);
+        return redirect()->route('admin.certifiedEngineer')->with(session()->flash('alert-danger', 'Deleted Successfully'));
+    }
+
+    public function editCertifiedEngineer($id){
+        $certified_engineer = $this->engineerRepository->getCertifiedEngineerDetails($id);
+        if($certified_engineer){
+            return view('admin.engineer-list.edit_certified_engineer', compact('certified_engineer'));
+        }
+    }
+
+    public function updateCerifiedEngineer(Request $request){
+
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'status' => 'required',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
+        ]);
+
+        if($request->logo!=null){
+            $img_name5 = 'img_'.time().'.'.$request->logo->getClientOriginalExtension();
+            $request->logo->move(public_path('uploads/'), $img_name5);
+            $logos = $img_name5;
+        }
+
+
+
+
+            $update_certifiedEngineer = CertifiedEngineer::where('id', $request->id)->first();
+            $update_certifiedEngineer->title = $request->title;
+            $update_certifiedEngineer->description = $request->description;
+            if($request->logo!=null){
+                 $update_certifiedEngineer->logo = $logos;
+            }
+            $update_certifiedEngineer->status = $request->status;
+            $update_certifiedEngineer->save();
+
+            if ($update_certifiedEngineer) {
+                return response()->json([
+                    "status" => true,
+                ]);
+            } else  {
+                return response()->json([
+                    "status" => false,
+
+                ]);
+
+            }
+    }
+
+
+
+
 
 
 

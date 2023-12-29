@@ -16,6 +16,8 @@
     use App\Models\MasterSolution;
     use App\Models\ServiceCategory;
     use App\Models\Country;
+    use App\Models\State;
+    use App\Models\Service;
     // use Intervention\Image\Facades\Image;
     // use BenMajor\ImageResize;
 
@@ -449,6 +451,18 @@ if (!function_exists('certificate_list')){
         if(!function_exists('getCountryList')){
             function getCountryList(){
                 return Country::where('status', 1)->get();
+            }
+        }
+
+        if(!function_exists('getStateList')){
+            function getStateList(){
+                return State::where('country_id', 101)->get();
+            }
+        }
+
+        if(!function_exists('getServiceList')){
+            function getServiceList(){
+                return Service::get();
             }
         }
 ?>

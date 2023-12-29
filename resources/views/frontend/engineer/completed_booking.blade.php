@@ -1,240 +1,246 @@
 @extends('frontend.layouts.master')
-@section('title') Completed  Booking  @endsection
-
+@section('title') Completed Job  @endsection
 @section('content')
 
-
-<div class="main-wrapper">
 @include('frontend.engineer.partials.engineer_dash_header')
 
-	<div class="bg-img">
-        <img src="{{ static_asset('assets/assets_web/img/bg/work-bg-03.png')}}" alt="img" class="bgimg1">
-        <img src="{{ static_asset('assets/assets_web/img/bg/work-bg-03.png')}}" alt="img" class="bgimg2">
-        <img src="{{ static_asset('assets/assets_web/img/bg/feature-bg-03.png')}}" alt="img" class="bgimg3">
-    </div>
+@php
+			$engineer_profile_details = \App\Models\User::findOrFail(Session('LoggedEngineer')->user_id);
+        @endphp
 
-    <div class="content">
-        <div class="container">
-            <div class="row">
-                <!-- Customer Menu -->
-                <div class="col-md-4 col-lg-3 theiaStickySidebar">
-                  @include('frontend.engineer.partials.engineer-left-sidebar')
-                </div>
-                <!-- /Customer Menu -->
+	<div class="main-wrapper">
+		<!-- /Header -->
 
-                <div class="col-md-8 col-lg-9">
-                    <div class="row">
-                        <div class="widget-title d-flex align-items-center justify-content-between">
-                            <h4 class="d-none d-lg-inline-block fw-bold">Completed Booking List</h4>
-                            <div class="d-flex align-items-center w-50 justify-content-between ms-auto">
-                                <h5 class="pt-2 me-2">Sort</h5>
-                                <form>
-                                    <ul class="nav navbar-nav">
-                                        <li class="dropdown">
-                                            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#">
-                                                My Booking <span class="caret"></span>
-                                            </a>
-                                            <ul class="dropdown-menu mt-2">
-                                                <li><a href="{{ url('customer/all_booking') }}">All Booking</a></li>
-                                                <li><a href="{{ url('customer/upComing-booking') }}">Upcoming</a></li>
-                                                <li><a href="{{ url('customer/ongoing-booking') }}">Ongoing</a></li>
-                                                <li><a href="{{ url('customer/completed-booking') }}">Complete</a></li>
-                                                <li><a href="{{ url('customer/pending-booking') }}">Pending</a></li>
-                                                <li><a href="{{ url('customer/cancelled-booking') }}">Cancelled</a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </form>
-                                <a href="{{ route('customer.add_booking') }}"
-                                    class="fs-14 py-1 bg-primary2 rounded-pill px-4 text-white text-center bt-hover">
-                                    Book Service
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+		<div class="bg-img">
+			<img src="{{ static_asset('assets/assets_web/img/bg/work-bg-03.png')}}" alt="img" class="bgimg1">
+			<img src="{{ static_asset('assets/assets_web/img/bg/work-bg-03.png')}}" alt="img" class="bgimg2">
+			<img src="{{ static_asset('assets/assets_web/img/bg/feature-bg-03.png')}}" alt="img" class="bgimg3">
+		</div>
+		<div class="content">
+			<div class="container">
+				<div class="row">
 
-				@if(count($service_booking)>0)
-					@foreach($service_booking as $key => $val)
+					<!-- Customer Menu -->
+					<div class="col-md-4 col-lg-3 theiaStickySidebar">
 
-						@php
+						 @include('frontend.engineer.partials.engineer-left-sidebar')
+					</div>
+					<!-- /Customer Menu -->
+					
+					<div class="col-md-8 col-lg-9">
+                  <div class="widget-title d-flex align-items-center justify-content-between">
+                     <h4 class="fw-bold">Completed Job</h4>
+                  </div>
+                  <hr>
+                  <div class="white_block mt-3">
+                     <div class="table-responsive">
+                        <table class="table mb-0 custom-table border">
+                           <thead class="thead-light">
+                              <tr>
+                                 <th>Order Id </th>
+                                 <th>Customer Name </th>
+                                 <th>Contact No</th>
+                                 <th>Service Date </th>
+                                 <th>Action Status </th>
+                                 <th>Job</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+						   
+						@if(count($service_booking)>0)
+							@foreach($service_booking as $key => $val)
 
-							$total_service_order_amount = \App\Models\OrderDetail::where('user_id', $val->user_id)->where('order_id', $val->id)->sum('total_price');
-							$total_service_order_amount = \App\Models\OrderDetail::where('user_id', $val->user_id)->where('order_id', $val->id)->sum('total_price');
+								@php
 
-							$service_order = \App\Models\Order::where('user_id', $val->user_id)->where('id', $val->order_id)->first();
+									$total_service_order_amount = \App\Models\OrderDetail::where('user_id', $val->user_id)->where('order_id', $val->id)->sum('total_price');
+									$total_service_order_amount = \App\Models\OrderDetail::where('user_id', $val->user_id)->where('order_id', $val->id)->sum('total_price');
 
-						$category = $val->category_id;
-						$subcategory = $val->subcategory_id;
-						$service = $val->service_id;
-						$service_category = \App\Models\ServiceCategory::where('id', $category)->first();
-						$service_subcategory = \App\Models\ServiceSubCategory::where('id', $subcategory)->first();
-						$service_name = \App\Models\Service::where('id', $service)->first();
-					@endphp
-						<div class="row mt-4 border border-1 py-3 rounded">
-							<!-- Details Section Start -->
-							<div class="col-lg-3 position-relative">
-								<img onerror="this.onerror=null;this.src='{{ static_asset('assets/assets_web/placeholder.jpg') }}';" src="{{ static_asset('assets/assets_web/img/gallery/hireL1engg.jpg')}}" alt="" class="img-fluid rounded h-100">
-								<img src="{{ static_asset('assets/assets_web/img/gallery/heart-icon.svg')}}" alt=""
-									class="img-fluid rounded position-absolute top-0 end-0 pe-3 pt-2 rounded-circle">
-							</div>
-							<div class="col-lg-9 mt-3 mt-lg-0">
+									$service_order = \App\Models\Order::where('user_id', $val->user_id)->where('id', $val->order_id)->first();
 
-								<div class="d-flex">
-									<div>
-										<span class="book-item fw-bold me-5">Service Name -  {{ $category }}, {{ $subcategory }}</span>
-										: {{ $service_category->name }}
-									</div>
-									@if($val->status==0)
-										<span class="badge bg-danger text-white fw-bold ms-2 px-3">Pending</span>
-									@elseif($val->status==1)
-										<span class="badge bg-warning text-white fw-bold ms-2 px-3">Assigned to Engineer</span>
-									@elseif($val->status==2)
-										<span class="badge bg-primary text-white fw-bold ms-2 px-3">Ongoing</span>
-									@elseif($val->status==3)
-										<span class="badge bg-success text-white fw-bold ms-2 px-3">Completed</span>
-									@elseif($val->status==4)
-										<span class="badge bg-danger text-white fw-bold ms-2 px-3">Declined</span>
-									@elseif($val->status==5)
-										<span class="badge bg-danger text-white fw-bold ms-2 px-3">Cancelled</span>
-									@endif
-								</div>
-								<ul class="booking-details">
-									<li>
-										<span class="book-item fw-bold">Service ID</span> : {{ $val->service_order_id }}
-										<a href="javascript:void();"
-											class="bg-secondary bg-opacity-25 px-2 py-1 rounded text-primary2"
-											data-bs-toggle="modal" data-bs-target="#add-wallet{{$key+1}}">
-											View Service
+									$category = $val->category_id;
+									$subcategory = $val->subcategory_id;
+									$service = $val->service_id;
+									$service_category = \App\Models\ServiceCategory::where('id', $category)->first();
+									$service_subcategory = \App\Models\ServiceSubCategory::where('id', $subcategory)->first();
+									$service_name = \App\Models\Service::where('id', $service)->first();
+								@endphp
+					
+					
+								<tr>
+									 <td class="text-light-success">
+										<a href="javascript:void();" data-bs-toggle="modal" data-bs-target="#add-wallet{{$key+1}}">
+										   {{ $val->service_order_id }}
 										</a>
-									</li>
-									<li>
-										<span class="book-item fw-bold">Service Order Date</span> : {{ date("d-M-Y", strtotime($val->created_at)) }}
-									</li>
-									<li>
-										<span class="book-item fw-bold">Quantity</span> : {{ $val->qty }}
-										<span class="float-end fw-bolder bg-primary2 p-1 rounded text-light d-none">
-											<a href="javascript:void()" class="text-white">Reschedule</a>
-										</span>
-									</li>
+									 </td>
+									 <td class="text-light-success">{{ $val->first_name.' '.$val->last_name }}</td>
+									 <td class="text-light-success">{{ $val->mobile }}</td>
+									 <td class="text-light-success">{{ date('d-M-Y', strtotime($val->service_date )) }}</td>
+									 <td class="text-light-success">
+									 @if($val->status=='0')
+															<p class="font-weight-bold text-danger">Pending</p>
+														@elseif($val->status=='1')
+															<p class="font-weight-bold text-primary">Assign to Engineer</p>
+														@elseif($val->status=='2')
+															<p class="font-weight-bold text-warning">Ongoing</p>
+														@elseif($val->status=='3')
+															<p class="font-weight-bold text-success">Completed</p>
+														@elseif($val->status=='4')
+															<p class="font-weight-bold text-danger">Declined</p>
+														@elseif($val->status=='5')
+															<p class="font-weight-bold text-danger">Cancelled</p>
+														@elseif($val->status=='6')
+															<p class="font-weight-bold text-info">Upcoming</p>
+														@endif
+														
+												<select name="status" data-orderid="{{$val->id}}" class="rounded-pill p-2 bg-primary2 text-white border borer-0 change_status">
+													{{--<option @if($val->status=='0') selected @endif value="0">Pending</option>
+													<option @if($val->status=='1') selected @endif value="1">Assign to Engineer</option>--}}
+													<option @if($val->status=='2') selected @endif value="2">Ongoing</option>
+													<option @if($val->status=='3') selected @endif value="3">Completed</option>
+													<option @if($val->status=='4') selected @endif value="4">Declined</option>
+													<option @if($val->status=='5') selected @endif value="5">Cancelled</option>
+													<option @if($val->status=='6') selected @endif value="6">Upcoming</option>
+												</select>
+									 </td>
+									 <td class="text-light-success">Service</td>
+								</tr>
+							@endforeach
+						@endif
 
-									<li>
-										<span class="book-item fw-bold">Amount</span> : {{ number_format($total_service_order_amount) }}
-										<span class="float-end fw-bolder bg-primary2 p-1 rounded text-light d-none">
-											<a href="javascript:void()" class="text-white">Reschedule</a>
-										</span>
-									</li>
+                               
+                           </tbody>
+                        </table>
+                        <nav class="pagination fs-13 mt-3" aria-label="Page navigation">
+						{{--<ul class="pagination fs-13 mt-3">
+                              <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                              <li class="page-item"><a class="page-link" href="#">1</a></li>
+                              <li class="page-item"><a class="page-link" href="#">2</a></li>
+                              <li class="page-item"><a class="page-link" href="#">3</a></li>
+                              <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                           </ul>--}}
+						   {{ $service_booking->appends(request()->input())->links() }}
+                        </nav>
+                     </div>
+                  </div>
+               </div>
 
-									<li>
-										<span class="book-item fw-bold">Order Date</span> : {{ date("d-M-Y", strtotime($val->created_at)) }}
-									</li>
-									<li>
-										<span class="book-item fw-bold">Assigned Engineer</span> : Not Yet Assigned
-									</li>
-									{{--<li>
-										<span class="book-item fw-bold">Cancelled Date</span> : 28 Sept 2023
-									</li>--}}
-								</ul>
-							</div>
-							<!-- Details Section End -->
-						</div>
-
-
-
-
-
-					@endforeach
-				@endif
-
-				@if(count($service_booking)>0)
-					@foreach($service_booking as $key => $val)
-
-						@php
-
-							$total_service_order_amount = \App\Models\OrderDetail::where('user_id', $val->user_id)->where('order_id', $val->id)->sum('total_price');
-							$total_service_order_amount = \App\Models\OrderDetail::where('user_id', $val->user_id)->where('order_id', $val->id)->sum('total_price');
-
-							$service_order = \App\Models\Order::where('user_id', $val->user_id)->where('id', $val->order_id)->first();
-
-						$category = $val->category_id;
-						$subcategory = $val->subcategory_id;
-						$service = $val->service_id;
-						$service_category = \App\Models\ServiceCategory::where('id', $category)->first();
-						$service_subcategory = \App\Models\ServiceSubCategory::where('id', $subcategory)->first();
-						$service_name = \App\Models\Service::where('id', $service)->first();
-					@endphp
-
+		@if(count($service_booking)>0)
+			@foreach($service_booking as $key => $val)	
+				@php	
+					if($val->country!=null)
+					{
+						$cust_country_name = \App\Models\Country::where('id', $val->country)->pluck('name')->first();
+					}else{
+						$cust_country_name = '';
+					}
+					
+					if($val->state!=null)
+					{
+						$cust_state_name = \App\Models\State::where('id', $val->state)->pluck('name')->first();
+					}else{
+						$cust_state_name = '';
+					}
+					
+					if($val->city!=null)
+					{
+						$cust_city_name = \App\Models\City::where('id', $val->city)->pluck('name')->first();
+					}else{
+						$cust_city_name = '';
+					}
+					
+				@endphp		
 				<div class="modal fade custom-modal" id="add-wallet{{$key+1}}">
-							<div class="modal-dialog modal-dialog-centered modal-lg">
-								<div class="modal-content">
-									<div class="modal-header border-bottom-0 justify-content-between pb-0">
-										<h5 class="modal-title ">Ongoing Service</h5>
-										<button type="button" class="close-btn px-2 py-1 border-0 rounded-circle" data-bs-dismiss="modal"
-											aria-label="Close"><i class="fa fa-times"></i>
-										</button>
-									</div>
-									<hr>
-									<div class="modal-body pt-0">
-										<table class="table w-100">
-											<thead></thead>
-											<tbody>
-												<tr>
-													<td><strong>Service ID</strong></td>
-													<td>{{ $service_order->service_order_id }}</td>
-												</tr>
-												<tr>
-													<td><strong>Service</strong></td>
-													<td>
-
-													 {{ $service_subcategory->name }} , {{ $service_name->name }}
-
-
-													</td>
-												</tr>
-												<tr>
-													<td><strong>Service Date</strong></td>
-													<td>2023-02-09 13:25:00</td>
-												</tr>
-												<tr>
-													<td><strong>Order Date</strong></td>
-													<td>2023-08-23 11:25:54</td>
-												</tr>
-												<tr>
-													<td><strong>Service location</strong></td>
-													<td>{{ $service_order->location }}, {{ $service_order->landmark }}, {{ $service_order->city }}, {{ $service_order->state }}-{{ $service_order->pincode }}</td>
-												</tr>
-												<tr>
-													<td><strong>Action</strong></td>
-													<td>
-													@if($val->status==0)
-										<span class="badge bg-danger text-white fw-bold ms-2 px-3">Pending</span>
-									@elseif($val->status==1)
-										<span class="badge bg-warning text-white fw-bold ms-2 px-3">Assigned to Engineer</span>
-									@elseif($val->status==2)
-										<span class="badge bg-primary text-white fw-bold ms-2 px-3">Ongoing</span>
-									@elseif($val->status==3)
-										<span class="badge bg-success text-white fw-bold ms-2 px-3">Completed</span>
-									@elseif($val->status==4)
-										<span class="badge bg-danger text-white fw-bold ms-2 px-3">Declined</span>
-									@elseif($val->status==5)
-										<span class="badge bg-danger text-white fw-bold ms-2 px-3">Cancelled</span>
-									@endif
-													</td>
-												</tr>
-												<tr>
-													<td><strong>Assigned Engineer</strong></td>
-													<td>SPE0003</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</div>
+				  <div class="modal-dialog modal-dialog-centered modal-lg">
+					 <div class="modal-content">
+						<div class="modal-header border-bottom-0 justify-content-between pb-0">
+						   <h3 class="modal-title">Booked Service Detail</h3>
+						   <button type="button" class="close-btn px-2 py-1 border-0 rounded-circle" data-bs-dismiss="modal"
+							  aria-label="Close"><i class="fa fa-times fs-5"></i>
+						   </button>
 						</div>
-@endforeach
-				@endif
-                </div>
-            </div>
-        </div>
-    </div>
+						<hr>
+						<div class="modal-body pt-0">
+						   <table class="table w-100">
+							  <thead></thead>
+							  <tbody>
+								 <tr>
+									<td><strong>Order ID</strong></td>
+									<td>{{ $val->service_order_id }}</td>
+								 </tr>
+								 <tr>
+									<td><strong>Service</strong></td>
+									<td>
+									   Hardware Replacement, Installation & Configuration, Server
+									</td>
+								 </tr>
+								 <tr>
+									<td><strong>Service Date</strong></td>
+									<td>{{ date('d-M-Y', strtotime($val->service_date )) }}</td>
+								 </tr>
+								 <tr>
+									<td><strong>Order Date</strong></td>
+									<td>{{ date('d-M-Y', strtotime($val->created_at )) }}</td>
+								 </tr>
+								 <tr>
+									<td><strong>Service location</strong></td>
+									<td>{{ $val->address.', '.$cust_city_name.', '.$cust_state_name.', '.$cust_country_name.'-'.$val->pincode }}</td>
+								 </tr>
+								 <tr>
+									<td><strong>Service Status</strong></td>
+									<td>Completed</td>
+								 </tr>
+								 <tr>
+									<td><strong>Engineer Id</strong></td>
+									<td>SPE0030</td>
+								 </tr>
+								 <tr>
+									<td><strong>Engineer Adhar No.</strong></td>
+									<td>626387663896</td>
+								 </tr>
+							  </tbody>
+						   </table>
+						</div>
+					 </div>
+				  </div>
+				</div>   <!-- /Pop Up Modal End -->					
+            @endforeach
+		@endif
+				</div>
 
-</div>
+			</div>
+		</div>
+		 
+	</div>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script type="text/javascript">
+		$(".change_status").change(function (event) {
+			event.preventDefault();
+			var orderId = $(this).data("orderid");
+			var status = $(this).val();
+			changeStatus(orderId, status);
+			// alert(orderid);
+		});
+
+
+
+        function changeStatus(orderid, status){
+			$.ajax({
+				url: "{{ route('engineer.updateOrderStatus') }}",
+				type: "GET",
+				data: {
+					id: orderid,
+					status: status,
+					_token: '{{csrf_token()}}'
+				},
+				dataType: 'json',
+				success: function (result) {
+					toastr.success("Status Updated Successfully.");
+				}
+			});
+		}
+
+</script>
+
+@endsection

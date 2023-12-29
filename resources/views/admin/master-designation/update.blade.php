@@ -22,19 +22,19 @@
             <div class="profile-menu">
                 <ul class="nav nav-tabs nav-tabs-solid">
                     <li class="nav-item"> <a class="nav-link active border rounded-top" data-toggle="tab"
-                            href="#indian_cuisine">Edit Staff Information</a> </li>
-                    <li class="nav-item"> <a class="nav-link border mx-1 rounded-top" data-toggle="tab"
+                            href="#indian_cuisine">Edit Designtion</a> </li>
+							{{--<li class="nav-item"> <a class="nav-link border mx-1 rounded-top" data-toggle="tab"
                             href="#indian_cuisine2">Edit Certified By Engineers </a> </li>
                     <li class="nav-item"> <a class="nav-link border mx-1 rounded-top" data-toggle="tab"
-                            href="#indian_cuisine3">Edit New Role</a> </li>
+                            href="#indian_cuisine3">Edit New Role</a> </li>--}}
                 </ul>
             </div>
             <div class="tab-content profile-tab-cont mt-1">
                 <div class="tab-pane fade active show" id="indian_cuisine">
                     <h6
                         class="card-title text-uppercase lsp-5 fw-700 fw-bold fs-4 mt-2 position-absolute top-0 right-0 pt-3 pr-3">
-                        Edit Staff Information</h6>
-                        <form method="post" action="{{ route('admin.staffs.update',$staff->id) }}" enctype="multipart/form-data">
+                        Edit Designtion</h6>
+                        <form method="post" action="{{ route('admin.masterdesignation.update',$designation->id) }}" enctype="multipart/form-data">
                             @csrf
                             @method('put')
                             <div class="row formtype">
@@ -50,65 +50,19 @@
                                     @endif
                                 </div>
 
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>User Type <span class="text-danger">*</span></label>
-                                        <select class=" form-control" name="user_type">
-                                            <option value="1" @if($staff->type == "Main Staff") selected @endif>Main Staff</option>
-                                            <option value="2" @if($staff->type == "Team") selected @endif>Team</option>
-                                        </select>
-                                    </div>
-                                </div>
+                                 
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>First Name <span class="text-danger">*</span> </label>
-                                        <input type="text" class="form-control" name="f_name" value="{{$staff->first_name}}">
+                                        <label>Name <span class="text-danger">*</span> </label>
+                                        <input type="text" class="form-control" name="name" value="{{$designation->name}}">
                                     </div>
-                                </div>
+                                </div>																<div class="col-md-2">                                    <button style="margin-top:28px;" type="submit" class="btn btn-primary buttonedit1">Update</button>                                </div>
 
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Last Name <span class="text-danger">*</span> </label>
-                                        <input type="text" class="form-control" name="l_name" value="{{$staff->last_name}}">
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Phone <span class="text-danger">*</span> </label>
-                                        <input type="number" class="form-control" name="phone" value="{{$staff->mobile}}">
-                                    </div>
-                                </div>
-
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Passowrd <span class="text-danger"></span> </label>
-                                        <input type="text" class="form-control" name="password" value="{{$staff->password}}">
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Email <span class="text-danger"></span> </label>
-                                        <input type="text" class="form-control" name="email" value="{{$staff->email}}">
-                                    </div>
-                                </div>
-
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Status </label>
-                                        <select class=" form-control" name="status" required>
-                                            <option value="1" @if($staff->status == 1) selected @endif>Active</option>
-                                            <option value="2" @if($staff->status == 2) selected @endif>Inactive</option>
-                                        </select>
-                                    </div>
-                                </div>
+                                 
 
                             </div>
-                            <button type="submit" class="btn btn-primary buttonedit1">Update</button>
+                            
                         </form>
 
                 </div>

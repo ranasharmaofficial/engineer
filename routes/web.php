@@ -116,6 +116,12 @@ Route::group(['prefix' => 'engineer', 'middleware' => ['EngineerAuthCheck'], 'as
     Route::get('completed-job', [EngineerController::class, 'completeBooking'])->name('complete_booking');
     Route::get('cancelled-job', [EngineerController::class, 'cancellBooking'])->name('cancell_booking');
 
+    Route::get('add-working-hour', [EngineerController::class, 'addWorkingHour'])->name('addWorkingHour');
+
+    Route::post('/admin/get-service-list', [EngineerController::class, 'getServiceList'])->name('getServiceList');
+    Route::post('addEngineerWorkingHour', [EngineerController::class, 'addEngineerWorkingHour'])->name('addEngineerWorkingHour');
+
+    Route::get('/order/order_status', [EngineerController::class, 'updateOrderStatus'])->name('updateOrderStatus');
 
 });
 

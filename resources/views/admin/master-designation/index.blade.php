@@ -11,7 +11,7 @@
                             Dashboard</a> /Master Designation</div>
                 </div>
                 <div class="col">
-                    <a href="{{ url('admin/master-designation/create') }}" class="btn btn-info float-right veiwbutton "><i
+                    <a href="{{ url('admin/masterdesignation/create') }}" class="btn btn-info float-right veiwbutton "><i
                             class="fa fa-plus" aria-hidden="true"></i> Add New Designation</a>
                 </div>
             </div>
@@ -55,13 +55,13 @@
                             <tr>
                                 <td>{{ $key + 1 }}</td>
                                 <td>{{ $value->name }}</td>
-                                <td>
-                                    <form id="frm_33" action="" class="d-flex fs-6" method="POST">
-                                        <a class="btn btn-primary mx-1" href="{{ route('admin.master-designation.edit',$value->id) }}">Edit</a>
+                                <td><a class="btn btn-primary mx-1" href="{{ route('admin.masterdesignation.edit',$value->id) }}">Edit</a>
+	{{-- <form id="frm_33" action="" class="d-flex fs-6" method="POST">
+                                        
                                         <input type="hidden" name="_token" value=""> <input type="hidden"
                                             name="_method" value="DELETE">
                                         <button onclick="" type="button" class="btn btn-danger">Delete</button>
-                                    </form>
+	</form>--}}
                                 </td>
                             </tr>
                             @endforeach
