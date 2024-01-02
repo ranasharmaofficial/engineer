@@ -28,7 +28,7 @@
             <h5 class="mb-md-0 h6">Engineer Working Hour </h5>
           </div>
           <div class="col text-right">
-            <a href="image/incomplete_orders.xlsx" class="btn btn-circle btn-info h-35" download>
+            <a href="{{ url('admin/engineer/working-hour-export') }}" class="btn btn-circle btn-info h-35" download>
               <span>Export in Excel</span>
             </a>
           </div>
@@ -38,10 +38,10 @@
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">Select engineer list</a>
                 <ul class="dropdown-menu  w-100">
                   <li>
-                    <a class="dropdown-item" href="javascript:void(0)">Engineer Working Hour </a>
+                    <a class="dropdown-item" href="{{ url('admin/engineer-list') }}">Engineer List</a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="javascript:void(0)">Engineer Working Hrs List</a>
+                    <a class="dropdown-item" href="{{ url('admin/engineer/working-hour-list') }}">Engineer Working Hrs List</a>
                   </li>
                 </ul>
               </li>

@@ -13,6 +13,7 @@ use App\Models\EngineerSkill;
 use App\Models\ServiceSubCategory;
 use App\Models\Service;
 use App\Models\EngineerWorkingHour;
+use App\Models\EngineerJob;
 
 class EngineerController extends Controller
 {
@@ -28,12 +29,20 @@ class EngineerController extends Controller
         // dd($engineer_id);
         $countUpcomingService = OrderDetail::where('engineer_id', $engineer_id)->where('status', 6)->count();
         $datas = [
-            'countUpcomingService' => OrderDetail::where('engineer_id', $engineer_id)->where('status', 6)->count(),
-            'inProgressService' => OrderDetail::where('engineer_id', $engineer_id)->where('status', 2)->count(),
-            'completedService' => OrderDetail::where('engineer_id', $engineer_id)->where('status', 3)->count(),
-            'totalService' => OrderDetail::where('engineer_id', $engineer_id)->count(),
-            'UpcomingServiceList' => OrderDetail::where('engineer_id', $engineer_id)->where('status', 6)->get(),
-            'ongoingServiceList' => OrderDetail::where('engineer_id', $engineer_id)->where('status', 2)->get(),
+            'countUpcomingJobs' => EngineerJob::where('engineer_id', $engineer_id)->where('status', 'upcoming')->count(),
+            'inProgressJobs' => EngineerJob::where('engineer_id', $engineer_id)->where('status', 'ongoing')->count(),
+            'completedJobs' => EngineerJob::where('engineer_id', $engineer_id)->where('status', 'completed')->count(),
+            'totalJobs' => EngineerJob::where('engineer_id', $engineer_id)->count(),
+            'UpcomingJobsList' => EngineerJob::where('engineer_jobs.engineer_id', $engineer_id)->where('engineer_jobs.status', 'upcoming')
+                                    ->leftJoin('users as u', 'u.id', '=', 'engineer_jobs.user_id')
+                                    ->leftJoin('orders as o', 'o.id', '=', 'engineer_jobs.order_id')
+                                    ->select('engineer_jobs.*','o.created_at as order_date','o.service_order_id', 'u.first_name', 'u.last_name', 'u.mobile', 'u.email', 'u.address', 'u.state')
+                                    ->get(),
+            'ongoingJobsList' => EngineerJob::where('engineer_jobs.engineer_id', $engineer_id)->where('engineer_jobs.status', 'ongoing')
+                                    ->leftJoin('users as u', 'u.id', '=', 'engineer_jobs.user_id')
+                                    ->leftJoin('orders as o', 'o.id', '=', 'engineer_jobs.order_id')
+                                    ->select('engineer_jobs.*','o.created_at as order_date','o.service_order_id', 'u.first_name', 'u.last_name', 'u.mobile', 'u.email', 'u.address', 'u.state')
+                                    ->get(),
         ];
         return view('frontend.engineer.engineer-dashboard', $datas);
     }
@@ -105,35 +114,32 @@ class EngineerController extends Controller
 
     public function upComingBooking(Request $request){
         $user_id = Session('LoggedEngineer')->user_id;
-        // $service_booking = OrderDetail::where('engineer_id', $user_id)->where('status', 6)->orderBy('id', 'DESC')->get();
-        // $service_booking = Order::where('orders.engineer_id', $user_id)
-        // ->leftJoin('users as u', 'u.id', '=', 'orders.user_id')
-        // ->leftJoin('users as e', 'e.id', '=', 'orders.engineer_id')
-        // ->select('orders.*', 'u.first_name', 'u.last_name', 'u.mobile', 'u.address', 'u.state',
-        //         'u.city','u.country','u.email','u.pincode','u.pincode',
-        //         'u.username', 'u.profile_pic'
-        //         ,'e.first_name as eng_first_name', 'e.last_name as eng_last_name',
-        //         'e.mobile as eng_mobile', 'e.email as eng_email','e.aadhar as eng_aadhar',
-        //         'e.country as eng_country', 'e.state as eng_state','e.city as eng_city','e.address as eng_address',
-        //         'e.pincode as eng_pincode', 'e.username as eng_username', 'e.profile_pic as eng_profile_pic')
-        // ->paginate(20);
-        $status = 2;
-        $service_booking = $this->frontEngineerRepository->getServiceOrder($request, $status, $user_id);
+        $status = 'upcoming';
+        $service_booking = $this->frontEngineerRepository->getEngineersJob($request, $status, $user_id);
         return view('frontend.engineer.upComing_booking', compact('service_booking'));
     }
 
     public function ongoingBooking(Request $request){
         $user_id = Session('LoggedEngineer')->user_id;
-        $status = 2;
-        $service_booking = $this->frontEngineerRepository->getServiceOrder($request, $status, $user_id);
+        $status = 'ongoing';
+        $service_booking = $this->frontEngineerRepository->getEngineersJob($request, $status, $user_id);
         return view('frontend.engineer.ongoing', compact('service_booking'));
     }
 
     public function completeBooking(Request $request){
         $user_id = Session('LoggedEngineer')->user_id;
-        $status = 3;
-        $service_booking = $this->frontEngineerRepository->getServiceOrder($request, $status, $user_id);
+        $status = 'completed';
+        $service_booking = $this->frontEngineerRepository->getEngineersJob($request, $status, $user_id);
         return view('frontend.engineer.completed_booking', compact('service_booking'));
+    }
+
+    public function earnedRevenue(Request $request){
+        $user_id = Session('LoggedEngineer')->user_id;
+        $status = 'completed';
+        // $service_booking = $this->frontEngineerRepository->getEngineerEarnedRevenue($request, $user_id, $status);
+        $service_booking = $this->frontEngineerRepository->getEngineersJob($request, $status, $user_id);
+        // dd($service_booking);
+        return view('frontend.engineer.earned_revenue', compact('service_booking'));
     }
 
     public function cancellBooking(Request $request){
@@ -447,6 +453,94 @@ class EngineerController extends Controller
                       'status' => $request->status,
                 ]);
         return response()->json($order_details);
+    }
+
+    public function engineer_job_details(Request $request){
+        $engineer_job = $this->frontEngineerRepository->getEngineerJobDetails($request);
+        return response()->json($engineer_job);
+    }
+
+    public function updateEngineerJobStatus(Request $request){
+        $request->validate([
+            'job_accept' => 'required',
+            'remarks' => 'required',
+        ]);
+
+
+
+        $updateEngJobStatus = EngineerJob::where('id', $request->id)->first();
+        $updateEngJobStatus->job_accept = $request->job_accept;
+        $updateEngJobStatus->remarks = $request->remarks;
+        $updateEngJobStatus->save();
+        if (!$updateEngJobStatus) {
+            return response()->json([
+                "status" => false,
+
+            ]);
+        } else  {
+            return response()->json([
+                "status" => true,
+             ]);
+
+        }
+    }
+
+    public function startEngineerJob(Request $request){
+
+        $assignEngineer = Order::where('id', $request->order_id)->first();
+        $assignEngineer->status = 2;
+        $assignEngineer->save();
+
+        $order_details = OrderDetail::where('order_id', $request->order_id)
+            ->update([
+                      'status' => 2,
+                ]);
+
+        $updateEngJobStatus = EngineerJob::where('id', $request->id)->first();
+        $updateEngJobStatus->status = 'ongoing';
+        $updateEngJobStatus->save();
+        if (!$updateEngJobStatus) {
+            return response()->json([
+                "status" => false,
+
+            ]);
+        } else  {
+            return response()->json([
+                "status" => true,
+             ]);
+
+        }
+    }
+
+    public function completedEngineerJob(Request $request){
+
+        $assignEngineer = Order::where('id', $request->order_id)->first();
+        $assignEngineer->status = 3;
+        $assignEngineer->save();
+
+        $order_details = OrderDetail::where('order_id', $request->order_id)
+            ->update([
+                      'status' => 3,
+                ]);
+
+        $getOrderAmount = Order::where('id', $request->order_id)->pluck('total_amount')->first();
+        $earned_revenue = (10 / 100) * $getOrderAmount;
+        $updateEngJobStatus = EngineerJob::where('id', $request->id)->first();
+        $updateEngJobStatus->status = 'completed';
+        $updateEngJobStatus->completed_date = date('Y-m-d');
+        $updateEngJobStatus->earned_revenue = $earned_revenue;
+        $updateEngJobStatus->save();
+        if (!$updateEngJobStatus) {
+            return response()->json([
+                "status" => false,
+
+            ]);
+        } else  {
+            return response()->json([
+                "status" => true,
+             ]);
+
+        }
     }
 
 

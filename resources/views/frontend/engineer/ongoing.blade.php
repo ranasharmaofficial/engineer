@@ -50,20 +50,7 @@
 						@if(count($service_booking)>0)
 							@foreach($service_booking as $key => $val)
 
-								@php
-
-									$total_service_order_amount = \App\Models\OrderDetail::where('user_id', $val->user_id)->where('order_id', $val->id)->sum('total_price');
-									$total_service_order_amount = \App\Models\OrderDetail::where('user_id', $val->user_id)->where('order_id', $val->id)->sum('total_price');
-
-									$service_order = \App\Models\Order::where('user_id', $val->user_id)->where('id', $val->order_id)->first();
-
-									$category = $val->category_id;
-									$subcategory = $val->subcategory_id;
-									$service = $val->service_id;
-									$service_category = \App\Models\ServiceCategory::where('id', $category)->first();
-									$service_subcategory = \App\Models\ServiceSubCategory::where('id', $subcategory)->first();
-									$service_name = \App\Models\Service::where('id', $service)->first();
-								@endphp
+								
 					
 					
 								<tr>
@@ -76,37 +63,16 @@
 									 <td class="text-light-success">{{ $val->mobile }}</td>
 									 <td class="text-light-success">{{ date('d-M-Y', strtotime($val->service_date )) }}</td>
 									 <td class="text-light-success">
-									 @if($val->status=='0')
-															<p class="font-weight-bold text-danger">Pending</p>
-														@elseif($val->status=='1')
-															<p class="font-weight-bold text-primary">Assign to Engineer</p>
-														@elseif($val->status=='2')
-															<p class="font-weight-bold text-warning">Ongoing</p>
-														@elseif($val->status=='3')
-															<p class="font-weight-bold text-success">Completed</p>
-														@elseif($val->status=='4')
-															<p class="font-weight-bold text-danger">Declined</p>
-														@elseif($val->status=='5')
-															<p class="font-weight-bold text-danger">Cancelled</p>
-														@elseif($val->status=='6')
-															<p class="font-weight-bold text-info">Upcoming</p>
-														@endif
-														
-												<select name="status" data-orderid="{{$val->id}}" class="rounded-pill p-2 bg-primary2 text-white border borer-0 change_status">
-													{{--<option @if($val->status=='0') selected @endif value="0">Pending</option>
-													<option @if($val->status=='1') selected @endif value="1">Assign to Engineer</option>--}}
-													<option @if($val->status=='2') selected @endif value="2">Ongoing</option>
-													<option @if($val->status=='3') selected @endif value="3">Completed</option>
-													<option @if($val->status=='4') selected @endif value="4">Declined</option>
-													<option @if($val->status=='5') selected @endif value="5">Cancelled</option>
-													<option @if($val->status=='6') selected @endif value="6">Upcoming</option>
-												</select>
+										<p style="text-transform:uppercase">{{ $val->job_accept }}</p>
+									</td>
+									 <td class="text-light-success">
+										@if($val->job_accept=='accept')
+											<button onclick="updateStartJobStatus(this)" style="background-color:green !important;" id="{{ $val->id }}" class="btn btn-success">Complete</button>
+										@endif
 									 </td>
-									 <td class="text-light-success">Service</td>
 								</tr>
 							@endforeach
 						@endif
-
 
                                
                            </tbody>
@@ -133,10 +99,223 @@
 		</div>
 		 
 	</div>
+	
+	
+<div class="modal fade" id="engJobStartModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <form method="" id="start-job-form">
+                @csrf
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Job Status</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div style="display:none;" id="show-form-error" class="alert alert-danger">
+                        <ul>
+                            <div class="errorMsgntainer"></div>
+                        </ul>
+                    </div>
+					
+					 
+					<div class="col-sm-12  my-3">
+						<center><label style="font-weight:bold;">Are you sure this job has been completed?</label></center>
+					</div>
+
+					<div class="col-sm-offset-2 col-sm-10  my-3">
+						<input type="hidden" name="engId" id="engId">
+						<input type="hidden" name="id" id="jobId" >
+						<input type="hidden" name="order_id" id="orderId" >
+						<button style="float:right;" type="button" class="btn btn-primary mb-3 start_job_button">Yes </button>
+						
+					</div>
+				</div>
+			</form>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="modal fade" id="engineerJobActionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <form method="" id="update-engineer-job-status">
+                @csrf
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Job Status</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div style="display:none;" id="show-form-error" class="alert alert-danger">
+                        <ul>
+                            <div class="errorMsgntainer"></div>
+                        </ul>
+                    </div>
+					
+					<div class="col-sm-12  my-3">
+						<label style="font-weight:bold;">Select Action</label>
+						<select name="job_accept" id="job_accept" class="form-control" required="">
+							<option value="accept"> Accept </option>
+							<option value="decline"> Decline </option>
+						</select>
+					</div>
+					<div class="col-sm-12  my-3">
+						<label style="font-weight:bold;">Enter Remarks</label>
+						<input style="visibility:show !important;" type="text" required name="remarks" id="editor" class="form-control" required="" placeholder="Please enter reason here." />
+					</div>
+
+					<div class="col-sm-offset-2 col-sm-10  my-3">
+						<input type="hidden" name="engId" id="engId">
+						<input type="hidden" name="id" id="jobId" >
+						 
+						<button type="button" class="btn btn-primary update_job_status_status">Update </button>
+					</div>
+				</div>
+			</form>
+        </div>
+
+    </div>
+
+</div>
+
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <script type="text/javascript">
+ $(document).on('click', '.start_job_button', function(e) {
+		e.preventDefault();
+        var formData = new FormData(document.getElementById("start-job-form"));
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            type: "POST",
+			url: "{{ route('engineer.completedEngineerJob') }}",
+			data: formData,
+			processData: false,
+			contentType: false,
+			dataType: "JSON",
+			success: function(data) {
+                if (data.status == true) {
+                    toastr.success('Job Completed Successfully.');
+                    setTimeout(function() {
+                        window.location = "{{ url('engineer/engineer-dashboard') }}"
+                    }, 2000);
+                } else {
+                    toastr.error('Something went wrong.');
+                }
+            },
+
+            error: function(err) {
+                document.getElementById('show-form-error').style = "display: block";
+
+                let error = err.responseJSON;
+                $.each(error.errors, function(index, value) {
+                    $('.errorMsgntainer').append('<span class="text-danger">' + value + '<span>' + '<br>');
+
+                });
+
+            }
+
+
+
+        });
+
+    });
+
+	function updateStartJobStatus(updateStartJobStatus) {
+        $('#engJobStartModal').modal('show');
+        let job_id = $(updateStartJobStatus).attr('id');
+        $.ajax({
+            url: "{{ url('engineer/engineer/engineer_job_details') }}",
+			type: 'get',
+			data: 'job_id=' + job_id,
+			success: function(response) {
+                // toastr.success("Status Successfully Updated");
+                $('#engId').val(response.engineer_id);
+                $('#jobId').val(response.id);
+                $('#orderId').val(response.order_id);
+            }
+        })
+    }
+	
+	function updateEngineerJobStatus(updateEngineerJobStatus) {
+        $('#engineerJobActionModal').modal('show');
+        let job_id = $(updateEngineerJobStatus).attr('id');
+        $.ajax({
+            url: "{{ url('engineer/engineer/engineer_job_details') }}",
+			type: 'get',
+			data: 'job_id=' + job_id,
+			success: function(response) {
+                // toastr.success("Status Successfully Updated");
+                $('#engId').val(response.engineer_id);
+                $('#jobId').val(response.id);
+            }
+        })
+    }
+	
+	
+ $(document).on('click', '.update_job_status_status', function(e) {
+        e.preventDefault();
+        var formData = new FormData(document.getElementById("update-engineer-job-status"));
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            type: "POST",
+			url: "{{ route('engineer.updateEngineerJobStatus') }}",
+			data: formData,
+			processData: false,
+			contentType: false,
+			dataType: "JSON",
+			success: function(data) {
+                // console.log('status ' + data.status);
+                if (data.status == true) {
+                    toastr.success('Updated Successfully.');
+                    setTimeout(function() {
+                        window.location = "{{ url('engineer/upcoming-job') }}"
+                    }, 2000);
+                } else {
+                    toastr.error('Something went wrong.');
+                }
+            },
+
+            error: function(err) {
+                document.getElementById('show-form-error').style = "display: block";
+
+                let error = err.responseJSON;
+                $.each(error.errors, function(index, value) {
+                    $('.errorMsgntainer').append('<span class="text-danger">' + value + '<span>' + '<br>');
+
+                });
+
+            }
+
+
+
+        });
+
+    });
+	
+	
+	
 		$(".change_status").change(function (event) {
 			event.preventDefault();
 			var orderId = $(this).data("orderid");

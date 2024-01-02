@@ -139,6 +139,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['AdminAuthCheck'], 'as' => '
     /** Route For Product Page */
     Route::resource('/service_category', ServiceController::class);
     Route::get('/service_category/delete/{id}', [ServiceController::class, 'delete'])->name('service_category.delete');
+    Route::get('/service_category_export', [ServiceController::class, 'serviceCategoryExport'])->name('service_category.serviceCategoryExport');
 
     Route::get('/service-sub-category', [ServiceController::class, 'ServiceSubCategory'])->name('ServiceSubCategory.index');
     Route::get('/service-sub-category/create', [ServiceController::class, 'ServiceSubCategoryCreate'])->name('ServiceSubCategory.index');
@@ -146,22 +147,26 @@ Route::group(['prefix' => 'admin', 'middleware' => ['AdminAuthCheck'], 'as' => '
     Route::get('/service_sub_category/{id}/edit', [ServiceController::class, 'ServiceSubCategoryEdit'])->name('service_sub_category.edit');
     Route::put('/service_sub_category/update/{id}', [ServiceController::class, 'ServiceSubCategoryUpdate'])->name('service_sub_category.update');
     Route::get('/service_sub_category/delete/{id}', [ServiceController::class, 'deleteServiceSubCategory'])->name('service_sub_category.deleteServiceSubCategory');
+    Route::get('/service_subcategory_export', [ServiceController::class, 'serviceSubCategoryExport'])->name('service_category.serviceSubCategoryExport');
+    // Route::get('/services/delete/{id}', [ServiceController::class, 'deleteServices'])->name('service_sub_category.deleteServices');
     Route::post('/admin/get-service-list', [ServiceController::class, 'getServiceList'])->name('getServiceList');
     Route::post('/admin/get-engineer-list', [ServiceController::class, 'getEngineerList'])->name('getEngineerList');
 
-
-
     Route::get('/service', [ServiceController::class, 'serviceList'])->name('service.index');
+    Route::get('/main_service_export', [ServiceController::class, 'mainServiceExport'])->name('service.mainServiceExport');
     Route::get('/service/create', [ServiceController::class, 'serviceCreate'])->name('service.index');
     Route::post('/service/store', [ServiceController::class, 'serviceStore'])->name('service.store');
     Route::get('/service/{id}/edit', [ServiceController::class, 'serviceEdit'])->name('service.edit');
     Route::put('/service/update/{id}', [ServiceController::class, 'serviceUpdate'])->name('service.update');
+    Route::get('/services/delete/{id}', [ServiceController::class, 'deleteServices'])->name('service.deleteServices');
 
     Route::get('/sub-service', [ServiceController::class, 'subServiceList'])->name('subservice.index');
+    Route::get('/sub_service_export', [ServiceController::class, 'subServiceExport'])->name('subservice.subServiceExport');
     Route::get('/sub-service/create', [ServiceController::class, 'subServiceCreate'])->name('subservice.index');
     Route::post('/sub-service/store', [ServiceController::class, 'subServiceStore'])->name('subservice.store');
     Route::get('/sub-service/{id}/edit', [ServiceController::class, 'subServiceEdit'])->name('subservice.edit');
     Route::put('/sub-service/update/{id}', [ServiceController::class, 'subServiceUpdate'])->name('subservice.update');
+    Route::get('/sub-service/delete/{id}', [ServiceController::class, 'subServiceDelete'])->name('subservice.subServiceDelete');
 
     Route::post('get-subcategory-list', [ServiceController::class, 'getSubcategoryList'])->name('getSubcategoryList');
 
@@ -248,7 +253,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['AdminAuthCheck'], 'as' => '
     Route::resource('/staffs', StaffController::class);
     Route::post('/staffs/addStaffRegister', [StaffController::class, 'addStaffRegister'])->name('addStaffRegister');
 
+    Route::get('/staffs/staff_export', [StaffController::class, 'staffExport'])->name('staffExport');
+
     Route::get('/staffs/customer/customer-list', [StaffController::class, 'customerList'])->name('customerList');
+    Route::get('/customer/customer-export', [StaffController::class, 'customerExport'])->name('customerExport');
     Route::get('/user/change_status', [StaffController::class, 'changeStatus'])->name('customer.change_status');
 
 
@@ -318,6 +326,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['AdminAuthCheck'], 'as' => '
 
         /** Route For  Service Order */
     Route::resource('/service-order', ServiceOrderController::class);
+
+    Route::get('/order/export-all-order', [ServiceOrderController::class, 'exportallOrder'])->name('order.exportallOrder');
+    Route::get('/order/export-pending-order', [ServiceOrderController::class, 'exportPendingOrder'])->name('order.exportPendingOrder');
+    Route::get('/order/export-ongoing-order', [ServiceOrderController::class, 'exportOngoingOrder'])->name('order.exportOngoingOrder');
+    Route::get('/order/export-completed-order', [ServiceOrderController::class, 'exportCompletedOrder'])->name('order.exportCompletedOrder');
+    Route::get('/order/export-cancelled-order', [ServiceOrderController::class, 'exportCancelledOrder'])->name('order.exportCancelledOrder');
+
     Route::get('/order/order_details', [ServiceOrderController::class, 'order_details'])->name('order.order_details');
     Route::get('/order/pending-order', [ServiceOrderController::class, 'pendingOrder'])->name('order.pendingOrder');
     Route::get('/order/ongoing-order', [ServiceOrderController::class, 'ongoingOrder'])->name('order.ongoingOrder');
@@ -339,10 +354,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['AdminAuthCheck'], 'as' => '
 
     // Route For Staff
     Route::resource('/engineer-list', EngineerController::class);
+    Route::get('/engineer/engineer_export', [EngineerController::class, 'engineerExport'])->name('users.engineerExport');
+    Route::get('/engineer/staff_export', [EngineerController::class, 'staffExport'])->name('users.staffExport');
     Route::get('/engineer/change_status', [EngineerController::class, 'changeStatus'])->name('users.change_status');
     Route::get('/engineer/engineer_details', [EngineerController::class, 'engineer_details'])->name('users.engineer_details');
     Route::get('/engineer/edit-engineer/{id}', [EngineerController::class, 'editEngineer'])->name('editEngineer');
     Route::get('/engineer/add-working-hour/{id}', [EngineerController::class, 'addWorkingHour'])->name('addWorkingHour');
+    Route::post('/engineer/delete-engineer', [EngineerController::class, 'deleteEngineer'])->name('deleteEngineer');
+
     Route::post('/admin/updateEmploymentStatus', [EngineerController::class, 'updateEmploymentStatus'])->name('updateEmploymentStatus');
     Route::post('/admin/updateEmployeeDetails', [EngineerController::class, 'updateEmployeeDetails'])->name('updateEmployeeDetails');
     Route::post('/admin/addEmployeeDetails', [EngineerController::class, 'addEmployeeDetails'])->name('addEmployeeDetails');
@@ -350,6 +369,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['AdminAuthCheck'], 'as' => '
     Route::post('/admin/saveCerifiedEngineer', [EngineerController::class, 'saveCerifiedEngineer'])->name('saveCerifiedEngineer');
     Route::post('/admin/updateCerifiedEngineer', [EngineerController::class, 'updateCerifiedEngineer'])->name('updateCerifiedEngineer');
 
+    Route::get('/engineer/working-hour-export', [EngineerController::class, 'engineerWorkingHourExport'])->name('engineerWorkingHourExport');
     Route::get('/engineer/working-hour-list', [EngineerController::class, 'workingHourList'])->name('workingHourList');
     Route::get('/engineer/certified-engineer', [EngineerController::class, 'certifiedEngineer'])->name('certifiedEngineer');
     Route::get('/engineer/certified-engineer/add', [EngineerController::class, 'addCertifiedEngineer'])->name('addCertifiedEngineer');
@@ -357,6 +377,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['AdminAuthCheck'], 'as' => '
     Route::get('/engineer/delete-certified-engineer/{id}', [EngineerController::class, 'deleteCertifiedEngineer'])->name('deleteCertifiedEngineer');
 
     Route::resource('/client', ClientController::class);
+    Route::get('/admin/client-export', [ClientController::class, 'clientExport'])->name('clientExport');
     Route::post('/admin/saveClient', [ClientController::class, 'saveClient'])->name('saveClient');
     Route::post('/admin/updateClient', [ClientController::class, 'updateClient'])->name('updateClient');
     Route::get('/client/delete-client/{id}', [ClientController::class, 'deleteClient'])->name('deleteClient');

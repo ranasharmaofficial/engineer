@@ -397,6 +397,48 @@
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 	 <script type="text/javascript">
 
+$(document).on('click','.customer-save',function(e) {
+	// alert('button clicked!');
+	e.preventDefault();
+	
+  var clk_btn = $("#customer-save");
+      clk_btn.prop('disabled',true);
+	
+	// var formData = new FormData(this); 
+	var formData = new FormData(document.getElementById("customer-registration"));
+	console.log(formData);
+    $.ajaxSetup({
+		headers: {
+			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		}
+	});
+	
+  $.ajax({
+    type: "POST",
+    url: "{{ route('saveCustomerRegistration') }}",
+    data: formData,
+    processData: false,
+    contentType: false,
+    dataType: "JSON", 
+    success: function(data) { 
+		 toastr.success('Registration Successfull.');
+		setTimeout(function(){ 
+		window.location = "{{ url('login') }}" },1000);
+      
+    },error:function(err){
+		
+		document.getElementById('show-form-error').style="display: block";
+		let error = err.responseJSON;
+		console.log(error);
+		$.each(error.errors, function (index, value) {
+			$('.errorMsgntainer').append('<span class="text-danger">'+value+'<span>'+'<br>');
+		});
+	}
+	
+  });
+});
+
+
 $(document).on('click','.engineer-save',function(e) {
 	// alert('button clicked!');
 	e.preventDefault();

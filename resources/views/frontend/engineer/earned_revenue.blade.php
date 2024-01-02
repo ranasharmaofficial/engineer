@@ -1,5 +1,5 @@
 @extends('frontend.layouts.master')
-@section('title') Completed Job  @endsection
+@section('title') Revenue Earned  @endsection
 @section('content')
 
 @include('frontend.engineer.partials.engineer_dash_header')
@@ -29,7 +29,7 @@
 					
 					<div class="col-md-8 col-lg-9">
                   <div class="widget-title d-flex align-items-center justify-content-between">
-                     <h4 class="fw-bold">Completed Job</h4>
+                     <h4 class="fw-bold">Revenue Earned</h4>
                   </div>
                   <hr>
                   <div class="white_block mt-3">
@@ -38,10 +38,10 @@
                            <thead class="thead-light">
                               <tr>
                                  <th>Order Id </th>
-                                 <th>Customer Name </th>
-                                 <th>Contact No</th>
-                                 <th>Service Date </th>
-                                 <th>Action Status </th>
+                                 <th>Job Amount </th>
+                                 <th>Job Date</th>
+                                 <th>Job Completed Date </th>
+                                 <th>Job Revenue </th>
                                  <th>Job</th>
                               </tr>
                            </thead>
@@ -49,21 +49,17 @@
 						   
 						@if(count($service_booking)>0)
 							@foreach($service_booking as $key => $val)
-
-								
-					
-					
 								<tr>
 									 <td class="text-light-success">
 										<a href="javascript:void();" data-bs-toggle="modal" data-bs-target="#add-wallet">
 										   {{ $val->service_order_id }}
 										</a>
 									 </td>
-									 <td class="text-light-success">{{ $val->first_name.' '.$val->last_name }}</td>
-									 <td class="text-light-success">{{ $val->mobile }}</td>
+									 <td class="text-light-success">{{ number_format($val->total_amount) }}</td>
 									 <td class="text-light-success">{{ date('d-M-Y', strtotime($val->service_date )) }}</td>
+									 <td class="text-light-success">{{ date('d-M-Y', strtotime($val->completed_date )) }}</td>
 									 <td style="text-transform:uppercase" class="text-light-success">
-										{{ $val->job_accept }}
+										{{ number_format($val->earned_revenue) }}
 									</td>
 									 <td style="text-transform:uppercase" class="text-light-success">
 										{{ $val->status }}

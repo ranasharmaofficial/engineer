@@ -116,7 +116,7 @@
 
 								</li>
 
-								<li><a href="earned-revenue.php"><i class="fa fa-th-large" aria-hidden="true"></i>
+								<li><a href="{{ url('engineer/earned-revenue') }}"><i class="fa fa-th-large" aria-hidden="true"></i>
 
 										<span> Earned Revenue</span>
 

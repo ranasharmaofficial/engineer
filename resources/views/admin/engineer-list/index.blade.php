@@ -28,7 +28,7 @@
             <h5 class="mb-md-0 h6">Engineer List</h5>
           </div>
           <div class="col text-right">
-            <a href="image/incomplete_orders.xlsx" class="btn btn-circle btn-info h-35" download>
+            <a href="{{ url('admin/engineer/engineer_export') }}" class="btn btn-circle btn-info h-35" download>
               <span>Export in Excel</span>
             </a>
           </div>
@@ -38,10 +38,10 @@
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">Select engineer list</a>
                 <ul class="dropdown-menu  w-100">
                   <li>
-                    <a class="dropdown-item" href="javascript:void(0)">Engineer List</a>
+                    <a class="dropdown-item" href="{{ url('admin/engineer-list') }}">Engineer List</a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="javascript:void(0)">Engineer Working Hrs List</a>
+                    <a class="dropdown-item" href="{{ url('admin/engineer/working-hour-list') }}">Engineer Working Hrs List</a>
                   </li>
                 </ul>
               </li>
@@ -99,7 +99,24 @@
                   </select>
                 </td>
                 <td>
-                  <div class="d-flex align-items-center"> @if($item->employment_status == 1) <span class="badge badge-primary p-1 mr-1">Approved</span> @else <span class="badge badge-danger p-1 mr-1">Reject</span> @endif @if($item->employment_status == 1) <span class="badge badge-success p-1 ml-1" style="cursor:pointer" onclick="updateEmploymentStatus(this)" id="{{ $item->id }}">Approved</span> @else <span class="badge badge-danger p-1 ml-1" style="cursor:pointer" onclick="updateEmploymentStatus(this)" id="{{ $item->id }}">Reject</span> @endif </div>
+                  <div class="d-flex align-items-center">
+					  @if($item->employment_status == 0) 
+						  <span class="badge badge-danger p-1 mr-1">Pending</span> 
+					  @elseif($item->employment_status == 1)
+						  <span class="badge badge-primary p-1 mr-1">Approved</span> 
+					  @elseif($item->employment_status == 2)
+						  <span class="badge badge-warning p-1 mr-1">Reject</span> 
+					  @endif
+
+					 
+					@if($item->employment_status == 0)
+						  <span class="badge badge-danger p-1 ml-1" style="cursor:pointer" onclick="updateEmploymentStatus(this)" id="{{ $item->id }}">Pending</span>
+					@elseif($item->employment_status == 1)
+					   <span class="badge badge-success p-1 ml-1" style="cursor:pointer" onclick="updateEmploymentStatus(this)" id="{{ $item->id }}">Approved</span>
+					@else
+						  <span class="badge badge-danger p-1 ml-1" style="cursor:pointer" onclick="updateEmploymentStatus(this)" id="{{ $item->id }}">Reject</span> 
+					@endif
+				   </div>
                 </td>
                 <td>
                   {{ date('d-M-Y', strtotime($item->created_at)) }}
@@ -107,12 +124,11 @@
                 <td>
 				<a class="btn btn-primary p-1 mx-1" href="{{ url('admin/engineer/edit-engineer/'.$item->id) }}">Edit</a>
 				<a class="btn btn-danger p-1 mt-1" target="_blank" href="{{ url('admin/engineer/add-working-hour/'.$item->id) }}">Add Working Hour</a>
-				{{-- <form id="frm_2" class="d-flex" method="POST">
-                    
-                    <input type="hidden" name="_token" value="1">
-                    <input type="hidden" name="_method" value="DELETE">
-                    <button type="button" class="btn btn-danger p-1">Delete</button>
-                  </form>--}}
+				<form id="engineer-delete" class="d-flex mt-1" method="POST">
+                    @csrf
+                    <input type="hidden" name="user_id" value="{{ $item->id }}">
+                    <button type="button" class="btn btn-danger p-1 delete_engineer">Delete</button>
+                </form>
                 </td>
               </tr> @endforeach </tbody>
           </table>
@@ -158,8 +174,9 @@
                     </div>
 
                     <select name="emp_employment_status" id="emp_employment_status" class="form-control" required="">
+                        <option value="0"> Pending </option>
                         <option value="1"> Approve </option>
-                        <option value="0"> Reject </option>
+                        <option value="2"> Reject </option>
                     </select>
                 </div>
                 <div class="col-sm-12  my-3">
@@ -184,6 +201,55 @@
 
 @section('script')
 <script type="text/javascript">
+
+$(document).on('click', '.delete_engineer', function(e) {
+        e.preventDefault();
+        var formData = new FormData(document.getElementById("engineer-delete"));
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+	if(confirm("Are you sure you want to delete this?")){
+        $.ajax({
+            type: "POST",
+			url: "{{ route('admin.deleteEngineer') }}",
+			data: formData,
+			processData: false,
+			contentType: false,
+			dataType: "JSON",
+			success: function(data) {
+                // console.log('status ' + data.status);
+                if (data.status == true) {
+                    toastr.error('Deleted Successfully.');
+                    setTimeout(function() {
+                        window.location = "{{ url('admin/engineer-list') }}"
+                    }, 2000);
+                } else {
+                    toastr.error('Something went wrong.');
+                }
+            },
+
+            error: function(err) {
+                document.getElementById('show-form-error').style = "display: block";
+
+                let error = err.responseJSON;
+                $.each(error.errors, function(index, value) {
+                    $('.errorMsgntainer').append('<span class="text-danger">' + value + '<span>' + '<br>');
+
+                });
+
+            }
+
+
+
+        });
+	}else{
+		return false;
+	}
+
+    });
+	
     $(document).on('click', '.update_employment_status', function(e) {
         e.preventDefault();
         var formData = new FormData(document.getElementById("update-employement-status"));

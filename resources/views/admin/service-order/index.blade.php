@@ -16,7 +16,7 @@
 
                 <div class="col">
 
-                    <div class="breadcrumb  "><a href="index.php">
+                    <div class="breadcrumb  "><a href="{{ url('admin/dashboard') }}">
 
                             <i class="fa fa-home" aria-hidden="true"></i> Dashboard</a> / Service
 
@@ -54,7 +54,7 @@
 
                                     <div class="col pr-0">
 
-                                        <h5 class="mb-md-0 h6">All Order</h5>
+                                        <h5 class="mb-md-0 h6">All Service Order</h5>
 
                                     </div>
 
@@ -62,7 +62,7 @@
 
 
 
-                                        <a href="image/engineeringservice.png" class="btn btn-circle btn-info h-35" download>
+                                        <a href="{{ route('admin.order.exportallOrder') }}" class="btn btn-circle btn-info h-35" download>
 											<span>Export in Excel</span>
 										</a>
 										
@@ -101,6 +101,7 @@
                                             <th>Order Id</th>
                                             <th>Service Date</th>
                                             <th>Order Date</th>
+                                            <th>Order Amount</th>
                                             <th>Payment Status</th>
                                             <th>Order Status</th>
                                             <th>Action</th>
@@ -131,6 +132,9 @@
 
 												<td class="py-1">
                                                     {{ date("d-M-Y", strtotime($item->created_at)) }}
+                                                </td>
+												<td class="py-1">
+                                                    {{ $item->total_amount }}
                                                 </td>
 
 												<td>

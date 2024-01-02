@@ -235,9 +235,13 @@ class StaffController extends Controller
 
     }
 
+    public function staffExport(){
+        return view('admin.engineer-list.staff_export');
+    }
 
-
-
+    public function customerExport(){
+        return view('admin.customer-list.customer_export');
+    }
 
 }
 

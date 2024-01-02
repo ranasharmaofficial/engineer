@@ -25,7 +25,7 @@
 							<h5 class="mb-md-0 h6">Service List</h5>
 						 </div>
 						 <div class="col text-right">
-						   <a href="" class="btn btn-circle btn-info h-35" download >
+						   <a href="{{ url('admin/main_service_export') }}" class="btn btn-circle btn-info h-35" download >
 							<span>Export in Excel</span>
 							</a>
 						 </div>
@@ -95,7 +95,7 @@
 													<td>{{ convert_datetime_to_date_format($value->created_at, 'd M Y') }}</td>
 													<td class="text-right">
 													<a class="btn btn-primary" href="{{ route('admin.service_sub_category.edit',$value->id) }}">Edit</a>
-														{{--<a onclick="return confirm('Are you sure, you want to delete this?')" href="{{route('admin.service.delete',$value->id)}}" class="btn btn-danger">Delete</a>--}}
+												   <a onclick="return confirm('Are you sure, you want to delete this?')" href="{{route('admin.service.deleteServices',$value->id)}}" class="btn btn-danger">Delete</a>
 														
 													</td>
 												</tr>

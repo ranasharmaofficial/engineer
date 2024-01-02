@@ -9,7 +9,7 @@
                   <div class="row align-items-center justify-conent-between">
                      <div class="col">
                         <div class="breadcrumb  "><a href="index.php">
-                           <i class="fa fa-home" aria-hidden="true"></i> Dashboard</a> / Service List
+                           <i class="fa fa-home" aria-hidden="true"></i> Dashboard</a> / Service Sub Category List
                         </div>
 						</div>
                         <div class=" col">
@@ -20,12 +20,14 @@
                </div>
 			   <hr>
                <div class="main-panel card-header ">
-                  <form method="get" class="row gutters-5 align-items-center">
+                  
+				  
+				  <form method="get" class="row gutters-5 align-items-center">
                      <div class="col">
-                        <h5 class="mb-md-0 h6">Services List</h5>
+                        <h5 class="mb-md-0 h6">Service Sub Category</h5>
                      </div>
                      <div class="col text-right">
-                       <a href="image/incomplete_orders.xlsx" class="btn btn-circle btn-info h-35" download >
+                       <a href="{{ url('admin/service_subcategory_export') }}" class="btn btn-circle btn-info h-35" download >
                         <span>Export in Excel</span>
                         </a>
                      </div>
@@ -34,10 +36,10 @@
 								<div class="col-sm-12">
 									<select class="form-control" name="category_id">
 										<option value="">Select Category</option>
-										@foreach($service_categories as $item)
-											<option @if($request->category_id==$item->id) selected @endif value="{{ $item->id }}">{{ $item->name }}</option>
-										@endforeach
-									</select>
+																					<option  value="1">Onsite Engineer</option>
+																					<option  value="2">Installation &amp; Configuration</option>
+																					<option  value="3">Upgrade &amp; Migration</option>
+																			</select>
 
 								</div>
 							</div>
@@ -54,12 +56,14 @@
 							</button>
 						 </div>
 						 <div class="col-md-1 text-right">
-							<a href="{{ url('admin/service-sub-category') }}" class="btn btn-warning btn-icon-text h-35">
+							<a href="https://indiafamous.in/engineer-mine/admin/service-sub-category" class="btn btn-warning btn-icon-text h-35">
 							 Refresh
 							</a>
 						 </div>
 
                   </form>
+				  
+				  
                   <hr>
                   <div class="card shadow-0">
                      <div class="card-body p-0">
@@ -87,7 +91,7 @@
 													<td>{{ convert_datetime_to_date_format($value->created_at, 'd M Y') }}</td>
 													<td class="text-right">
 													<a class="btn btn-primary" href="{{ route('admin.service_sub_category.edit',$value->id) }}">Edit</a>
-												   {{-- <a onclick="return confirm('Are you sure, you want to delete this?')" href="{{route('admin.service.delete',$value->id)}}" class="btn btn-danger">Delete</a> --}}
+												   <a onclick="return confirm('Are you sure, you want to delete this?')" href="{{ route('admin.service_sub_category.deleteServiceSubCategory',$value->id) }}" class="btn btn-danger">Delete</a>
 
 													</td>
 												</tr>

@@ -25,7 +25,7 @@
                         <h5 class="mb-md-0 h6">Services List</h5>
                      </div>
                      <div class="col text-right">
-                       <a href="image/incomplete_orders.xlsx" class="btn btn-circle btn-info h-35" download >
+                       <a href="{{ url('admin/service_category_export') }}" class="btn btn-circle btn-info h-35" download >
                         <span>Export in Excel</span>
                         </a>
                      </div>

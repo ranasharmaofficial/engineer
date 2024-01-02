@@ -278,5 +278,37 @@ class ServiceRepository implements ServiceRepositoryInterface
             $delete_section_data = ServiceSectionData::find($id);
             $delete_section_data->delete();
         }
+
+        public function deleteServiceSubCategory($id){
+            $delete_sub_category = ServiceSubCategory::find($id);
+            $service_ids = Service::where('subcategory_id', $id)->pluck('id');
+            if(sizeof($service_ids)>0){
+                $delete_service = Service::whereIn('id', $service_ids)->delete();
+            }
+
+            // $section_data_ids = ProductSectionData::where('page_id', $id)->pluck('id');
+
+            // if(sizeof($section_data_ids)>0){
+            //     $delete_section_data = ProductSectionData::whereIn('id', $section_data_ids)->delete();
+            // }
+
+            $delete_sub_category->delete();
+        }
+
+        public function deleteServices($id){
+            $delete_services = Service::find($id);
+            $service_ids = SubService::where('service_id', $id)->pluck('id');
+            if(sizeof($service_ids)>0){
+                $delete_service = SubService::whereIn('id', $service_ids)->delete();
+            }
+            $delete_services->delete();
+        }
+
+        public function subServiceDelete($id){
+            $delete_sub_service = SubService::find($id);
+            $delete_sub_service->delete();
+        }
+
+
     /** Section Data Repo Function End */
 }

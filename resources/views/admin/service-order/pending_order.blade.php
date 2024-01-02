@@ -46,10 +46,9 @@
 
 
 
-                                        <a href="image/engineeringservice.png" class="btn btn-circle btn-info h-35" download>
+                                        <a href="{{ route('admin.order.exportPendingOrder') }}" class="btn btn-circle btn-info h-35" download>
 											<span>Export in Excel</span>
 										</a>
-										
 										<a href="{{ route('admin.order.pendingOrder') }}" class="btn btn-circle btn-warning h-35">
 											<span>Refresh</span>
 										</a>

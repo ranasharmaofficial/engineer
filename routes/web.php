@@ -114,14 +114,20 @@ Route::group(['prefix' => 'engineer', 'middleware' => ['EngineerAuthCheck'], 'as
     Route::get('upcoming-job', [EngineerController::class, 'upComingBooking'])->name('upComing_booking');
     Route::get('ongoing-job', [EngineerController::class, 'ongoingBooking'])->name('ongoing_booking');
     Route::get('completed-job', [EngineerController::class, 'completeBooking'])->name('complete_booking');
+    Route::get('earned-revenue', [EngineerController::class, 'earnedRevenue'])->name('earnedRevenue');
     Route::get('cancelled-job', [EngineerController::class, 'cancellBooking'])->name('cancell_booking');
 
     Route::get('add-working-hour', [EngineerController::class, 'addWorkingHour'])->name('addWorkingHour');
 
     Route::post('/admin/get-service-list', [EngineerController::class, 'getServiceList'])->name('getServiceList');
     Route::post('addEngineerWorkingHour', [EngineerController::class, 'addEngineerWorkingHour'])->name('addEngineerWorkingHour');
+    Route::post('addEngineerWorkingHour', [EngineerController::class, 'addEngineerWorkingHour'])->name('addEngineerWorkingHour');
+    Route::post('updateEngineerJobStatus', [EngineerController::class, 'updateEngineerJobStatus'])->name('updateEngineerJobStatus');
+    Route::post('startEngineerJob', [EngineerController::class, 'startEngineerJob'])->name('startEngineerJob');
+    Route::post('completedEngineerJob', [EngineerController::class, 'completedEngineerJob'])->name('completedEngineerJob');
 
     Route::get('/order/order_status', [EngineerController::class, 'updateOrderStatus'])->name('updateOrderStatus');
+    Route::get('/engineer/engineer_job_details', [EngineerController::class, 'engineer_job_details'])->name('engineer_job_details');
 
 });
 

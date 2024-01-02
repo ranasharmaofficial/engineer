@@ -6,6 +6,7 @@ use App\Models\EngineerSkill;
 use App\Models\EngineerEducation;
 use App\Models\EngineerWorkingHour;
 use App\Models\Order;
+use App\Models\EngineerJob;
 
 
 class FrontEngRepository implements FrontEngRepositoryInterface
@@ -92,7 +93,27 @@ class FrontEngRepository implements FrontEngRepositoryInterface
         return $data;
     }
 
+    public function getEngineersJob($request, $status, $user_id){
+        return EngineerJob::where('engineer_jobs.status', $status)
+                    ->where('engineer_jobs.engineer_id', $user_id)
+                    ->leftJoin('users as u', 'u.id', '=', 'engineer_jobs.user_id')
+                    ->leftJoin('orders as o', 'o.id', '=', 'engineer_jobs.order_id')
+                    ->select('engineer_jobs.*','o.total_amount','o.created_at as order_date','o.service_order_id', 'u.first_name', 'u.last_name', 'u.mobile', 'u.email', 'u.address', 'u.state')
+                    ->get();
+    }
 
+    public function getEngineerEarnedRevenue($request, $status, $user_id){
+        return EngineerJob::where('engineer_jobs.status', $status)
+        ->where('engineer_jobs.engineer_id', $user_id)
+        ->leftJoin('users as u', 'u.id', '=', 'engineer_jobs.user_id')
+        ->leftJoin('orders as o', 'o.id', '=', 'engineer_jobs.order_id')
+        ->select('engineer_jobs.*','o.total_amount','o.created_at as order_date','o.service_order_id', 'u.first_name', 'u.last_name', 'u.mobile', 'u.email', 'u.address', 'u.state')
+        ->get();
+    }
+
+    public function getEngineerJobDetails($request){
+        return EngineerJob::where('id', $request->job_id)->first();
+    }
 
 
 }

@@ -324,6 +324,37 @@ class EngineerController extends Controller
             }
     }
 
+    public function engineerExport(){
+        return view('admin.engineer-list.engineer_export');
+    }
+
+    public function engineerWorkingHourExport(){
+        return view('admin.engineer-list.engineer_working_hour_export');
+    }
+    public function staffExport(){
+        return view('admin.engineer-list.staff_export');
+    }
+
+    public function deleteEngineer(Request $request){
+        $delete_engineer = User::find($request->user_id);
+            $user_login_ids = UserLogin::where('user_id', $request->user_id)->pluck('id');
+            if(sizeof($user_login_ids)>0){
+                $delete_userlogins = UserLogin::whereIn('id', $user_login_ids)->delete();
+            }
+        $delete_engineer->delete();
+
+        if (!$delete_engineer) {
+            return response()->json([
+                "status" => false,
+
+            ]);
+        } else  {
+            return response()->json([
+                "status" => true,
+             ]);
+
+        }
+    }
 
 
 

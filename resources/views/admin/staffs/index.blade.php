@@ -26,10 +26,7 @@
                     <div class="col pr-0">
                         <h5 class="mb-md-0 h6">All Staffs</h5>
                     </div>
-                    <div class="col text-right">
-                        <a href="image/incomplete_orders.xlsx" class="btn btn-circle btn-info h-35" download>
-                            <span>Export in Excel</span>
-                        </a>
+                    <div class="col text-right">						<a href="{{ url('admin/engineer/staff_export') }}" class="btn btn-circle btn-info h-35" download>							<span>Export in Excel</span>						</a>
                     </div>
                     <div class="col-md-3 ml-auto">
                         <ul class="nav nav-tabs border h-35 d-block">

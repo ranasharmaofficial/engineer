@@ -15,18 +15,11 @@
             <div class="row align-items-center justify-conent-between">
 
                 <div class="col">
-
-                    <div class="breadcrumb  "><a href="{{ url('admin/service-order') }}">
+					<div class="breadcrumb  "><a href="{{ url('admin/service-order') }}">
 						<i class="fa fa-home" aria-hidden="true"></i> Order</a> / Cancelled Order
 					</div>
-
-                </div>
-
-                 
-
-
-
-            </div>
+				</div>
+			</div>
 
         </div>
 
@@ -56,7 +49,7 @@
 
 
 
-                                        <a href="image/engineeringservice.png" class="btn btn-circle btn-info h-35" download>
+                                        <a href="{{ route('admin.order.exportCancelledOrder') }}" class="btn btn-circle btn-info h-35" download>
 											<span>Export in Excel</span>
 										</a>
 										

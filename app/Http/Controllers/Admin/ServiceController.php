@@ -26,6 +26,11 @@ class ServiceController extends Controller
         return view('admin.service.service_category.index', compact('pages', 'request'));
     }
 
+    public function serviceCategoryExport(Request $request){
+        $pages =  $this->serviceRepository->allServices($request);
+        return view('admin.service.service_category.service_category_export', compact('pages', 'request'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -159,10 +164,20 @@ class ServiceController extends Controller
         return redirect()->route('admin.ServiceSubCategory.index')->with(session()->flash('alert-success', 'Service Subcategory Updated Successfully'));
     }
 
-    // public function deleteServiceSubCategory(){
-    //     $this->serviceRepository->deleteCmsSectionData($id);
-    //     return redirect()->route('admin.section_data.index')->with(session()->flash('alert-danger', 'Data Deleted Successfully'));
-    // }
+    public function deleteServiceSubCategory($id){
+        $this->serviceRepository->deleteServiceSubCategory($id);
+        return redirect()->route('admin.ServiceSubCategory.index')->with(session()->flash('alert-danger', 'Data Deleted Successfully'));
+    }
+
+    public function deleteServices($id){
+        $this->serviceRepository->deleteServices($id);
+        return redirect()->route('admin.service.index')->with(session()->flash('alert-danger', 'Data Deleted Successfully'));
+    }
+
+    public function subServiceDelete($id){
+        $this->serviceRepository->subServiceDelete($id);
+        return redirect()->route('admin.subservice.index')->with(session()->flash('alert-danger', 'Data Deleted Successfully'));
+    }
 
     /** Service  */
 
@@ -460,6 +475,19 @@ class ServiceController extends Controller
                 ->get();
 
         return response()->json($data);
+    }
+
+    public function serviceSubCategoryExport(Request $request){
+        $pages =  $this->serviceRepository->allServices($request);
+        return view('admin.service.service_subcategory.service_subcategory_export', compact('pages', 'request'));
+    }
+
+    public function mainServiceExport(){
+        return view('admin.service.service.service_export');
+    }
+
+    public function subServiceExport(){
+        return view('admin.service.subservice.sub_service_export');
     }
 
 

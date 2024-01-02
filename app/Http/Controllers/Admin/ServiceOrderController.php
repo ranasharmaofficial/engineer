@@ -10,6 +10,7 @@ use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\User;
 use App\Models\ServiceSubCategory;
+use App\Models\EngineerJob;
 
 class ServiceOrderController extends Controller
 {
@@ -103,6 +104,17 @@ class ServiceOrderController extends Controller
             'service_date' => 'required',
             'engineer_id' => 'required',
         ]);
+
+        $customer_details = Order::where('id', $request->order_id)->first();
+
+        $assignJob = new EngineerJob;
+        $assignJob->user_id = $customer_details->user_id;
+        $assignJob->order_id = $request->order_id;
+        $assignJob->engineer_id = $request->engineer_id;
+        $assignJob->service_date = $request->service_date;
+        $assignJob->status = 'upcoming';
+        $assignJob->save();
+
         $assignEngineer = Order::where('id', $request->order_id)->first();
         $assignEngineer->engineer_id = $request->engineer_id;
         $assignEngineer->service_date = $request->service_date;
@@ -153,4 +165,27 @@ class ServiceOrderController extends Controller
         $order_pay->save();
         return response()->json($order_pay);
     }
+
+    public function exportallOrder(){
+        return view('admin.service-order.export_all_order');
+    }
+
+    public function exportPendingOrder(){
+        return view('admin.service-order.export_pending_order');
+    }
+
+    public function exportOngoingOrder(){
+        return view('admin.service-order.export_ongoing_order');
+    }
+
+    public function exportCompletedOrder(){
+        return view('admin.service-order.export_completed_order');
+    }
+
+    public function exportCancelledOrder(){
+        return view('admin.service-order.export_cancelled_order');
+    }
+
+
+
 }

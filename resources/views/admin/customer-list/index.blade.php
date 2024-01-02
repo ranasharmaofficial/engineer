@@ -27,8 +27,8 @@
           <div class="col">
             <h5 class="mb-md-0 h6">Customer List</h5>
           </div>
-          <div class="col text-right d-none">
-            <a href="image/incomplete_orders.xlsx" class="btn btn-circle btn-info h-35" download>
+          <div class="col text-right">
+            <a href="{{ route('admin.customerExport') }}" class="btn btn-circle btn-info h-35" download>
               <span>Export in Excel</span>
             </a>
           </div>
@@ -58,18 +58,29 @@
                 <th> last Name </th>
                 <th> Email </th>
                 <th> Mobile No. </th>
+                <th> No Of Booking </th>
+                <th> State </th>
+                <th> City </th>
                 <th> Address </th>
                 <th> Status </th>
                 <th> Registration Date </th>
                  
               </tr>
             </thead>
-            <tbody> @foreach($customer_list as $key => $item) <tr>
+            <tbody> 
+		@foreach($customer_list as $key => $item) 
+			@php
+				$noOfBooking = \App\Models\Order::where('user_id', $item->id)->count();
+			@endphp
+			<tr>
                 <td class="py-1">  {{ $item->username }} </td>
                 <td class="py-1"> {{ $item->first_name }} </td>
                 <td>{{ $item->last_name }}</td>
                 <td>{{ $item->email }}</td>
                 <td>{{ $item->mobile }}</td>
+                <td>{{ $noOfBooking }}</td>
+                <td>{{ $item->stateName }}</td>
+                <td>{{ $item->cityName }}</td>
                 <td>{{ $item->address }}, {{ $item->cityName }}, {{ $item->stateName }}, {{ $item->countryName }}-{{ $item->pincode }}</td>
                 <td>
                   <select class="change_status bg-warning text-white" name="status" data-user_id="{{$item->id}}">
@@ -91,7 +102,9 @@
                     <button type="button" class="btn btn-danger p-1">Delete</button>
                   </form>--}}
                 </td>
-              </tr> @endforeach </tbody>
+            </tr>
+		@endforeach 
+			  </tbody>
           </table>
         </div>
 		

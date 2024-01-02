@@ -50,7 +50,17 @@ class AuthController extends Controller
         $response = curl_exec($ch);
         if ($response) {
 
+            $us__id = User::where('user_type_id',  3)->orderBy('id', 'desc')->first();
+            if($us__id){
+                $center_code = substr($us__id->username, 3);
+                $inc_id = $center_code+1;
+                $username ='ENC'.$inc_id.'';
+            }else{
+                $username = 'ENC101';
+            }
+
             $user = new User;
+            $user->username = $username;
             $user->mobile = $request->mobile;
             $user->mobile_otp = $mobileotpsend;
             $user->user_type_id = 3;
@@ -86,7 +96,17 @@ class AuthController extends Controller
         $response = curl_exec($ch);
         if ($response) {
 
+            $us__id = User::where('user_type_id',  4)->orderBy('id', 'desc')->first();
+        if($us__id){
+            $center_code = substr($us__id->username, 3);
+            $inc_id = $center_code+1;
+            $username ='SPE'.$inc_id.'';
+        }else{
+            $username = 'EST101';
+        }
+
             $user = new User;
+            $user->username = $username;
             $user->mobile = $request->engineer_mobile;
             $user->mobile_otp = $mobileotpsend;
             $user->user_type_id = 4;
@@ -485,18 +505,9 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        $us__id = User::where('user_type_id',  3)->orderBy('id', 'desc')->first();
-        if($us__id){
-            $center_code = substr($us__id->username, 3);
-            $inc_id = $center_code+1;
-            $username ='ENC'.$inc_id.'';
-        }else{
-            $username = 'ENC101';
-        }
-
         $user_details = User::where('mobile', $request->mobile)->first();
         // dd($user_details);
-        $user_details->username = $username;
+        // $user_details->username = $username;
         $user_details->first_name = $request->first_name;
         $user_details->last_name = $request->last_name;
         $user_details->email = $request->email;
@@ -540,19 +551,10 @@ class AuthController extends Controller
             'engineer_password' => 'required',
         ]);
 
-        $us__id = User::where('user_type_id',  4)->orderBy('id', 'desc')->first();
-        if($us__id){
-            $center_code = substr($us__id->username, 3);
-            $inc_id = $center_code+1;
-            $username ='SPE'.$inc_id.'';
-        }else{
-            $username = 'EST101';
-        }
-
         $user_details = User::where('mobile', $request->engineer_mobile)
                     ->first();
         // dd($user_details);
-        $user_details->username = $username;
+        // $user_details->username = $username;
         $user_details->first_name = $request->engineer_first_name;
         $user_details->last_name = $request->engineer_last_name;
         $user_details->email = $request->engineer_email;
